@@ -8,7 +8,7 @@ Ingresa cualquier usuario de GitHub para obtener su foto de perfil real y sus re
 
 ## Enlaces en Vivo
 
-- **Aplicación en Vivo (Google Cloud Run):** [https://github-comic-cards-611681112050.us-central1.run.app](https://github-comic-cards-611681112050.us-central1.run.app)
+- **Aplicación en Vivo (Google Cloud Run):** [https://github-comic-cards-z63pqhhmxq-uc.a.run.app](https://github-comic-cards-z63pqhhmxq-uc.a.run.app)
 - **Guía Interactiva Tipo Codelab (Firebase Hosting):** [https://agy-comic-heroes.web.app](https://agy-comic-heroes.web.app)
 - **Guía de Prompts Paso a Paso (Pasos 2 al 9):** [`PROMPTS.md`](./PROMPTS.md)
 - **Skill de Revisión de Código (`.agents/skills/code-review`):** [`.agents/skills/code-review/SKILL.md`](./.agents/skills/code-review/SKILL.md)

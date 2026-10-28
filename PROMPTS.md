@@ -11,7 +11,7 @@
 
 Tu computadora ya quedó configurada con:
 1. **`gcloud` apuntando a tu proyecto de Vertex AI** y credenciales Application Default Credentials (ADC) activas.
-2. **El servidor MCP `cloudrun` y `context7` habilitados** en `~/.gemini/config/mcp_config.json`.
+2. **El servidor MCP `cloudrun` habilitado** en `~/.gemini/config/mcp_config.json` con la misma estructura exacta del Codelab.
 3. **El skill global `~/.gemini/config/skills/github-comic-heroes/SKILL.md` instalado**, de modo que si creas cualquier carpeta vacía durante la charla y ejecutas estos prompts, Antigravity construirá exactamente la misma aplicación, con la misma interfaz estilo cómic y la misma llamada a `gemini-nano-banana-2.1`.
 
 *(Para los asistentes del público que clonen el repositorio desde cero, pueden usar `export GOOGLE_CLOUD_PROJECT="su-proyecto"` con Vertex AI o `export GEMINI_API_KEY="su-llave"`).*
@@ -91,7 +91,7 @@ A partir de un desarrollador cuyos lenguajes principales son TypeScript, Python 
 
 **Qué mostrar en pantalla:**
 1. Entra a **Settings -> Customizations -> Installed MCP Servers** y haz clic en **Open MCP Config** (`~/.gemini/config/mcp_config.json`).
-2. Muestra el servidor MCP **`cloudrun`** (`@google-cloud/cloud-run-mcp`) y **`context7`**, explicando cómo puedes activar o desactivar herramientas específicas con un clic.
+2. Muestra el servidor MCP **`cloudrun`** (`@google-cloud/cloud-run-mcp`), explicando cómo puedes activar o desactivar herramientas específicas con un clic.
 
 ### Prompt 6A — Inspeccionar servicios con el MCP de Cloud Run
 ```text
