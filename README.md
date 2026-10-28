@@ -1,55 +1,46 @@
-# GitHub Comic Heroes — Google Antigravity 2.0 Workshop
+# GitHub Comic Heroes — Taller Práctico de Google Antigravity 2.0
 
-A hands-on project built to demonstrate every step (Steps 2 through 9) of the official [**Getting Started with Google Antigravity**](https://codelabs.developers.google.com/getting-started-google-antigravity?hl=en#0) codelab.
+Proyecto de demostración construido para recorrer en vivo los pasos **2 al 9** del Codelab oficial [**Getting Started with Google Antigravity**](https://codelabs.developers.google.com/getting-started-google-antigravity?hl=en#0).
 
-Enter any GitHub username to fetch their real profile photo and top repositories from the GitHub API, transform their avatar into an American comic book superhero illustration using **`gemini-nano-banana-2.1`** on Vertex AI, and generate a collectible Comic Book Trading Card with 2–3 signature superpowers and a comic speech bubble.
-
----
-
-## Live Links
-
-- **Interactive Workshop Codelab (Firebase Hosting):** [https://agy-comic-heroes.web.app](https://agy-comic-heroes.web.app)
-- **Step-by-Step Prompts (Steps 2 to 9):** [`PROMPTS.md`](./PROMPTS.md)
-- **Sample Skill (`.agents/skills/code-review`):** [`.agents/skills/code-review/SKILL.md`](./.agents/skills/code-review/SKILL.md)
+Ingresa cualquier usuario de GitHub para obtener su foto de perfil real y sus repositorios principales desde la API de GitHub, transformar su rostro en una ilustración de superhéroe de cómic americano con **`gemini-nano-banana-2.1`** en Vertex AI y generar una carta coleccionable con sus superpoderes y su grito de batalla.
 
 ---
 
-## Architecture
+## Enlaces en Vivo
 
-```mermaid
-flowchart LR
-    subgraph Input["Developer Input"]
-        USER["GitHub Username\n(CLI or Web UI)"]
-    end
-
-    subgraph Data["GitHub Public API"]
-        GH["src/github.js\nAvatar Bytes + Top Repos + Stars"]
-    end
-
-    subgraph Vertex["Google Cloud Vertex AI (@google/genai)"]
-        NANO["gemini-nano-banana-2.1\n(3:4 Comic Hero Portrait from Avatar)"]
-        TEXT["gemini-3.8-flash\n(Hero Alias + 2-3 Superpowers + Battle Cry)"]
-    end
-
-    subgraph App["GitHub Comic Heroes"]
-        WEB["src/server.js (PORT 8080)\nComic Trading Card UI + Hall of Heroes"]
-        CLI["src/cli.js\nTerminal Generator & Scheduled Refresh"]
-    end
-
-    USER --> GH
-    GH --> NANO
-    GH --> TEXT
-    NANO --> WEB
-    TEXT --> WEB
-    NANO --> CLI
-    TEXT --> CLI
-```
+- **Aplicación en Vivo (Google Cloud Run):** [https://github-comic-cards-611681112050.us-central1.run.app](https://github-comic-cards-611681112050.us-central1.run.app)
+- **Guía Interactiva Tipo Codelab (Firebase Hosting):** [https://agy-comic-heroes.web.app](https://agy-comic-heroes.web.app)
+- **Guía de Prompts Paso a Paso (Pasos 2 al 9):** [`PROMPTS.md`](./PROMPTS.md)
+- **Skill de Revisión de Código (`.agents/skills/code-review`):** [`.agents/skills/code-review/SKILL.md`](./.agents/skills/code-review/SKILL.md)
 
 ---
 
-## Quick Start
+## Arquitectura del Sistema
 
-### 1. Clone & Install
+![Arquitectura de GitHub Comic Heroes](./public/arquitectura.svg)
+
+---
+
+## Recorrido del Taller en Antigravity 2.0 (Pasos 2 al 9)
+
+![Recorrido del Taller en Antigravity 2.0](./public/flujo-taller.svg)
+
+Todos los prompts listos para copiar y pegar durante el taller están en [**`PROMPTS.md`**](./PROMPTS.md) y en la guía web interactiva en [**https://agy-comic-heroes.web.app**](https://agy-comic-heroes.web.app):
+
+1. **Paso 2 — Instalación y Verificación del Entorno:** Comprobación de Antigravity 2.0, Antigravity IDE y credenciales de Google Cloud.
+2. **Paso 3 — Interfaz de Antigravity 2.0:** Proyectos multi-carpeta, configuración de permisos (*Project Settings*) y conversaciones en paralelo.
+3. **Paso 4 — Slash Commands (`/browser`):** Uso del subagente de Chrome para inspeccionar perfiles y probar visualmente la interfaz de cartas cómic.
+4. **Paso 5 — Scheduling Commands (`/schedule`):** Automatización de tareas en segundo plano con notificaciones reactivas.
+5. **Paso 6 — Servidores MCP (`cloudrun`):** Configuración de `~/.gemini/config/mcp_config.json` y despliegue directo a Google Cloud Run.
+6. **Paso 7 — Artifacts (`/plan`):** Generación del *Implementation Plan* y del *Walkthrough* al construir o extender la aplicación.
+7. **Paso 8 — Antigravity IDE:** Apertura del proyecto en el IDE desde el panel auxiliar y consultas sobre archivos con `@`.
+8. **Paso 9 — Skills (`.agents/skills/code-review`):** Carga progresiva (*Progressive Disclosure*) para auditar y reparar `demo_bad_code.py`.
+
+---
+
+## Ejecución Local Rápida
+
+### 1. Clonar e Instalar
 
 ```bash
 git clone https://github.com/ykro/agy-comic-heroes.git
@@ -57,43 +48,28 @@ cd agy-comic-heroes
 npm install
 ```
 
-### 2. Configure Credentials (No Hardcoded Keys)
+### 2. Configurar Credenciales (Sin llaves en el código)
 
-You can run the project using **Google Cloud Vertex AI** (Application Default Credentials) or a **Gemini API Key**:
+Puedes ejecutar el proyecto con **Google Cloud Vertex AI** (usando Application Default Credentials) o con un **API Key de Gemini**:
 
 ```bash
-# Option A: Vertex AI with Application Default Credentials (Recommended)
-export GOOGLE_CLOUD_PROJECT="your-gcp-project-id"
+# Opción A: Vertex AI con Application Default Credentials (Recomendado)
+export GOOGLE_CLOUD_PROJECT="tu-proyecto-de-gcp"
 gcloud auth application-default login
 
-# Option B: Gemini API Key
-export GEMINI_API_KEY="your-gemini-api-key"
+# Opción B: Gemini API Key
+export GEMINI_API_KEY="tu-api-key"
 ```
 
-### 3. Run the Web UI or CLI
+### 3. Iniciar la Web o el CLI
 
 ```bash
-# Start the Comic Card Web Studio at http://localhost:8080
+# Iniciar el generador web en http://localhost:8080
 npm start
 
-# Generate a Comic Card directly from the terminal
+# Generar una carta estilo cómic desde la terminal
 node src/cli.js ykro
 
-# Refresh the Featured Hero card (used in Step 5: /schedule)
+# Actualizar la carta destacada (usado en el Paso 5 con /schedule)
 node src/cli.js --refresh-featured
 ```
-
----
-
-## Workshop Steps Covered (Steps 2 to 9)
-
-All copy-paste prompts for the live workshop are in [**`PROMPTS.md`**](./PROMPTS.md) and in the interactive guide at [**https://agy-comic-heroes.web.app**](https://agy-comic-heroes.web.app):
-
-1. **Step 2 — Installation & Environment Setup:** Verifying Antigravity 2.0, Antigravity IDE, and Google Cloud credentials.
-2. **Step 3 — Antigravity 2.0 Interface:** Projects, multi-folder context, Project Settings, and parallel conversation threads.
-3. **Step 4 — Slash Commands (`/browser`):** Spawning the Chrome sub-agent to visually inspect and screenshot the Comic Card UI.
-4. **Step 5 — Scheduling Commands (`/schedule`):** Automating background refreshes of the Featured Hero card.
-5. **Step 6 — MCP Servers (`cloudrun`):** Deploying the service to Google Cloud Run via the Cloud Run MCP server.
-6. **Step 7 — Artifacts (`/plan`):** Generating the Implementation Plan (with Mermaid diagrams) and Walkthrough artifacts.
-7. **Step 8 — Antigravity IDE:** Inspecting code diffs and using `@` file mentions in the IDE Agent Panel.
-8. **Step 9 — Skills (`.agents/skills/code-review`):** Auditing and fixing `demo_bad_code.py` via progressive disclosure.

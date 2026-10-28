@@ -1,35 +1,33 @@
-# Prompts del Taller en Vivo — GitHub Comic Heroes con Google Antigravity 2.0
+# Guía de Prompts en Vivo (Pasos 2 al 9) — GitHub Comic Heroes con Google Antigravity 2.0
 
-**Codelab base:** [Getting Started with Google Antigravity](https://codelabs.developers.google.com/getting-started-google-antigravity?hl=en#0)  
-**Proyecto:** GitHub Comic Heroes (Generador de Cartas estilo Cómic con foto de perfil real, datos de repositorios de GitHub y `gemini-nano-banana-2.1` en Vertex AI).
+**Codelab oficial:** [Getting Started with Google Antigravity](https://codelabs.developers.google.com/getting-started-google-antigravity?hl=en#0)  
+**Codelab interactivo del proyecto:** [https://agy-comic-heroes.web.app](https://agy-comic-heroes.web.app)
+
+![Recorrido del Taller](./public/flujo-taller.svg)
 
 ---
 
-## Configuración Previa (Vertex AI + Cloud Run sin filtrar llaves)
+## Cómo funciona en una carpeta nueva vacía
 
-El código (`src/comic-ai.js`) está diseñado para **no tener ningún API key ni Project ID quemado en el repositorio**:
-1. **Con Vertex AI (Recomendado para tu demo en vivo):** Usa Application Default Credentials (ADC) y lee la variable de entorno `GOOGLE_CLOUD_PROJECT` (o el proyecto activo en `gcloud config`):
-   ```bash
-   export GOOGLE_CLOUD_PROJECT="YOUR_GCP_PROJECT_ID"
-   ```
-2. **Con API Key (Opcional para asistentes del taller):** Si alguien del público prefiere usar una llave de AI Studio sin configurar GCP, basta con exportar `GEMINI_API_KEY`:
-   ```bash
-   export GEMINI_API_KEY="tu-api-key"
-   ```
-3. **Modelo de imagen configurado:** `gemini-nano-banana-2.1` en la región `global` (recibe la foto real del avatar de GitHub en `inlineData` y la transforma en un superhéroe de cómic conservando los rasgos de la persona), con fallback automático a `gemini-3.1-flash-lite-image`.
+Tu computadora ya quedó configurada con:
+1. **`gcloud` apuntando a tu proyecto de Vertex AI** y credenciales Application Default Credentials (ADC) activas.
+2. **El servidor MCP `cloudrun` y `context7` habilitados** en `~/.gemini/config/mcp_config.json`.
+3. **El skill global `~/.gemini/config/skills/github-comic-heroes/SKILL.md` instalado**, de modo que si creas cualquier carpeta vacía durante la charla y ejecutas estos prompts, Antigravity construirá exactamente la misma aplicación, con la misma interfaz estilo cómic y la misma llamada a `gemini-nano-banana-2.1`.
+
+*(Para los asistentes del público que clonen el repositorio desde cero, pueden usar `export GOOGLE_CLOUD_PROJECT="su-proyecto"` con Vertex AI o `export GEMINI_API_KEY="su-llave"`).*
 
 ---
 
 ## Paso 2 — Instalación y Verificación del Entorno
-*(Sección 2 del Codelab: Installation & Setup)*
+*(Sección 2 del Codelab: Installation)*
 
-**Qué mostrar en Antigravity:**
-- Muestra los dos íconos: **Antigravity 2.0** (centro de mando de agentes) y **Antigravity IDE**.
-- Verifica con un primer prompt rápido que el agente tiene acceso al entorno y a las credenciales de Google Cloud.
+**Qué mostrar en pantalla:**
+- Muestra los dos íconos en el Dock: **Antigravity 2.0** (centro de mando de agentes) y **Antigravity IDE**.
+- Ejecuta este primer prompt para comprobar que el agente detecta las herramientas locales y la configuración de Google Cloud.
 
 ### Prompt — Paso 2
 ```text
-Check my local environment for this workshop: verify the installed Node.js and Python versions, confirm which Google Cloud project is currently configured in gcloud, and list the folders inside this workspace.
+Verifica mi entorno local para este taller: revisa las versiones instaladas de Node.js y Python, confirma qué proyecto de Google Cloud está activo en gcloud y lista el contenido actual de esta carpeta.
 ```
 
 ---
@@ -37,18 +35,18 @@ Check my local environment for this workshop: verify the installed Node.js and P
 ## Paso 3 — Interfaz de Antigravity 2.0, Proyectos y Conversaciones
 *(Sección 3 del Codelab: Antigravity 2.0 Interface — Projects, Conversations & Project Settings)*
 
-**Qué mostrar en Antigravity:**
-1. **Projects (`Select Project` / `Project Settings`):** Abre el ícono de engranaje del proyecto y muestra cómo puedes agregar múltiples carpetas (`Add Folder`), ajustar el **Security Preset**, la política de revisión de **Artifacts** y qué **MCP Servers** están activos para este proyecto.
-2. **Conversaciones múltiples:** Crea una primera conversación (`conv-github-data`) para explorar los datos reales de un perfil de GitHub, y luego una segunda conversación (`+ New Conversation in Project` -> `conv-comic-concept`) para demostrar cómo dos hilos trabajan sobre el mismo proyecto.
+**Qué mostrar en pantalla:**
+1. **Proyectos y Configuración (`Project Settings`):** Haz clic en el ícono de engranaje junto al nombre del proyecto para mostrar que un proyecto puede abarcar múltiples carpetas (`Add Folder`) y tiene permisos independientes (*Security Preset*, política de revisión de *Artifacts* y activación de *MCP Servers* por proyecto).
+2. **Múltiples hilos de conversación:** Crea una primera conversación (`conv-datos-github`) para consultar datos reales de GitHub y luego abre una segunda conversación en paralelo (`+ New Conversation in Project` -> `conv-idea-comic`).
 
-### Prompt 3A — Conversación 1 (`conv-github-data`)
+### Prompt 3A — Conversación 1 (`conv-datos-github`)
 ```text
-Fetch the public GitHub profile and top repositories for user "ykro" using the GitHub REST API. Summarize their display name, avatar URL, top 3 programming languages, and top 3 repositories in a clean table.
+Consulta el perfil público de GitHub y los repositorios principales del usuario "ykro" usando la API pública de GitHub. Resume en una tabla su nombre, URL de su foto de perfil (avatar_url), sus 3 lenguajes principales y sus 3 repositorios más destacados.
 ```
 
-### Prompt 3B — Conversación 2 (`conv-comic-concept`)
+### Prompt 3B — Conversación 2 (`conv-idea-comic`)
 ```text
-Based on a developer whose top languages are TypeScript, Python, and Kotlin and who builds autonomous AI agents, propose a Comic Book Superhero alias, 2 signature superpowers with power ratings (1-99), and a one-line comic battle cry.
+A partir de un desarrollador cuyos lenguajes principales son TypeScript, Python y Kotlin y que construye agentes autónomos de IA, propón un alias de Superhéroe de Cómic, 2 superpoderes con nivel de poder (1 a 99) basados en sus repositorios y un grito de batalla de una línea para un globo de diálogo.
 ```
 
 ---
@@ -56,13 +54,20 @@ Based on a developer whose top languages are TypeScript, Python, and Kotlin and 
 ## Paso 4 — Slash Commands (`/plan`, `/browser`, `/schedule`)
 *(Sección 4 del Codelab: Slash Commands)*
 
-**Qué mostrar en Antigravity:**
-- Escribe `/` en el chat para desplegar todos los comandos (`/plan`, `/browser`, `/schedule`, `/boost`, `/teamwork`, `/grill-me`, `/learn`).
-- Muestra `/browser` en acción: el subagente abre Google Chrome, entra a la app de **GitHub Comic Heroes**, escribe un usuario de GitHub, genera o inspecciona la carta estilo cómic y devuelve el resultado.
+**Qué mostrar en pantalla:**
+- Escribe `/` en la barra de chat para mostrar los comandos integrados (`/plan`, `/browser`, `/schedule`, `/boost`, `/teamwork`, `/grill-me`, `/learn`).
+- Usa `/browser` para lanzar el subagente de Google Chrome en vivo.
+  - **Si estás en una carpeta nueva antes de construir la app:** usa el **Prompt 4A** para que `/browser` abra `https://github.com/ykro` e inspeccione el perfil en vivo.
+  - **Si ya tienes la app corriendo en el puerto 8080:** usa el **Prompt 4B** para que `/browser` abra `http://localhost:8080`, genere o verifique la carta estilo cómic y tome una captura.
 
-### Prompt — Paso 4 (`/browser`)
+### Prompt 4A — `/browser` sobre GitHub en vivo (funciona en carpeta vacía)
 ```text
-/browser Make sure our server (`node src/server.js`) is running on port 8080. Open http://localhost:8080 in Chrome, verify that the GitHub Comic Heroes card is displayed with the comic book portrait, original GitHub avatar badge, speech bubble, and superpowers, and take a screenshot.
+/browser Abre https://github.com/ykro en Chrome, identifica la foto de perfil, la biografía y los repositorios fijados o recientes visibles en la página, y devuélveme un resumen junto con una captura de pantalla.
+```
+
+### Prompt 4B — `/browser` sobre nuestra app local de Cartas Cómic
+```text
+/browser Asegúrate de que el servidor (`node src/server.js`) esté corriendo en el puerto 8080. Abre http://localhost:8080 en Chrome, verifica que se muestre la carta de GitHub Comic Heroes con su retrato estilo cómic, la insignia del avatar original, el globo de diálogo y los superpoderes, y toma una captura de pantalla.
 ```
 
 ---
@@ -70,13 +75,13 @@ Based on a developer whose top languages are TypeScript, Python, and Kotlin and 
 ## Paso 5 — Scheduling Commands (Tareas Programadas)
 *(Sección 5 del Codelab: Scheduling Commands)*
 
-**Qué mostrar en Antigravity:**
-- Abre la sección **Schedule** en la barra izquierda para mostrar cómo programar tareas recurrentes por interfaz gráfica o con `/schedule`.
-- Ejecuta un timer corto de 60 segundos que corra `node src/cli.js --refresh-featured` en segundo plano para actualizar la carta destacada del "Hall of Heroes" y notificarte reactivamente en pantalla.
+**Qué mostrar en pantalla:**
+- Abre la pestaña **Schedule** en la barra lateral izquierda para mostrar cómo crear tareas recurrentes desde la interfaz gráfica o usando `/schedule`.
+- Programa un temporizador de 60 segundos para que el público vea cómo la tarea corre en segundo plano y te despierta con una notificación automática al terminar.
 
 ### Prompt — Paso 5 (`/schedule`)
 ```text
-/schedule Set a one-time timer for 60 seconds from now to run `node src/cli.js --refresh-featured` in this project and notify me with the hero alias and issue number once the Featured Hero card has been refreshed.
+/schedule Programa un temporizador único dentro de 60 segundos que consulte la API de GitHub para el usuario "ykro" (o ejecute `node src/cli.js --refresh-featured` si ya existe el CLI) y me envíe una notificación confirmando el total de repositorios públicos y estrellas actuales.
 ```
 
 ---
@@ -84,14 +89,18 @@ Based on a developer whose top languages are TypeScript, Python, and Kotlin and 
 ## Paso 6 — Model Context Protocol (MCP) Servers y Despliegue a Cloud Run
 *(Sección 6 del Codelab: Model Context Protocol (MCP) Servers)*
 
-**Qué mostrar en Antigravity:**
-1. Ve a **Settings -> Customizations -> Installed MCP Servers** y haz clic en **Open MCP Config** (`~/.gemini/config/mcp_config.json`).
-2. Muestra el servidor MCP **`cloudrun`** (`@google-cloud/cloud-run-mcp`) y sus herramientas (`list_services`, `deploy_local_folder`, `get_service_log`).
-3. Despliega la aplicación en vivo a **Google Cloud Run** usando el MCP de Cloud Run (o el shell).
+**Qué mostrar en pantalla:**
+1. Entra a **Settings -> Customizations -> Installed MCP Servers** y haz clic en **Open MCP Config** (`~/.gemini/config/mcp_config.json`).
+2. Muestra el servidor MCP **`cloudrun`** (`@google-cloud/cloud-run-mcp`) y **`context7`**, explicando cómo puedes activar o desactivar herramientas específicas con un clic.
 
-### Prompt — Paso 6 (MCP `cloudrun`)
+### Prompt 6A — Inspeccionar servicios con el MCP de Cloud Run
 ```text
-Use the Cloud Run MCP server (`deploy_local_folder` or `list_services`) to deploy this project to Google Cloud Run in my Google Cloud project (region "us-central1", service name "github-comic-cards"), and return the live public Cloud Run URL.
+Usa el servidor MCP de Cloud Run (`list_services`) para listar los servicios actuales en mi proyecto de Google Cloud y verificar el estado del servicio `github-comic-cards`.
+```
+
+### Prompt 6B — Publicar la app en Cloud Run con el MCP
+```text
+Usa la herramienta `deploy_local_folder` del servidor MCP de Cloud Run para desplegar este proyecto en Google Cloud Run (región `us-central1`, servicio `github-comic-cards`) y devuélveme la URL pública.
 ```
 
 ---
@@ -99,22 +108,22 @@ Use the Cloud Run MCP server (`deploy_local_folder` or `list_services`) to deplo
 ## Paso 7 — Artifacts (`/plan`, Implementation Plan, Walkthrough y Diffs)
 *(Sección 7 del Codelab: Artifacts)*
 
-**Qué mostrar en Antigravity:**
-- Muestra cómo `/plan` resuelve el *trust gap* generando primero el artifact **Implementation Plan** (con diagrama de arquitectura en Mermaid y botón **Proceed**) y al terminar entrega el artifact **Walkthrough** junto con los diffs de archivos en el **Auxiliary Pane**.
-- Puedes usar el Prompt 7A para construir toda la app desde cero con `/plan`, o el Prompt 7B para agregar en vivo un exportador de cartas coleccionables en menos de 30 segundos.
+**Qué mostrar en pantalla:**
+- Explica cómo los **Artifacts** resuelven la brecha de confianza (*trust gap*): al usar `/plan`, el agente genera primero el **Implementation Plan** en el **Auxiliary Pane** (arriba a la derecha).
+- Haz clic en **Proceed** y al terminar muestra el artifact **Walkthrough** y los diffs de los archivos creados (`src/github.js`, `src/comic-ai.js`, `src/server.js`, `public/index.html`).
 
-### Prompt 7A — Construir la app completa con `/plan`
+### Prompt 7A — Construir la aplicación completa desde cero en una carpeta nueva con `/plan`
 ```text
-/plan Design and build "GitHub Comic Heroes", a Node.js application (CLI in `src/cli.js` + Web UI in `src/server.js` and `public/index.html`) that takes any GitHub username, fetches their profile photo (`avatar_url`) and repositories from the GitHub API (`src/github.js`), and uses Vertex AI (`@google/genai` in `src/comic-ai.js`) to:
-1. Transform their real GitHub profile photo into an American comic book superhero illustration using `gemini-nano-banana-2.1` (location `global`, aspect ratio `3:4`).
-2. Generate their Comic Hero Alias, 2-3 Superpowers based on their top repositories/languages, and a speech bubble Battle Cry using `gemini-3.8-flash`.
-3. Render the interactive Comic Book Trading Card and a "Hall of Heroes" gallery in a comic-styled web UI on port 8080.
-Include a Mermaid architecture diagram in the Implementation Plan.
+/plan Diseña y construye la aplicación "GitHub Comic Heroes" en Node.js (usando el skill global `github-comic-heroes` si está disponible):
+1. `src/github.js`: consulta la API pública de GitHub (`https://api.github.com/users/<username>` y `/repos`), obtiene los lenguajes principales, top 3 repositorios y descarga la foto de perfil (`avatar_url`) en base64.
+2. `src/comic-ai.js`: usa `@google/genai` con Vertex AI (`vertexai: true`, `location: "global"`) para transformar en paralelo la foto de perfil real en una ilustración de superhéroe de cómic americano con el modelo `gemini-nano-banana-2.1` (`responseModalities: ["IMAGE"]`, `aspectRatio: "3:4"`) y generar con `gemini-3.8-flash` el alias de héroe, 2 superpoderes con puntaje PWR basados en sus repositorios y un grito de batalla.
+3. `src/cli.js`, `src/server.js` y `public/index.html`: interfaz web estilo cómic en el puerto 8080 con trama halftone, insignia circular de la foto original junto al retrato ilustrado y galería Hall of Heroes.
+4. Genera también el archivo `demo_bad_code.py` y el skill `.agents/skills/code-review/SKILL.md` para la etapa de auditoría. No uses diagramas Mermaid en el plan.
 ```
 
-### Prompt 7B — Extensión rápida en vivo con `/plan` (si la app ya está creada)
+### Prompt 7B — Agregar una funcionalidad rápida en vivo con `/plan` (si la app ya está creada)
 ```text
-/plan Add a `/api/card/:username/badge.svg` endpoint to `src/server.js` and a "Copy Markdown Badge" button on the comic card in `public/index.html` so developers can embed their Comic Hero title, archetype, and power rating directly in their GitHub profile README. Include a Mermaid flow diagram in the Implementation Plan.
+/plan Agrega un endpoint `/api/card/:username/badge.svg` en `src/server.js` y un botón "Copiar Insignia para README" en `public/index.html` para que cualquier desarrollador pueda incrustar una tarjeta SVG con su alias de superhéroe, arquetipo y nivel de poder en su perfil de GitHub. No uses diagramas Mermaid.
 ```
 
 ---
@@ -122,13 +131,13 @@ Include a Mermaid architecture diagram in the Implementation Plan.
 ## Paso 8 — Antigravity IDE (`Open IDE`)
 *(Sección 8 del Codelab: Antigravity IDE)*
 
-**Qué mostrar en Antigravity:**
+**Qué mostrar en pantalla:**
 - Abre el **Auxiliary Panel** (esquina superior derecha) y haz clic en **Open IDE**.
-- Muestra el proyecto abierto en **Antigravity IDE** (`src/comic-ai.js`, `src/github.js`, `public/index.html`, `demo_bad_code.py`), cómo inspeccionar los diffs y cómo conversar con el agente directamente en el panel lateral del IDE.
+- Muestra cómo se abre **Antigravity IDE** con todos los archivos del proyecto, el visor de cambios y el **Agent Panel** lateral donde puedes usar menciones `@` sobre cualquier archivo.
 
-### Prompt — Paso 8 (Desde el Agent Panel en Antigravity IDE)
+### Prompt — Paso 8 (En el Agent Panel de Antigravity IDE)
 ```text
-Explain how `generateComicPortrait` in @src/comic-ai.js passes the GitHub avatar image as `inlineData` to `gemini-nano-banana-2.1` and how the automatic fallback works if the primary model quota is reached.
+Explica cómo la función `generateComicPortrait` en @src/comic-ai.js envía los bytes de la foto de perfil de GitHub como `inlineData` al modelo `gemini-nano-banana-2.1` en Vertex AI y cómo maneja el fallback automático.
 ```
 
 ---
@@ -136,16 +145,16 @@ Explain how `generateComicPortrait` in @src/comic-ai.js passes the GitHub avatar
 ## Paso 9 — Skills (`.agents/skills/code-review/SKILL.md`)
 *(Sección 9 del Codelab: Skills — Progressive Disclosure)*
 
-**Qué mostrar en Antigravity:**
-1. Explica **Progressive Disclosure**: Antigravity solo carga en contexto el nombre y descripción de los skills al inicio, y lee el contenido completo de `.agents/skills/code-review/SKILL.md` únicamente cuando pides revisar código.
-2. Muestra `.agents/skills/code-review/SKILL.md` y el archivo `demo_bad_code.py` incluido en el repositorio (exactamente el mismo del Codelab oficial para que todos los asistentes obtengan el mismo resultado, más su script verificador en `.agents/skills/code-review/scripts/ast_audit.py`).
+**Qué mostrar en pantalla:**
+1. Explica **Progressive Disclosure**: Antigravity solo lee el encabezado YAML (`name` y `description`) de los skills al arrancar y carga las instrucciones completas de `.agents/skills/code-review/SKILL.md` únicamente cuando pides auditar código.
+2. Muestra `.agents/skills/code-review/SKILL.md`, su script validador `.agents/skills/code-review/scripts/ast_audit.py` y el archivo `demo_bad_code.py`.
 
-### Prompt 9A — Auditar `@demo_bad_code.py` activando el Skill
+### Prompt 9A — Activar el Skill de revisión de código
 ```text
-review the @demo_bad_code.py file
+Revisa el archivo @demo_bad_code.py
 ```
 
-### Prompt 9B — Aplicar las correcciones y verificar
+### Prompt 9B — Corregir los defectos y verificar
 ```text
-Fix the bugs and performance issues identified in @demo_bad_code.py (handle the None return when user ID 3 is missing, remove the blocking `time.sleep(0.1)` inside the loop, and avoid shadowing the built-in `id`), then run the script to verify it completes cleanly without errors.
+Corrige todos los problemas detectados en @demo_bad_code.py (maneja el caso en que `get_user_data` devuelve `None` para el usuario 3, elimina el `time.sleep(0.1)` bloqueante dentro del ciclo y evita sombrear el nombre reservado `id`), y ejecuta el validador `python3 .agents/skills/code-review/scripts/ast_audit.py demo_bad_code.py` para comprobar que pasa con 0 violaciones.
 ```
