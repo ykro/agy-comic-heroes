@@ -1,0 +1,54 @@
+[
+  {
+    "username": "ykro",
+    "displayName": "Adrián Catalán",
+    "avatarUrl": "https://avatars.githubusercontent.com/u/398169?v=4",
+    "topLanguages": [
+      "TypeScript",
+      "Python",
+      "Kotlin"
+    ],
+    "publicRepos": 154,
+    "followers": 436,
+    "totalStars": 3,
+    "topRepos": [
+      {
+        "name": "ai-native-dev",
+        "language": "TypeScript",
+        "stars": 1,
+        "description": "Classified open-source experiment"
+      },
+      {
+        "name": "ilab-aibuilders-prototypes",
+        "language": "Polyglot",
+        "stars": 1,
+        "description": "Indice general de 3 prototipos de Innovation Lab"
+      },
+      {
+        "name": "agentic-sdlc-demo",
+        "language": "TypeScript",
+        "stars": 1,
+        "description": "Demo para aprender Google ADK: pipeline agéntico con ReviewerAgent + TestAgent que revisan"
+      }
+    ],
+    "heroAlias": "AGENTIC VIGILANTE",
+    "issueNumber": "#154",
+    "archetype": "Agentic Shadow Vigilante",
+    "superpowers": [
+      {
+        "name": "Agentic SDLC Protocol",
+        "power": 95,
+        "description": "Summons autonomous Reviewer and Test agents to purge bugs instantly."
+      },
+      {
+        "name": "AI-Native Overclock",
+        "power": 90,
+        "description": "Deploys classified neural experiments deep into shadow production."
+      }
+    ],
+    "battleCry": "Activate the agentic-sdlc-demo—justice compiles in the shadows!",
+    "comicImageUrl": "/generated/ykro.png?t=1793219543191",
+    "imageModelUsed": "gemini-nano-banana-2.1",
+    "generatedAt": "2026-10-28T20:32:23.186Z"
+  }
+]

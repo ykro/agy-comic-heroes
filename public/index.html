@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GitHub Comic Heroes — Trading Card Forge</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bangers&family=JetBrains+Mono:wght@600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --paper: #F7F4EB;
+      --ink: #0E1117;
+      --yellow: #FFD60A;
+      --red: #FF3B30;
+      --blue: #0066FF;
+      --card-bg: #FFFFFF;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background-color: var(--paper);
+      background-image: radial-gradient(rgba(14, 17, 23, 0.12) 1.5px, transparent 1.5px);
+      background-size: 16px 16px;
+      color: var(--ink);
+      font-family: "Space Grotesk", -apple-system, sans-serif;
+      padding: 2rem 1.25rem 4rem;
+    }
+    .container {
+      max-width: 1120px;
+      margin: 0 auto;
+    }
+    .masthead {
+      background: var(--yellow);
+      border: 4px solid var(--ink);
+      box-shadow: 8px 8px 0 var(--ink);
+      padding: 1.25rem 1.75rem;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+    .masthead-title {
+      font-family: "Bangers", cursive;
+      font-size: 2.8rem;
+      letter-spacing: 0.04em;
+      line-height: 1;
+      margin: 0;
+      color: var(--ink);
+      text-shadow: 2px 2px 0 #FFFFFF;
+    }
+    .masthead-sub {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.82rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      margin-top: 0.35rem;
+    }
+    .search-bar {
+      display: flex;
+      gap: 0.6rem;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .search-bar input {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 1rem;
+      font-weight: 700;
+      padding: 0.75rem 1rem;
+      border: 3px solid var(--ink);
+      background: #FFFFFF;
+      color: var(--ink);
+      min-width: 220px;
+      box-shadow: 4px 4px 0 var(--ink);
+    }
+    .btn {
+      font-family: "Bangers", cursive;
+      font-size: 1.35rem;
+      letter-spacing: 0.05em;
+      padding: 0.6rem 1.35rem;
+      border: 3px solid var(--ink);
+      background: var(--red);
+      color: #FFFFFF;
+      cursor: pointer;
+      box-shadow: 4px 4px 0 var(--ink);
+      transition: transform 0.1s ease;
+      text-decoration: none;
+      display: inline-block;
+    }
+    .btn:hover { transform: translate(-2px, -2px); box-shadow: 6px 6px 0 var(--ink); }
+    .btn:disabled { opacity: 0.6; cursor: wait; }
+    .btn.secondary {
+      background: #FFFFFF;
+      color: var(--ink);
+      font-size: 1.1rem;
+    }
+    .main-grid {
+      display: grid;
+      grid-template-columns: 440px 1fr;
+      gap: 2.25rem;
+      align-items: start;
+    }
+    @media (max-width: 900px) {
+      .main-grid { grid-template-columns: 1fr; }
+    }
+    /* COMIC TRADING CARD */
+    .comic-card {
+      background: var(--card-bg);
+      border: 5px solid var(--ink);
+      box-shadow: 12px 12px 0 var(--ink);
+      padding: 1.1rem;
+      position: relative;
+    }
+    .card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--ink);
+      color: #FFFFFF;
+      padding: 0.55rem 0.85rem;
+      margin-bottom: 0.75rem;
+    }
+    .hero-alias {
+      font-family: "Bangers", cursive;
+      font-size: 1.85rem;
+      letter-spacing: 0.05em;
+      color: var(--yellow);
+      margin: 0;
+    }
+    .issue-tag {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.8rem;
+      background: var(--red);
+      color: #FFFFFF;
+      padding: 0.2rem 0.5rem;
+      border: 2px solid #FFFFFF;
+      font-weight: 700;
+    }
+    .portrait-frame {
+      position: relative;
+      border: 4px solid var(--ink);
+      background: #1B2432;
+      aspect-ratio: 3 / 4;
+      overflow: hidden;
+      margin-bottom: 0.9rem;
+    }
+    .portrait-frame img.comic-art {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .original-avatar-badge {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      width: 68px;
+      height: 68px;
+      border-radius: 50%;
+      border: 3px solid var(--yellow);
+      box-shadow: 3px 3px 0 var(--ink);
+      overflow: hidden;
+      background: #FFFFFF;
+    }
+    .original-avatar-badge img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .archetype-pill {
+      position: absolute;
+      bottom: 12px;
+      left: 12px;
+      background: var(--yellow);
+      color: var(--ink);
+      border: 3px solid var(--ink);
+      padding: 0.25rem 0.65rem;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.76rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      box-shadow: 3px 3px 0 var(--ink);
+    }
+    .speech-bubble {
+      background: #FFFDF7;
+      border: 3px solid var(--ink);
+      border-radius: 14px;
+      padding: 0.75rem 1rem;
+      font-weight: 700;
+      font-style: italic;
+      font-size: 0.95rem;
+      margin-bottom: 0.9rem;
+      box-shadow: 4px 4px 0 var(--ink);
+      position: relative;
+    }
+    .powers-list {
+      display: grid;
+      gap: 0.6rem;
+      margin-bottom: 0.9rem;
+    }
+    .power-item {
+      border: 2.5px solid var(--ink);
+      padding: 0.6rem 0.75rem;
+      background: var(--paper);
+    }
+    .power-header {
+      display: flex;
+      justify-content: space-between;
+      font-weight: 700;
+      font-size: 0.92rem;
+      margin-bottom: 0.2rem;
+    }
+    .power-score {
+      font-family: "JetBrains Mono", monospace;
+      background: var(--blue);
+      color: #FFFFFF;
+      padding: 0.1rem 0.45rem;
+      font-size: 0.75rem;
+      border: 1.5px solid var(--ink);
+    }
+    .power-desc {
+      font-size: 0.82rem;
+      color: #333B48;
+    }
+    .card-footer {
+      border-top: 3px solid var(--ink);
+      padding-top: 0.65rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.78rem;
+      font-weight: 700;
+    }
+    /* RIGHT PANEL: DETAILS & GALLERY */
+    .panel-box {
+      background: #FFFFFF;
+      border: 4px solid var(--ink);
+      box-shadow: 8px 8px 0 var(--ink);
+      padding: 1.5rem;
+      margin-bottom: 1.75rem;
+    }
+    .panel-heading {
+      font-family: "Bangers", cursive;
+      font-size: 1.9rem;
+      letter-spacing: 0.04em;
+      margin: 0 0 1rem 0;
+      border-bottom: 3px solid var(--ink);
+      padding-bottom: 0.4rem;
+    }
+    .repos-grid {
+      display: grid;
+      gap: 0.75rem;
+    }
+    .repo-row {
+      border: 2.5px solid var(--ink);
+      padding: 0.75rem 1rem;
+      background: var(--paper);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+    }
+    .repo-name { font-family: "JetBrains Mono", monospace; font-weight: 700; font-size: 0.95rem; }
+    .repo-desc { font-size: 0.84rem; color: #404854; margin-top: 0.2rem; }
+    .repo-meta {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.78rem;
+      background: var(--yellow);
+      border: 2px solid var(--ink);
+      padding: 0.25rem 0.55rem;
+      white-space: nowrap;
+      font-weight: 700;
+    }
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(175px, 1fr));
+      gap: 1rem;
+    }
+    .mini-card {
+      border: 3px solid var(--ink);
+      background: var(--paper);
+      cursor: pointer;
+      box-shadow: 4px 4px 0 var(--ink);
+      transition: transform 0.1s ease;
+    }
+    .mini-card:hover { transform: translate(-2px, -2px); box-shadow: 6px 6px 0 var(--ink); }
+    .mini-card img {
+      width: 100%;
+      aspect-ratio: 3 / 4;
+      object-fit: cover;
+      border-bottom: 3px solid var(--ink);
+      display: block;
+    }
+    .mini-card-meta {
+      padding: 0.5rem 0.65rem;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.76rem;
+      font-weight: 700;
+    }
+    .status-toast {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.88rem;
+      font-weight: 700;
+      padding: 0.75rem 1rem;
+      border: 3px solid var(--ink);
+      background: var(--yellow);
+      margin-bottom: 1.25rem;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header class="masthead">
+      <div>
+        <h1 class="masthead-title">GITHUB COMIC HEROES</h1>
+        <div class="masthead-sub">Powered by Google Antigravity 2.0 • Gemini Nano Banana 2.1 • Cloud Run</div>
+      </div>
+      <div class="search-bar">
+        <input id="usernameInput" type="text" value="ykro" placeholder="GitHub username (e.g. ykro)" />
+        <button id="generateBtn" class="btn" onclick="generateCard()">FORGE COMIC CARD</button>
+        <a href="/codelab" class="btn secondary">WORKSHOP CODELAB</a>
+      </div>
+    </header>
+
+    <div id="statusToast" class="status-toast"></div>
+
+    <div class="main-grid">
+      <div id="activeCardContainer"></div>
+
+      <div>
+        <section class="panel-box">
+          <h2 class="panel-heading">SOURCE REPOSITORIES &amp; TELEMETRY</h2>
+          <div id="reposContainer" class="repos-grid"></div>
+        </section>
+
+        <section class="panel-box">
+          <h2 class="panel-heading">HALL OF HEROES (RECENT CARDS)</h2>
+          <div id="galleryContainer" class="gallery-grid"></div>
+        </section>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let allCards = [];
+
+    function renderActiveCard(card) {
+      if (!card) return;
+      const container = document.getElementById('activeCardContainer');
+      const powersHtml = (card.superpowers || []).map(p => `
+        <div class="power-item">
+          <div class="power-header">
+            <span>${p.name}</span>
+            <span class="power-score">${p.power} PWR</span>
+          </div>
+          <div class="power-desc">${p.description}</div>
+        </div>
+      `).join('');
+
+      container.innerHTML = `
+        <article class="comic-card" id="comicCard">
+          <div class="card-top">
+            <h2 class="hero-alias">${card.heroAlias}</h2>
+            <span class="issue-tag">${card.issueNumber || '#1'}</span>
+          </div>
+          <div class="portrait-frame">
+            <img class="comic-art" src="${card.comicImageUrl}" alt="${card.heroAlias}" />
+            <div class="original-avatar-badge" title="Original GitHub Avatar (@${card.username})">
+              <img src="${card.avatarUrl}" alt="@${card.username}" />
+            </div>
+            <div class="archetype-pill">${card.archetype}</div>
+          </div>
+          <div class="speech-bubble">${card.battleCry}</div>
+          <div class="powers-list">${powersHtml}</div>
+          <div class="card-footer">
+            <span>@${card.username} • ${(card.topLanguages || []).join(' / ')}</span>
+            <span>${card.publicRepos} REPOS • ${card.totalStars} STARS</span>
+          </div>
+        </article>
+      `;
+
+      const reposContainer = document.getElementById('reposContainer');
+      reposContainer.innerHTML = (card.topRepos || []).map(r => `
+        <div class="repo-row">
+          <div>
+            <div class="repo-name">${r.name}</div>
+            <div class="repo-desc">${r.description}</div>
+          </div>
+          <span class="repo-meta">${r.language} • ★ ${r.stars}</span>
+        </div>
+      `).join('');
+    }
+
+    function renderGallery() {
+      const gallery = document.getElementById('galleryContainer');
+      gallery.innerHTML = allCards.map((c, idx) => `
+        <div class="mini-card" onclick="selectCard(${idx})">
+          <img src="${c.comicImageUrl}" alt="${c.heroAlias}" />
+          <div class="mini-card-meta">
+            <div>${c.heroAlias}</div>
+            <div style="color:#525866">@${c.username}</div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function selectCard(idx) {
+      if (allCards[idx]) {
+        document.getElementById('usernameInput').value = allCards[idx].username;
+        renderActiveCard(allCards[idx]);
+      }
+    }
+
+    async function loadExistingCards() {
+      const res = await fetch('/api/cards');
+      allCards = await res.json();
+      if (allCards.length > 0) {
+        renderActiveCard(allCards[0]);
+        renderGallery();
+      }
+    }
+
+    async function generateCard() {
+      const input = document.getElementById('usernameInput');
+      const btn = document.getElementById('generateBtn');
+      const toast = document.getElementById('statusToast');
+      const username = input.value.trim() || 'ykro';
+
+      btn.disabled = true;
+      toast.style.display = 'block';
+      toast.textContent = `Fetching @${username} repos & generating Nano Banana 2.1 comic art...`;
+
+      try {
+        const res = await fetch('/api/generate', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username })
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || 'Failed to generate card');
+        toast.textContent = `Comic card forged for @${data.username} (${data.heroAlias}) using ${data.imageModelUsed}!`;
+        await loadExistingCards();
+      } catch (err) {
+        toast.textContent = `Error: ${err.message}`;
+      } finally {
+        btn.disabled = false;
+      }
+    }
+
+    loadExistingCards();
+  </script>
+</body>
+</html>

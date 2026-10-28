@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Codelab: Build GitHub Comic Heroes with Google Antigravity 2.0</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #F8FAFC;
+      --surface: #FFFFFF;
+      --ink: #0F172A;
+      --muted: #475569;
+      --border: #E2E8F0;
+      --blue: #1A73E8;
+      --blue-light: #E8F0FE;
+      --yellow: #FFD60A;
+      --red: #FF3B30;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      display: flex;
+       flex-direction: column;
+      min-height: 100vh;
+    }
+    .topbar {
+      height: 64px;
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 1.5rem;
+      position: sticky;
+      top: 0;
+      z-index: 20;
+    }
+    .topbar-brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-weight: 700;
+      font-size: 1.05rem;
+    }
+    .badge-pill {
+      background: var(--blue-light);
+      color: var(--blue);
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 0.25rem 0.65rem;
+      border-radius: 999px;
+    }
+    .topbar-links {
+      display: flex;
+      gap: 0.75rem;
+      align-items: center;
+    }
+    .topbar-links a {
+      text-decoration: none;
+      font-size: 0.88rem;
+      font-weight: 600;
+      padding: 0.45rem 0.9rem;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      color: var(--ink);
+      background: var(--surface);
+    }
+    .topbar-links a.primary {
+      background: var(--blue);
+      color: #FFFFFF;
+      border-color: var(--blue);
+    }
+    .layout {
+      display: grid;
+      grid-template-columns: 290px 1fr;
+      flex: 1;
+      max-width: 1380px;
+      width: 100%;
+      margin: 0 auto;
+    }
+    @media (max-width: 900px) {
+      .layout { grid-template-columns: 1fr; }
+      .sidebar { display: none; }
+    }
+    .sidebar {
+      border-right: 1px solid var(--border);
+      background: var(--surface);
+      padding: 1.25rem 0.75rem;
+      height: calc(100vh - 64px);
+      position: sticky;
+      top: 64px;
+      overflow-y: auto;
+    }
+    .step-nav-item {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      width: 100%;
+      text-align: left;
+      padding: 0.65rem 0.85rem;
+      border: none;
+      background: transparent;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.88rem;
+      font-weight: 500;
+      color: var(--muted);
+      margin-bottom: 0.25rem;
+    }
+    .step-nav-item:hover { background: #F1F5F9; color: var(--ink); }
+    .step-nav-item.active {
+      background: var(--blue-light);
+      color: var(--blue);
+      font-weight: 600;
+    }
+    .step-num {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: #E2E8F0;
+      color: var(--ink);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+    .step-nav-item.active .step-num {
+      background: var(--blue);
+      color: #FFFFFF;
+    }
+    .content-area {
+      padding: 2.5rem 3rem 5rem;
+      max-width: 880px;
+    }
+    @media (max-width: 640px) {
+      .content-area { padding: 1.5rem 1.25rem 4rem; }
+    }
+    .step-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 2.25rem;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+      display: none;
+    }
+    .step-card.active { display: block; }
+    .step-kicker {
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--blue);
+      margin-bottom: 0.4rem;
+    }
+    h1 {
+      margin: 0 0 1rem 0;
+      font-size: 1.85rem;
+      letter-spacing: -0.02em;
+    }
+    h2 {
+      margin: 1.75rem 0 0.75rem 0;
+      font-size: 1.2rem;
+    }
+    p, li {
+      line-height: 1.65;
+      color: #334155;
+      font-size: 0.98rem;
+    }
+    .prompt-box {
+      background: #0F172A;
+      color: #F8FAFC;
+      border-radius: 10px;
+      padding: 1.15rem 1.25rem;
+      margin: 1rem 0 1.5rem;
+      position: relative;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.88rem;
+      line-height: 1.6;
+      white-space: pre-wrap;
+    }
+    .prompt-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.65rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid #1E293B;
+      font-size: 0.75rem;
+      color: #94A3B8;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .copy-btn {
+      background: #2563EB;
+      color: #FFFFFF;
+      border: none;
+      border-radius: 5px;
+      padding: 0.3rem 0.7rem;
+      font-family: "Inter", sans-serif;
+      font-size: 0.75rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .copy-btn:hover { background: #1D4ED8; }
+    .callout {
+      background: #F8FAFC;
+      border-left: 4px solid var(--blue);
+      padding: 1rem 1.25rem;
+      border-radius: 0 8px 8px 0;
+      margin: 1.25rem 0;
+      font-size: 0.92rem;
+    }
+    .hero-showcase {
+      display: grid;
+      grid-template-columns: 240px 1fr;
+      gap: 1.5rem;
+      background: #FFFDF7;
+      border: 3px solid #0F172A;
+      box-shadow: 6px 6px 0 #0F172A;
+      padding: 1.25rem;
+      margin: 1.5rem 0;
+      align-items: center;
+    }
+    @media (max-width: 640px) {
+      .hero-showcase { grid-template-columns: 1fr; }
+    }
+    .hero-showcase img {
+      width: 100%;
+      border: 3px solid #0F172A;
+      aspect-ratio: 3 / 4;
+      object-fit: cover;
+    }
+    .nav-footer {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 2rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+    }
+    .nav-btn {
+      padding: 0.65rem 1.25rem;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.92rem;
+      cursor: pointer;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--ink);
+    }
+    .nav-btn.primary {
+      background: var(--blue);
+      color: #FFFFFF;
+      border-color: var(--blue);
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-brand">
+      <span>Google Antigravity 2.0 Workshop</span>
+      <span class="badge-pill">GitHub Comic Heroes Edition</span>
+    </div>
+    <div class="topbar-links">
+      <a href="https://codelabs.developers.google.com/getting-started-google-antigravity?hl=en#0" target="_blank" rel="noopener">Official Codelab</a>
+      <a id="repoLink" href="https://github.com/ykro/agy-comic-heroes" target="_blank" rel="noopener">GitHub Repo</a>
+      <a id="liveAppLink" href="https://github.com/ykro/agy-comic-heroes#quick-start" target="_blank" rel="noopener" class="primary">Run the App</a>
+    </div>
+  </header>
+
+  <div class="layout">
+    <nav class="sidebar" id="sidebarNav"></nav>
+
+    <main class="content-area">
+      <!-- STEP 1 -->
+      <section class="step-card active" data-title="Overview & Project Goal">
+        <div class="step-kicker">Step 1 • Workshop Overview</div>
+        <h1>Build "GitHub Comic Heroes" with Google Antigravity 2.0</h1>
+        <p>Welcome to the companion hands-on guide for the <strong>Getting Started with Google Antigravity 2.0</strong> workshop. Instead of building disconnected hello-world scripts, we will use every feature of Antigravity 2.0 (Steps 2 through 9 of the official codelab) to build, test, automate, audit, and deploy a full-stack AI application: <strong>GitHub Comic Heroes</strong>.</p>
+
+        <div class="hero-showcase">
+          <img src="./ykro-comic.png" alt="Sample Comic Hero Card generated with gemini-nano-banana-2.1" />
+          <div>
+            <div style="font-family:'Bangers',cursive;font-size:1.75rem;letter-spacing:0.04em;">AGENTIC VIGILANTE (#154)</div>
+            <p style="margin:0.4rem 0 0.8rem;"><strong>How it works:</strong> Enter any GitHub username. The app fetches their real GitHub profile photo and top repositories, transforms their photo into a comic-book superhero using <code>gemini-nano-banana-2.1</code> on Vertex AI, and generates 2–3 signature superpowers plus a comic speech bubble.</p>
+            <div style="font-family:'JetBrains Mono',monospace;font-size:0.8rem;background:#FFD60A;border:2px solid #0F172A;padding:0.4rem 0.65rem;display:inline-block;font-weight:600;">
+              Stack: Node.js 22 • @google/genai • gemini-nano-banana-2.1 • Cloud Run
+            </div>
+          </div>
+        </div>
+
+        <h2>What You Will Practice (Steps 2 to 9)</h2>
+        <ul>
+          <li><strong>Step 2 (Installation &amp; Setup):</strong> Verifying Antigravity 2.0, Antigravity IDE, and Google Cloud credentials.</li>
+          <li><strong>Step 3 (Antigravity 2.0 Interface):</strong> Multi-folder Projects, Project Settings, and parallel Conversation threads.</li>
+          <li><strong>Step 4 (Slash Commands):</strong> Using <code>/browser</code> to launch Chrome and test the live Comic Card UI automatically.</li>
+          <li><strong>Step 5 (Scheduling Commands):</strong> Using <code>/schedule</code> to refresh the Featured Hero card on a timer.</li>
+          <li><strong>Step 6 (MCP Servers):</strong> Configuring and using the Google Cloud Run MCP server to deploy the app.</li>
+          <li><strong>Step 7 (Artifacts):</strong> Using <code>/plan</code> to produce an Implementation Plan (with Mermaid diagrams) and a Walkthrough.</li>
+          <li><strong>Step 8 (Antigravity IDE):</strong> Inspecting generated code diffs and chatting in the IDE Agent Panel.</li>
+          <li><strong>Step 9 (Skills):</strong> Creating and triggering <code>.agents/skills/code-review/SKILL.md</code> via progressive disclosure.</li>
+        </ul>
+      </section>
+
+      <!-- STEP 2 -->
+      <section class="step-card" data-title="Step 2: Installation & Setup">
+        <div class="step-kicker">Step 2 • Codelab Section 2</div>
+        <h1>Installation &amp; Environment Verification</h1>
+        <p>After installing <strong>Antigravity 2.0</strong> (the standalone agent command center) and <strong>Antigravity IDE</strong>, configure either Vertex AI (recommended with Application Default Credentials) or a Gemini API key in your environment so no secrets are ever hardcoded in your files:</p>
+
+        <div class="prompt-box"><div class="prompt-header"><span>Terminal Setup (Vertex AI ADC)</span><button class="copy-btn" onclick="copyText(this)">Copy</button></div><div class="prompt-text">export GOOGLE_CLOUD_PROJECT="your-gcp-project-id"
+gcloud auth application-default login</div></div>
+
+        <p>Start your first prompt in Antigravity to verify your environment:</p>
+        <div class="prompt-box"><div class="prompt-header"><span>Prompt — Step 2</span><button class="copy-btn" onclick="copyText(this)">Copy Prompt</button></div><div class="prompt-text">Check my local environment for this workshop: verify the installed Node.js and Python versions, confirm which Google Cloud project is currently configured in gcloud, and list the folders inside this workspace.</div></div>
+      </section>
+
+      <!-- STEP 3 -->
+      <section class="step-card" data-title="Step 3: Antigravity 2.0 Interface">
+        <div class="step-kicker">Step 3 • Codelab Section 3</div>
+        <h1>Antigravity 2.0 Interface: Projects &amp; Parallel Conversations</h1>
+        <p>In Antigravity 2.0, a <strong>Project</strong> defines the folders, security presets, artifact review policies, and MCP tools available to your agents.</p>
+        <div class="callout">
+          <strong>What to explore in the UI:</strong> Click the gear icon next to your project to open <strong>Project Settings</strong>. Notice how you can add multiple folders (<code>Add Folder</code>), customize the <strong>Security Preset</strong>, and toggle individual MCP servers per project.
+        </div>
+
+        <h2>Conversation Thread 1: Explore GitHub API Data (<code>conv-github-data</code>)</h2>
+        <div class="prompt-box"><div class="prompt-header"><span>Prompt 3A — Conversation 1</span><button class="copy-btn" onclick="copyText(this)">Copy Prompt</button></div><div class="prompt-text">Fetch the public GitHub profile and top repositories for user "ykro" using the GitHub REST API. Summarize their display name, avatar URL, top 3 programming languages, and top 3 repositories in a clean table.</div></div>
+
+        <h2>Conversation Thread 2: Brainstorm Comic Hero Lore (<code>conv-comic-concept</code>)</h2>
+        <p>Click the <code>+</code> button next to your project to start a second conversation in parallel and rename it to <code>conv-comic-concept</code>:</p>
+        <div class="prompt-box"><div class="prompt-header"><span>Prompt 3B — Conversation 2</span><button class="copy-btn" onclick="copyText(this)">Copy Prompt</button></div><div class="prompt-text">Based on a developer whose top languages are TypeScript, Python, and Kotlin and who builds autonomous AI agents, propose a Comic Book Superhero alias, 2 signature superpowers with power ratings (1-99), and a one-line comic battle cry.</div></div>
+      </section>
+
+      <!-- STEP 4 -->
+      <section class="step-card" data-title="Step 4: Slash Commands (/browser)">
+        <div class="step-kicker">Step 4 • Codelab Section 4</div>
+        <h1>Slash Commands: Live UI Inspection with <code>/browser</code></h1>
+        <p>Type <code>/</code> in the chat input to explore Antigravity's built-in slash commands (<code>/plan</code>, <code>/browser</code>, <code>/schedule</code>, <code>/boost</code>, <code>/teamwork</code>, <code>/grill-me</code>, <code>/learn</code>).</p>
+        <p>The <code>/browser</code> command spawns a Chrome debugging sub-agent that can interact with web pages and local servers visually. Run this prompt to inspect the GitHub Comic Heroes web UI:</p>
+
+        <div class="prompt-box"><div class="prompt-header"><span>Prompt — Step 4 (/browser)</span><button class="copy-btn" onclick="copyText(this)">Copy Prompt</button></div><div class="prompt-text">/browser Make sure our server (`node src/server.js`) is running on port 8080. Open http://localhost:8080 in Chrome, verify that the GitHub Comic Heroes card is displayed with the comic book portrait, original GitHub avatar badge, speech bubble, and superpowers, and take a screenshot.</div></div>
+      </section>
+
+      <!-- STEP 5 -->
+      <section class="step-card" data-title="Step 5: Scheduling Commands">
+        <div class="step-kicker">Step 5 • Codelab Section 5</div>
+        <h1>Scheduling Commands: Autonomous Background Tasks</h1>
+        <p>You can schedule recurring cron jobs or one-time timers either from the <strong>Schedule</strong> tab in the left sidebar or with the <code>/schedule</code> slash command. Antigravity wakes up reactively when the scheduled task completes.</p>
+        <p>Use this prompt to schedule a 60-second timer that refreshes the Featured Hero card in the background:</p>
+
+        <div class="prompt-box"><div class="prompt-header"><span>Prompt — Step 5 (/schedule)</span><button class="copy-btn" onclick="copyText(this)">Copy Prompt</button></div><div class="prompt-text">/schedule Set a one-time timer for 60 seconds from now to run `node src/cli.js --refresh-featured` in this project and notify me with the hero alias and issue number once the Featured Hero card has been refreshed.</div></div>
+      </section>
+
+      <!-- STEP 6 -->
+      <section class="step-card" data-title="Step 6: MCP Servers & Cloud Run">
+        <div class="step-kicker">Step 6 • Codelab Section 6</div>
+        <h1>Model Context Protocol (MCP) Servers &amp; Cloud Run Deploy</h1>
+        <p>Go to <strong>Settings &rarr; Customizations &rarr; Installed MCP Servers</strong> and click <strong>Open MCP Config</strong> (<code>~/.gemini/config/mcp_config.json</code>) to view your configured MCP servers:</p>
+
+        <div class="prompt-box"><div class="prompt-header"><span>~/.gemini/config/mcp_config.json</span><button class="copy-btn" onclick="copyText(this)">Copy</button></div><div class="prompt-text">{
+  "mcpServers": {
+    "cloudrun": {
+      "command": "npx",
+      "args": ["-y", "@google-cloud/cloud-run-mcp"]
+    }
+  }
+}</div></div>
+
+        <p>Now ask Antigravity to deploy the application to Google Cloud Run using the MCP server:</p>
+        <div class="prompt-box"><div class="prompt-header"><span>Prompt — Step 6 (Cloud Run MCP)</span><button class="copy-btn" onclick="copyText(this)">Copy Prompt</button></div><div class="prompt-text">Use the Cloud Run MCP server (`deploy_local_folder` or `list_services`) to deploy this project to Google Cloud Run in my Google Cloud project (region "us-central1", service name "github-comic-cards"), and return the live public Cloud Run URL.</div></div>
+      </section>
+
+      <!-- STEP 7 -->
+      <section class="step-card" data-title="Step 7: Artifacts (/plan)">
+        <div class="step-kicker">Step 7 • Codelab Section 7</div>
+        <h1>Artifacts: Implementation Plan, Diagrams &amp; Walkthrough</h1>
+        <p>Artifacts bridge the trust gap between autonomous agents and developers. When you run <code>/plan</code>, Antigravity generates a structured <strong>Implementation Plan</strong> artifact (with architecture diagrams and proposed changes) before writing code, followed by a <strong>Walkthrough</strong> artifact upon completion.</p>
+
+        <h2>Option A: Build the Full App from Scratch with <code>/plan</code></h2>
+        <div class="prompt-box"><div class="prompt-header"><span>Prompt 7A — Full App /plan</span><button class="copy-btn" onclick="copyText(this)">Copy Prompt</button></div><div class="prompt-text">/plan Design and build "GitHub Comic Heroes", a Node.js application (CLI in `src/cli.js` + Web UI in `src/server.js` and `public/index.html`) that takes any GitHub username, fetches their profile photo (`avatar_url`) and repositories from the GitHub API (`src/github.js`), and uses Vertex AI (`@google/genai` in `src/comic-ai.js`) to:
+1. Transform their real GitHub profile photo into an American comic book superhero illustration using `gemini-nano-banana-2.1` (location `global`, aspect ratio `3:4`).
+2. Generate their Comic Hero Alias, 2-3 Superpowers based on their top repositories/languages, and a speech bubble Battle Cry using `gemini-3.8-flash`.
+3. Render the interactive Comic Book Trading Card and a "Hall of Heroes" gallery in a comic-styled web UI on port 8080.
+Include a Mermaid architecture diagram in the Implementation Plan.</div></div>
+
+        <h2>Option B: Add a Live Feature (SVG README Badge) with <code>/plan</code></h2>
+        <div class="prompt-box"><div class="prompt-header"><span>Prompt 7B — Feature Extension /plan</span><button class="copy-btn" onclick="copyText(this)">Copy Prompt</button></div><div class="prompt-text">/plan Add a `/api/card/:username/badge.svg` endpoint to `src/server.js` and a "Copy Markdown Badge" button on the comic card in `public/index.html` so developers can embed their Comic Hero title, archetype, and power rating directly in their GitHub profile README. Include a Mermaid flow diagram in the Implementation Plan.</div></div>
+      </section>
+
+      <!-- STEP 8 -->
+      <section class="step-card" data-title="Step 8: Antigravity IDE">
+        <div class="step-kicker">Step 8 • Codelab Section 8</div>
+        <h1>Antigravity IDE: Seamless Handoff to the Editor</h1>
+        <p>Toggle the <strong>Auxiliary Panel</strong> in the top right corner of Antigravity 2.0 and click <strong>Open IDE</strong> to launch <strong>Antigravity IDE</strong> directly on your project workspace.</p>
+        <p>Inside the IDE's Agent Panel, use <code>@</code> mentions to ask targeted questions or refactor specific files:</p>
+
+        <div class="prompt-box"><div class="prompt-header"><span>Prompt — Step 8 (IDE Agent Panel)</span><button class="copy-btn" onclick="copyText(this)">Copy Prompt</button></div><div class="prompt-text">Explain how `generateComicPortrait` in @src/comic-ai.js passes the GitHub avatar image as `inlineData` to `gemini-nano-banana-2.1` and how the automatic fallback works if the primary model quota is reached.</div></div>
+      </section>
+
+      <!-- STEP 9 -->
+      <section class="step-card" data-title="Step 9: Skills (Progressive Disclosure)">
+        <div class="step-kicker">Step 9 • Codelab Section 9</div>
+        <h1>Skills: Progressive Disclosure with <code>.agents/skills/</code></h1>
+        <p>Skills package domain instructions and helper scripts in <code>.agents/skills/&lt;skill-name&gt;/SKILL.md</code>. Antigravity reads only the YAML frontmatter (<code>name</code> and <code>description</code>) at startup and loads the full instructions and scripts only when your prompt matches the skill.</p>
+        <p>This repository includes <code>.agents/skills/code-review/SKILL.md</code> (along with its AST verifier script <code>.agents/skills/code-review/scripts/ast_audit.py</code>) and <code>demo_bad_code.py</code> from the official Codelab.</p>
+
+        <h2>1. Trigger the Code Review Skill</h2>
+        <div class="prompt-box"><div class="prompt-header"><span>Prompt 9A — Audit @demo_bad_code.py</span><button class="copy-btn" onclick="copyText(this)">Copy Prompt</button></div><div class="prompt-text">review the @demo_bad_code.py file</div></div>
+
+        <h2>2. Apply the Fixes &amp; Verify</h2>
+        <div class="prompt-box"><div class="prompt-header"><span>Prompt 9B — Fix &amp; Verify</span><button class="copy-btn" onclick="copyText(this)">Copy Prompt</button></div><div class="prompt-text">Fix the bugs and performance issues identified in @demo_bad_code.py (handle the None return when user ID 3 is missing, remove the blocking `time.sleep(0.1)` inside the loop, and avoid shadowing the built-in `id`), then run the script to verify it completes cleanly without errors.</div></div>
+      </section>
+
+      <div class="nav-footer">
+        <button class="nav-btn" id="prevBtn" onclick="changeStep(-1)">&larr; Previous Step</button>
+        <button class="nav-btn primary" id="nextBtn" onclick="changeStep(1)">Next Step &rarr;</button>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    const cards = Array.from(document.querySelectorAll('.step-card'));
+    const sidebar = document.getElementById('sidebarNav');
+    let currentStep = 0;
+
+    function buildSidebar() {
+      sidebar.innerHTML = cards.map((card, i) => `
+        <button class="step-nav-item ${i === currentStep ? 'active' : ''}" onclick="goToStep(${i})">
+          <span class="step-num">${i + 1}</span>
+          <span>${card.dataset.title}</span>
+        </button>
+      `).join('');
+      document.getElementById('prevBtn').style.visibility = currentStep === 0 ? 'hidden' : 'visible';
+      document.getElementById('nextBtn').style.visibility = currentStep === cards.length - 1 ? 'hidden' : 'visible';
+    }
+
+    function goToStep(index) {
+      cards[currentStep].classList.remove('active');
+      currentStep = Math.max(0, Math.min(cards.length - 1, index));
+      cards[currentStep].classList.add('active');
+      buildSidebar();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function changeStep(delta) {
+      goToStep(currentStep + delta);
+    }
+
+    function copyText(btn) {
+      const text = btn.closest('.prompt-box').querySelector('.prompt-text').innerText;
+      navigator.clipboard.writeText(text);
+      const old = btn.textContent;
+      btn.textContent = 'Copied!';
+      setTimeout(() => { btn.textContent = old; }, 1400);
+    }
+
+    buildSidebar();
+  </script>
+</body>
+</html>
