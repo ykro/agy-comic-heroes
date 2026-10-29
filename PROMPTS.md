@@ -98,7 +98,7 @@ El comando `/schedule` permite configurar *time-based loops* y temporizadores en
 
 ## Paso 6 — Servidores MCP y deploy a Cloud Run
 
-En **Settings -> Customizations -> Installed MCP Servers** se abre el archivo `~/.gemini/config/mcp_config.json`. Con `@google-cloud/cloud-run-mcp` activo, el agente puede consultar servicios en Google Cloud y hacer deploy directo a Cloud Run.
+En la barra lateral izquierda de Antigravity 2.0 (en **Customizations** / **Skills & Customizations**, justo arriba de *Settings*, o desde **... -> MCP Servers**) se muestran los servidores activos y se abre el archivo `~/.gemini/config/mcp_config.json`. Con `@google-cloud/cloud-run-mcp` activo, el agente puede consultar servicios en Google Cloud y hacer deploy directo a Cloud Run.
 
 ### Opción A (Carpeta vacía)
 ```text
