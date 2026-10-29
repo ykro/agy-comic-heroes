@@ -90,7 +90,7 @@ const server = http.createServer(async (req, res) => {
 
     const heroScore = computeCardPower(hero);
     const enemyScore = enemy ? computeCardPower(enemy) : 88;
-    const winner = heroScore >= enemyScore ? hero : enemy;
+    const winner = heroScore > enemyScore ? hero : enemyScore > heroScore ? enemy : (hero.totalStars || 0) >= (enemy.totalStars || 0) ? hero : enemy;
 
     sendJson(res, 200, {
       hero: { username: hero.username, heroAlias: hero.heroAlias, score: heroScore },
