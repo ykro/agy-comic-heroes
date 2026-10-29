@@ -96,18 +96,18 @@ El comando `/schedule` permite configurar *time-based loops* y temporizadores en
 
 ---
 
-## Paso 6 — Servidores MCP y deploy a Cloud Run
+## Paso 6 — Servidores MCP y Cloud Run
 
-En la barra lateral izquierda de Antigravity 2.0 (en **Customizations** / **Skills & Customizations**, justo arriba de *Settings*, o desde **... -> MCP Servers**) se muestran los servidores activos y se abre el archivo `~/.gemini/config/mcp_config.json`. Con `@google-cloud/cloud-run-mcp` activo, el agente puede consultar servicios en Google Cloud y hacer deploy directo a Cloud Run.
+En la versión actual de Antigravity 2.0, la pestaña **Customizations** en la barra lateral izquierda muestra el catálogo de plugins y skills, mientras que los servidores MCP globales se definen en `~/.gemini/config/mcp_config.json` (también visibles en Antigravity IDE desde **... -> MCP Servers** o con `@` en el chat). Con `@google-cloud/cloud-run-mcp` activo, el agente puede consultar servicios y logs en Cloud Run directamente desde la conversación.
 
 ### Opción A (Carpeta vacía)
 ```text
-Usa el servidor MCP de Cloud Run (`list_services` y `get_service`) para revisar los servicios activos en mi proyecto de Google Cloud (`ai-experiments-487722`) en `us-central1` y muéstrame la URL pública del servicio `github-comic-cards`.
+Muéstrame la configuración actual de `~/.gemini/config/mcp_config.json` y luego usa el servidor MCP de Cloud Run (`list_services` y `get_service`) para revisar los servicios activos en mi proyecto de Google Cloud (`ai-experiments-487722`) en `us-central1` y darme la URL pública de `github-comic-cards`.
 ```
 
 ### Opción B (Proyecto ya creado)
 ```text
-Usa el servidor MCP de Cloud Run (`get_service` y `get_service_log`) para verificar el estado del servicio `github-comic-cards` del proyecto `ai-experiments-487722` en `us-central1`, revisar sus últimos logs y devolverme la URL pública activa.
+Muéstrame el contenido de `~/.gemini/config/mcp_config.json` y usa el servidor MCP de Cloud Run (`get_service` y `get_service_log`) para verificar el estado del servicio `github-comic-cards` del proyecto `ai-experiments-487722` en `us-central1`, revisar sus últimos logs y devolverme la URL pública activa.
 ```
 
 ---
@@ -122,12 +122,12 @@ Al correr `/plan`, Antigravity genera un *Implementation Plan* en el panel auxil
 1. `src/github.js` consulta el API público de GitHub (`https://api.github.com/users/<username>` y `/repos`), obtiene los lenguajes principales, los 3 repositorios más relevantes y descarga el avatar en base64.
 2. `src/comic-ai.js` usa `@google/genai` con Vertex AI (`vertexai: true`, `location: "global"`) sin uso de key en el código para transformar en paralelo la foto de perfil en una ilustración estilo cómic con `gemini-nano-banana-2.1` (`responseModalities: ["IMAGE"]`, `aspectRatio: "3:4"`) y generar con `gemini-3.8-flash` el alias, 2 superpoderes con puntaje PWR y una frase de batalla.
 3. `src/cli.js` (con soporte para `<username>` y `--next-enemy`), `src/server.js` y `public/index.html` con la galería web en el puerto 8080.
-4. Incluye el skill `.agents/skills/comic-director/SKILL.md` y su script `.agents/skills/comic-director/scripts/hero_ranker.mjs`. No uses diagramas Mermaid.
+4. Incluye el skill `.agents/skills/comic-director/SKILL.md` y su script `.agents/skills/comic-director/scripts/hero_ranker.mjs`.
 ```
 
 ### Opción B (Proyecto ya creado — agregar modo versus contra enemigos)
 ```text
-/plan Agrega un endpoint `GET /api/battle?hero=ykro&enemy=torvalds` en `src/server.js` y un botón en `public/index.html` para enfrentar a un héroe contra un enemigo de la galería comparando sus puntos PWR, repositorios y estrellas. No uses diagramas Mermaid.
+/plan Agrega un endpoint `GET /api/battle?hero=ykro&enemy=torvalds` en `src/server.js` y un botón en `public/index.html` para enfrentar a un héroe contra un enemigo de la galería comparando sus puntos PWR, repositorios y estrellas.
 ```
 
 ---

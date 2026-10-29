@@ -389,8 +389,8 @@ export GEMINI_API_KEY="tu-api-key"</div></div>
       <!-- PASO 6 -->
       <section class="step-card" data-title="Paso 6: MCP y Cloud Run">
         <div class="step-kicker">Paso 6 • Sección 6 del Codelab</div>
-        <h1>Servidores MCP y deploy a Cloud Run</h1>
-        <p>En la barra lateral izquierda de Antigravity 2.0 (en la sección <strong>Customizations</strong> / <strong>Skills &amp; Customizations</strong>, arriba de <em>Settings</em>, o desde el menú <strong>... &rarr; MCP Servers</strong>) puedes ver los servidores MCP instalados y abrir <code>~/.gemini/config/mcp_config.json</code>. Con el servidor MCP de <a href="https://cloud.google.com/run/docs" target="_blank" rel="noopener">Cloud Run</a> configurado, el agente puede listar servicios, leer logs y hacer deploy del contenedor sin salir de la conversación.</p>
+        <h1>Servidores MCP y Cloud Run</h1>
+        <p>En la versión actual de Antigravity 2.0, la pestaña <strong>Customizations</strong> de la barra lateral izquierda muestra el catálogo de plugins y skills instalados, mientras que los servidores MCP globales se definen en <code>~/.gemini/config/mcp_config.json</code> (también visibles en Antigravity IDE desde el menú <strong>... &rarr; MCP Servers</strong> o escribiendo <code>@</code> en el chat). Con el servidor MCP de <a href="https://cloud.google.com/run/docs" target="_blank" rel="noopener">Cloud Run</a> configurado, el agente puede listar servicios, revisar logs y consultar despliegues directamente desde la conversación.</p>
 
         <div class="prompt-box"><div class="prompt-header"><span>~/.gemini/config/mcp_config.json</span><button class="copy-btn" onclick="copyText(this)">Copiar</button></div><div class="prompt-text">{
   "mcpServers": {
@@ -402,10 +402,10 @@ export GEMINI_API_KEY="tu-api-key"</div></div>
 }</div></div>
 
         <h2>Opción A — Carpeta vacía</h2>
-        <div class="prompt-box"><div class="prompt-header"><span>Prompt 6A</span><button class="copy-btn" onclick="copyText(this)">Copiar Prompt</button></div><div class="prompt-text">Usa el servidor MCP de Cloud Run (`list_services` y `get_service`) para revisar los servicios activos en mi proyecto de Google Cloud en `us-central1` y muéstrame la URL pública del servicio `github-comic-cards`.</div></div>
+        <div class="prompt-box"><div class="prompt-header"><span>Prompt 6A</span><button class="copy-btn" onclick="copyText(this)">Copiar Prompt</button></div><div class="prompt-text">Muéstrame la configuración actual de `~/.gemini/config/mcp_config.json` y luego usa el servidor MCP de Cloud Run (`list_services` y `get_service`) para revisar los servicios activos en mi proyecto de Google Cloud en `us-central1` y darme la URL pública de `github-comic-cards`.</div></div>
 
         <h2>Opción B — Proyecto ya creado</h2>
-        <div class="prompt-box"><div class="prompt-header"><span>Prompt 6B</span><button class="copy-btn" onclick="copyText(this)">Copiar Prompt</button></div><div class="prompt-text">Usa el servidor MCP de Cloud Run (`get_service` y `get_service_log`) para verificar el estado del servicio `github-comic-cards` en `us-central1`, revisar sus últimos logs y devolverme la URL pública activa.</div></div>
+        <div class="prompt-box"><div class="prompt-header"><span>Prompt 6B</span><button class="copy-btn" onclick="copyText(this)">Copiar Prompt</button></div><div class="prompt-text">Muéstrame el contenido de `~/.gemini/config/mcp_config.json` y usa el servidor MCP de Cloud Run (`get_service` y `get_service_log`) para verificar el estado del servicio `github-comic-cards` en `us-central1`, revisar sus últimos logs y devolverme la URL pública activa.</div></div>
       </section>
 
       <!-- PASO 7 -->
@@ -419,10 +419,10 @@ export GEMINI_API_KEY="tu-api-key"</div></div>
 1. `src/github.js` consulta el API público de GitHub (`https://api.github.com/users/<username>` y `/repos`), obtiene los lenguajes principales, los 3 repositorios más relevantes y descarga el avatar en base64.
 2. `src/comic-ai.js` usa `@google/genai` con Vertex AI (`vertexai: true`, `location: "global"`) sin uso de key en el código para transformar en paralelo la foto de perfil en una ilustración estilo cómic con `gemini-nano-banana-2.1` (`responseModalities: ["IMAGE"]`, `aspectRatio: "3:4"`) y generar con `gemini-3.8-flash` el alias, 2 superpoderes con puntaje PWR y una frase de batalla.
 3. `src/cli.js` (con soporte para `<username>` y `--next-enemy`), `src/server.js` y `public/index.html` con la galería web en el puerto 8080.
-4. Incluye el skill `.agents/skills/comic-director/SKILL.md` y su script `.agents/skills/comic-director/scripts/hero_ranker.mjs`. No uses diagramas Mermaid.</div></div>
+4. Incluye el skill `.agents/skills/comic-director/SKILL.md` y su script `.agents/skills/comic-director/scripts/hero_ranker.mjs`.</div></div>
 
         <h2>Opción B — Proyecto ya creado (agregar modo versus contra enemigos)</h2>
-        <div class="prompt-box"><div class="prompt-header"><span>Prompt 7B</span><button class="copy-btn" onclick="copyText(this)">Copiar Prompt</button></div><div class="prompt-text">/plan Agrega un endpoint `GET /api/battle?hero=ykro&enemy=torvalds` en `src/server.js` y un botón en `public/index.html` para enfrentar a un héroe contra un enemigo de la galería comparando sus puntos PWR, repositorios y estrellas. No uses diagramas Mermaid.</div></div>
+        <div class="prompt-box"><div class="prompt-header"><span>Prompt 7B</span><button class="copy-btn" onclick="copyText(this)">Copiar Prompt</button></div><div class="prompt-text">/plan Agrega un endpoint `GET /api/battle?hero=ykro&enemy=torvalds` en `src/server.js` y un botón en `public/index.html` para enfrentar a un héroe contra un enemigo de la galería comparando sus puntos PWR, repositorios y estrellas.</div></div>
       </section>
 
       <!-- PASO 8 -->
