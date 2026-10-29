@@ -3,19 +3,22 @@ import { fetchGitHubProfile } from "./github.js";
 import { buildComicCard } from "./comic-ai.js";
 import { loadCards, saveCard } from "./store.js";
 
-const CHALLENGERS_QUEUE = ["torvalds", "sindresorhus", "gaearon", "addyosmani", "tj"];
+const ENEMIES_QUEUE = ["torvalds", "sindresorhus", "gaearon", "addyosmani", "tj"];
 
 async function main() {
   const args = process.argv.slice(2);
-  const isNextChallenger = args.includes("--next-challenger") || args.includes("--refresh-featured");
+  const isNextEnemy =
+    args.includes("--next-enemy") ||
+    args.includes("--next-challenger") ||
+    args.includes("--refresh-featured");
 
   let targetUser = args.find((a) => !a.startsWith("--")) || "ykro";
-  if (isNextChallenger) {
+  if (isNextEnemy) {
     const existingUsers = new Set(loadCards().map((c) => c.username.toLowerCase()));
-    targetUser = CHALLENGERS_QUEUE.find((u) => !existingUsers.has(u)) || CHALLENGERS_QUEUE[0];
-    console.log(`[SCHEDULED RECRUITER] Forging new Challenger card for @${targetUser} into the Hall of Heroes...`);
+    targetUser = ENEMIES_QUEUE.find((u) => !existingUsers.has(u)) || ENEMIES_QUEUE[0];
+    console.log(`[SCHEDULE] Generando carta de enemigo para @${targetUser}...`);
   } else {
-    console.log(`[COMIC FORGE] Fetching GitHub profile and repositories for @${targetUser}...`);
+    console.log(`[CLI] Consultando perfil y repositorios de GitHub para @${targetUser}...`);
   }
 
   const profile = await fetchGitHubProfile(targetUser);

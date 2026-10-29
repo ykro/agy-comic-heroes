@@ -1,193 +1,169 @@
-# Guía de Prompts en Vivo (Pasos 2 al 9) — GitHub Comic Heroes con Google Antigravity 2.0
+# Prompts para el taller — GitHub Comic Heroes con Google Antigravity 2.0
 
-**Codelab oficial:** [Getting Started with Google Antigravity](https://codelabs.developers.google.com/getting-started-google-antigravity?hl=en#0)  
-**Codelab interactivo del proyecto:** [https://agy-comic-heroes.web.app](https://agy-comic-heroes.web.app)  
-**App en Vivo (Cloud Run):** [https://github-comic-cards-z63pqhhmxq-uc.a.run.app](https://github-comic-cards-z63pqhhmxq-uc.a.run.app)
+Todo el código está disponible en este [repo](https://github.com/ykro/agy-comic-heroes), aquí está el [codelab interactivo](https://agy-comic-heroes.web.app) hospedado en [Firebase Hosting](https://firebase.google.com/docs/hosting), la [app en vivo](https://github-comic-cards-z63pqhhmxq-uc.a.run.app) corriendo en [Cloud Run](https://cloud.google.com/run/docs) y el [codelab oficial](https://codelabs.developers.google.com/getting-started-google-antigravity?hl=en#0) de Google Antigravity.
 
 ![Recorrido del Taller](./public/flujo-taller.svg)
 
----
+## Qué se construye y cómo usar las opciones A y B
 
-## ¿En qué paso se construye la app y cómo usar Opción A vs. Opción B?
+La aplicación toma un usuario de GitHub, descarga su foto de perfil y sus repositorios principales desde el API de GitHub y genera una carta estilo cómic americano usando [Vertex AI](https://cloud.google.com/vertex-ai/docs) con `gemini-nano-banana-2.1` y `gemini-3.8-flash`.
 
-En todos los pasos (del 2 al 9) tienes dos variantes listas para copiar:
+En cada paso hay dos opciones listas para copiar durante la sesión en vivo:
 
-- **Opción A (Carpeta vacía / *Fresh Folder*):** Pensada por si abres una carpeta nueva en blanco al inicio de tu charla y sigues el orden exacto del Codelab oficial. En el Codelab original, la aplicación se construye en el **Paso 7 (Artifacts con `/plan`)**; por eso en la Opción A los pasos 4, 5 y 6 funcionan sin requerir que el código exista todavía (y si prefieres construir la app antes, basta con correr el `/plan` del Paso 7 cuando muestras `/plan` en el Paso 4).
-- **Opción B (Sobre esta carpeta ya creada):** Pensada por si ejecutas la demo directamente sobre este proyecto (`agy-workshop` / repositorio clonado) donde la app ya está construida, para que desde el Paso 2 hasta el Paso 9 interactúes en vivo con el código, el servidor local y la galería de cartas.
+- **Opción A (Carpeta vacía):** útil si abres una carpeta nueva al iniciar el taller y sigues el orden del codelab oficial, donde la aplicación completa se construye en el **Paso 7** con `/plan`.
+- **Opción B (Proyecto ya creado):** útil si trabajas directamente sobre este repositorio para probar el código, el servidor local y las cartas desde el primer paso.
 
----
-
-## Checklist: ¿Qué debes tener listo antes de salir a dar el demo?
-
-1. **Google Chrome abierto** (y configurado como navegador predeterminado para que `/browser` en el Paso 4 conecte de inmediato).
-2. **Antigravity 2.0 y Antigravity IDE instalados** en tu Mac.
-3. **Credenciales de Google Cloud activas** (ya quedaron listas en tu máquina apuntando a `ai-experiments-487722`):
-   - Si usas Vertex AI: `gcloud auth application-default login` y `export GOOGLE_CLOUD_PROJECT="ai-experiments-487722"`.
-   - Si alguien del público prefiere usar un **API key** de AI Studio en lugar de Vertex AI: `export GEMINI_API_KEY="su-api-key"`.
-4. **Archivo `~/.gemini/config/mcp_config.json` listo** (ya quedó configurado en tu Mac con `@google-cloud/cloud-run-mcp` igual al Codelab).
-5. **Skill global `github-comic-heroes` instalado** (ya quedó en `~/.gemini/config/skills/github-comic-heroes/` para que incluso en una carpeta vacía genere el mismo diseño y use `gemini-nano-banana-2.1`).
+Antes de arrancar la demostración conviene verificar cinco puntos en tu máquina:
+1. Tener Google Chrome abierto como navegador predeterminado para que `/browser` conecte de inmediato.
+2. Tener Antigravity 2.0 y Antigravity IDE instalados.
+3. Tener las credenciales de Google Cloud activas con `gcloud auth application-default login` y `export GOOGLE_CLOUD_PROJECT="ai-experiments-487722"`, o bien definir `export GEMINI_API_KEY="tu-api-key"`.
+4. Confirmar que `~/.gemini/config/mcp_config.json` tenga configurado `@google-cloud/cloud-run-mcp`.
+5. Tener instalado el skill global `~/.gemini/config/skills/github-comic-heroes/`.
 
 ---
 
-## Paso 2 — Instalación y Verificación del Entorno
-*(Sección 2 del Codelab: Installation)*
+## Paso 2 — Instalación y verificación del entorno
 
-**Qué mostrar en pantalla:**
-- Muestra los dos íconos en tu Dock: **Antigravity 2.0** (centro de mando de agentes) y **Antigravity IDE**.
-- Comprueba que el entorno tiene Node.js y acceso a Google Cloud (sin ningún API key quemado en archivos).
+Se muestran las dos aplicaciones instaladas en el sistema, Antigravity 2.0 y Antigravity IDE, y se comprueba que el entorno tenga Node.js y acceso a Google Cloud sin uso de key en el código fuente.
 
 ### Opción A (Carpeta vacía)
 ```text
-Verifica mi entorno local para empezar este taller desde cero: revisa las versiones instaladas de Node.js y Python, confirma qué proyecto de Google Cloud está configurado en gcloud y verifica que esta carpeta está lista para iniciar un proyecto nuevo.
+Verifica mi entorno local para empezar el taller desde cero, revisa las versiones instaladas de Node.js y Python, confirma qué proyecto de Google Cloud está activo en gcloud y verifica que esta carpeta esté vacía.
 ```
 
-### Opción B (Sobre esta carpeta ya creada)
+### Opción B (Proyecto ya creado)
 ```text
-Verifica mi entorno local para este taller: revisa la versión de Node.js, confirma qué proyecto de Google Cloud está activo en gcloud y resume en 3 puntos los módulos que componen este repositorio de GitHub Comic Heroes (`src/`, `public/` y `.agents/skills/`).
+Verifica mi entorno local, revisa la versión de Node.js, confirma qué proyecto de Google Cloud está configurado en gcloud y resume los módulos de este repositorio (`src/`, `public/` y `.agents/skills/`).
 ```
 
 ---
 
-## Paso 3 — Interfaz de Antigravity 2.0, Proyectos y Conversaciones
-*(Sección 3 del Codelab: Antigravity 2.0 Interface — Projects, Conversations & Project Settings)*
+## Paso 3 — Proyectos y conversaciones en paralelo
 
-**Qué mostrar en pantalla:**
-1. **Proyectos y Configuración (`Project Settings`):** Haz clic en el ícono de engranaje del proyecto para mostrar que puedes agregar varias carpetas (`Add Folder`), ajustar el **Security Preset**, la política de revisión de **Artifacts** y los **MCP Servers** habilitados por proyecto.
-2. **Hilos de conversación en paralelo:** Crea dos conversaciones dentro del mismo proyecto (`conv-datos-github` y `conv-idea-comic`) y renómbralas desde el menú de tres puntos.
+Un proyecto en Antigravity 2.0 agrupa una o más carpetas y define sus permisos de seguridad, la revisión de *artifacts* y los servidores MCP activos desde *Project Settings*. Dentro del mismo proyecto se pueden abrir varias conversaciones en paralelo para trabajar en distintas tareas sin mezclar el contexto.
 
 ### Opción A (Carpeta vacía)
 **Conversación 1 (`conv-datos-github`):**
 ```text
-Consulta el perfil público de GitHub y los repositorios principales del usuario "ykro" usando la API pública de GitHub. Resume en una tabla su nombre, URL de su foto de perfil (`avatar_url`), sus 3 lenguajes principales y sus 3 repositorios más destacados.
+Consulta el perfil público y los repositorios del usuario "ykro" usando el API de GitHub. Arma una tabla con su nombre, la URL de su foto de perfil (`avatar_url`), sus 3 lenguajes principales y sus 3 repositorios con más actividad.
 ```
 **Conversación 2 (`conv-idea-comic`):**
 ```text
-A partir de un desarrollador cuyos lenguajes principales son TypeScript, Python y Kotlin y que construye agentes autónomos de IA, propón un alias de Superhéroe de Cómic, 2 superpoderes con puntaje PWR (1 a 99) y un grito de batalla para un globo de diálogo.
+Para un desarrollador que programa en TypeScript, Python y Kotlin y trabaja con agentes de IA, propón un alias de superhéroe de cómic, 2 superpoderes con puntaje PWR de 1 a 99, un enemigo principal y una frase para su globo de diálogo.
 ```
 
-### Opción B (Sobre esta carpeta ya creada)
+### Opción B (Proyecto ya creado)
 **Conversación 1 (`conv-datos-github`):**
 ```text
-Revisa @src/github.js y ejecútalo o consulta la API de GitHub para el usuario "ykro". Muéstrame en una tabla qué datos reales extrae (`avatarUrl`, `topLanguages`, `topRepos`) para alimentar el generador de cartas.
+Revisa @src/github.js y consulta el API de GitHub para el usuario "ykro". Muéstrame en una tabla los datos que extrae (`avatarUrl`, `topLanguages`, `topRepos`) para armar la carta.
 ```
 **Conversación 2 (`conv-idea-comic`):**
 ```text
-Lee @data/cards.json y muéstrame qué cartas de superhéroes están actualmente guardadas en el Hall of Heroes, incluyendo su alias, arquetipo, modelo de imagen usado y superpoderes.
+Lee @data/cards.json y lista las cartas guardadas en la galería con su alias, arquetipo, modelo de imagen y superpoderes.
 ```
 
 ---
 
-## Paso 4 — Slash Commands (`/plan`, `/browser`, `/schedule`)
-*(Sección 4 del Codelab: Slash Commands)*
+## Paso 4 — Slash Commands y pruebas con `/browser`
 
-**Qué mostrar en pantalla:**
-- Escribe `/` en el chat para mostrar el menú de comandos (`/plan`, `/browser`, `/schedule`, `/boost`, `/teamwork`, `/grill-me`, `/learn`).
-- Ejecuta `/browser` para lanzar el subagente de Google Chrome y ver cómo navega y captura evidencia visual.
+Al escribir `/` en el chat aparece el menú de comandos (`/plan`, `/browser`, `/schedule`, `/boost`, `/teamwork`, `/grill-me`, `/learn`). El comando `/browser` abre un subagente en Google Chrome que navega la página y adjunta capturas de pantalla como evidencia.
 
-### Opción A (Carpeta vacía — inspeccionando GitHub en vivo)
+### Opción A (Carpeta vacía)
 ```text
-/browser Abre https://github.com/ykro en Chrome, identifica la foto de perfil, la biografía y los repositorios principales visibles en la página, y devuélveme un resumen junto con una captura de pantalla.
+/browser Abre https://github.com/ykro en Chrome, identifica la foto de perfil, la biografía y los repositorios principales visibles en la página y devuélveme un resumen con una captura de pantalla.
 ```
 
-### Opción B (Sobre esta carpeta ya creada — probando la app de Cartas Cómic)
+### Opción B (Proyecto ya creado)
 ```text
-/browser Asegúrate de que el servidor (`node src/server.js`) esté corriendo en el puerto 8080. Abre http://localhost:8080 en Chrome, verifica que se muestre la carta de GitHub Comic Heroes con su retrato generado por Nano Banana 2.1, la insignia circular de la foto original de GitHub, el globo de diálogo y los superpoderes, y toma una captura de pantalla.
+/browser Asegúrate de que el servidor (`node src/server.js`) esté corriendo en el puerto 8080. Abre http://localhost:8080 en Chrome, verifica que se muestre la carta con el retrato generado por Nano Banana 2.1, el avatar original de GitHub y los superpoderes, y toma una captura de pantalla.
 ```
 
 ---
 
-## Paso 5 — Scheduling Commands (`Reclutador Autónomo de Héroes`)
-*(Sección 5 del Codelab: Scheduling Commands)*
+## Paso 5 — Time-based loops con `/schedule`
 
-**Qué mostrar en pantalla:**
-- Muestra la pestaña **Schedule** en el menú izquierdo para explicar cómo programar tareas recurrentes o temporizadores únicos.
-- En lugar de un recordatorio simple, programa un **Reclutador Autónomo de Héroes** a 60 segundos: mientras pasas a explicar el Paso 6, la tarea se ejecuta sola en segundo plano, toma al siguiente desarrollador famoso de la fila de retadores (`@torvalds`, `@sindresorhus`, `@gaearon`), genera su retrato en cómic con `gemini-nano-banana-2.1`, lo agrega al *Hall of Heroes* y te despierta con una notificación en vivo.
+El comando `/schedule` permite configurar *time-based loops* y temporizadores en segundo plano. Esta parte asíncrona es clave porque el trabajo puede ocurrir afuera del proyecto mientras uno sigue en otra tarea, por ejemplo revisar un PR abierto en GitHub, ver si ya entraron comentarios de un *reviewer*, vigilar un pipeline de CI que falla para arreglarlo en cuanto truene o consultar un API externo cada cierto tiempo.
 
-### Opción A (Carpeta vacía — Radar de Desarrollador Destacado)
+### Opción A (Carpeta vacía — revisar PRs, comentarios de reviewer o estado del CI)
 ```text
-/schedule Programa un temporizador único dentro de 60 segundos que consulte en la API pública de GitHub el perfil de "torvalds" y sus repositorios más recientes, y me notifique con una propuesta de alias de superhéroe y nivel de poder para incluirlo como retador del día.
+/schedule Configura un temporizador dentro de 60 segundos que consulte en GitHub la actividad reciente, PRs abiertos o estado de CI del repositorio `ykro/agy-comic-heroes` (o los repositorios públicos de `ykro`) y me avise si hay comentarios pendientes de un reviewer o algún cambio que atender.
 ```
 
-### Opción B (Sobre esta carpeta ya creada — Forjar Nuevo Retador en la Galería)
+### Opción B (Proyecto ya creado — vigilar el repo y generar un enemigo en la galería)
 ```text
-/schedule Programa un temporizador único dentro de 60 segundos que ejecute `node src/cli.js --next-challenger` para forjar automáticamente la carta estilo cómic (con `gemini-nano-banana-2.1`) del siguiente retador en la fila y agregarlo a `data/cards.json`. Cuando termine, notifícame qué usuario fue reclutado, su alias de superhéroe y sus superpoderes.
+/schedule Programa una tarea dentro de 60 segundos que revise si hay PRs o ejecuciones de CI fallidas en el repositorio de GitHub y además ejecute `node src/cli.js --next-enemy` para generar la carta del siguiente enemigo en `data/cards.json`. Cuando termine, avísame qué encontró y qué enemigo se agregó.
 ```
 
 ---
 
-## Paso 6 — Model Context Protocol (MCP) Servers y Despliegue a Cloud Run
-*(Sección 6 del Codelab: Model Context Protocol (MCP) Servers)*
+## Paso 6 — Servidores MCP y deploy a Cloud Run
 
-**Qué mostrar en pantalla:**
-1. Entra a **Settings -> Customizations -> Installed MCP Servers** y haz clic en **Open MCP Config** (`~/.gemini/config/mcp_config.json`).
-2. Muestra la configuración de `@google-cloud/cloud-run-mcp` y sus herramientas (`list_services`, `get_service`, `deploy_local_folder`).
+En **Settings -> Customizations -> Installed MCP Servers** se abre el archivo `~/.gemini/config/mcp_config.json`. Con `@google-cloud/cloud-run-mcp` activo, el agente puede consultar servicios en Google Cloud y hacer deploy directo a Cloud Run.
 
-### Opción A (Carpeta vacía — Consultar servicios activos en Cloud Run vía MCP)
+### Opción A (Carpeta vacía)
 ```text
-Usa el servidor MCP de Cloud Run (`list_services` y `get_service`) para listar los servicios desplegados en mi proyecto de Google Cloud (`ai-experiments-487722`) en la región `us-central1` y muéstrame la URL pública del servicio `github-comic-cards`.
+Usa el servidor MCP de Cloud Run (`list_services` y `get_service`) para revisar los servicios activos en mi proyecto de Google Cloud (`ai-experiments-487722`) en `us-central1` y muéstrame la URL pública del servicio `github-comic-cards`.
 ```
 
-### Opción B (Sobre esta carpeta ya creada — Desplegar la carpeta local a Cloud Run vía MCP)
+### Opción B (Proyecto ya creado)
 ```text
-Usa la herramienta `deploy_local_folder` (o `get_service`) del servidor MCP de Cloud Run para desplegar o verificar este proyecto en Google Cloud Run dentro del proyecto `ai-experiments-487722` (región `us-central1`, servicio `github-comic-cards`) y devuélveme la URL pública activa.
+Usa el servidor MCP de Cloud Run (`deploy_local_folder` o `get_service`) para hacer deploy o verificar este proyecto en el servicio `github-comic-cards` del proyecto `ai-experiments-487722` en `us-central1` y devuélveme la URL pública.
 ```
 
 ---
 
-## Paso 7 — Artifacts (`/plan`, Implementation Plan, Walkthrough y Diffs)
-*(Sección 7 del Codelab: Artifacts)*
+## Paso 7 — Artifacts con `/plan`
 
-**Qué mostrar en pantalla:**
-- Muestra cómo `/plan` genera primero el artifact **Implementation Plan** en el **Auxiliary Pane** (esquina superior derecha), esperando tu aprobación con **Proceed** antes de tocar el código, y al terminar produce el artifact **Walkthrough** con los diffs verificados.
+Al correr `/plan`, Antigravity genera un *Implementation Plan* en el panel auxiliar derecho esperando confirmación con *Proceed* antes de modificar archivos, y al finalizar entrega un *Walkthrough* con el resumen y los diffs.
 
-### Opción A (Carpeta vacía — Construir toda la app GitHub Comic Heroes desde cero con `/plan`)
+### Opción A (Carpeta vacía — construir la aplicación completa)
 ```text
 /plan Diseña y construye la aplicación "GitHub Comic Heroes" en Node.js siguiendo el skill global `github-comic-heroes`:
-1. `src/github.js`: consulta la API pública de GitHub (`https://api.github.com/users/<username>` y `/repos`), obtiene los lenguajes principales, top 3 repositorios y descarga la foto de perfil (`avatar_url`) en base64.
-2. `src/comic-ai.js`: usa `@google/genai` con Vertex AI (`vertexai: true`, `location: "global"`) sin ningún API key en el código para transformar en paralelo la foto de perfil en una ilustración de superhéroe de cómic americano con `gemini-nano-banana-2.1` (`responseModalities: ["IMAGE"]`, `aspectRatio: "3:4"`) y generar con `gemini-3.8-flash` el alias de héroe, 2 superpoderes con puntaje PWR basados en sus repositorios y un grito de batalla.
-3. `src/cli.js` (con soporte para `<username>` y `--next-challenger`), `src/server.js` y `public/index.html`: interfaz web estilo cómic en el puerto 8080 con trama halftone, insignia circular de la foto original junto al retrato ilustrado y galería Hall of Heroes.
-4. Incluye el skill del proyecto `.agents/skills/comic-director/SKILL.md` y su script `.agents/skills/comic-director/scripts/hero_ranker.mjs`. No uses diagramas Mermaid en el plan.
+1. `src/github.js` consulta el API público de GitHub (`https://api.github.com/users/<username>` y `/repos`), obtiene los lenguajes principales, los 3 repositorios más relevantes y descarga el avatar en base64.
+2. `src/comic-ai.js` usa `@google/genai` con Vertex AI (`vertexai: true`, `location: "global"`) sin uso de key en el código para transformar en paralelo la foto de perfil en una ilustración estilo cómic con `gemini-nano-banana-2.1` (`responseModalities: ["IMAGE"]`, `aspectRatio: "3:4"`) y generar con `gemini-3.8-flash` el alias, 2 superpoderes con puntaje PWR y una frase de batalla.
+3. `src/cli.js` (con soporte para `<username>` y `--next-enemy`), `src/server.js` y `public/index.html` con la galería web en el puerto 8080.
+4. Incluye el skill `.agents/skills/comic-director/SKILL.md` y su script `.agents/skills/comic-director/scripts/hero_ranker.mjs`. No uses diagramas Mermaid.
 ```
 
-### Opción B (Sobre esta carpeta ya creada — Agregar Modo Duelo de Superhéroes con `/plan`)
+### Opción B (Proyecto ya creado — agregar modo versus contra enemigos)
 ```text
-/plan Agrega una función de "Modo Duelo (VS Battle)" en `src/server.js` (`GET /api/battle?hero1=ykro&hero2=torvalds`) y un botón en `public/index.html` que compare dos cartas del Hall of Heroes, sume sus puntos de poder (PWR), repositorios y estrellas, y declare un ganador con una narración estilo cómic. No uses diagramas Mermaid en el plan.
+/plan Agrega un endpoint `GET /api/battle?hero=ykro&enemy=torvalds` en `src/server.js` y un botón en `public/index.html` para enfrentar a un héroe contra un enemigo de la galería comparando sus puntos PWR, repositorios y estrellas. No uses diagramas Mermaid.
 ```
 
 ---
 
 ## Paso 8 — Antigravity IDE (`Open IDE`)
-*(Sección 8 del Codelab: Antigravity IDE)*
 
-**Qué mostrar en pantalla:**
-- En el **Auxiliary Panel** (arriba a la derecha), haz clic en **Open IDE** para abrir el proyecto en **Antigravity IDE**.
-- Muestra el árbol de archivos (`src/comic-ai.js`, `src/github.js`, `public/index.html`, `.agents/skills/comic-director/SKILL.md`), los diffs de código y el **Agent Panel** lateral usando menciones `@`.
+Desde el botón **Open IDE** en la esquina superior derecha se abre el proyecto en Antigravity IDE para revisar el árbol de archivos, inspeccionar diffs y hacer consultas con `@` en el panel lateral.
 
-### Opción A (Carpeta recién construida en el Paso 7)
+### Opción A (Carpeta recién construida)
 ```text
-En @src/comic-ai.js, explícame cómo se ejecutan en paralelo `generateComicLore` (`gemini-3.8-flash`) y `generateComicPortrait` (`gemini-nano-banana-2.1`) con `Promise.all` para reducir el tiempo de generación de cada carta.
+En @src/comic-ai.js, explícame cómo corren en paralelo `generateComicLore` (`gemini-3.8-flash`) y `generateComicPortrait` (`gemini-nano-banana-2.1`) con `Promise.all` para reducir la latencia al crear una carta.
 ```
 
-### Opción B (Sobre esta carpeta ya creada)
+### Opción B (Proyecto ya creado)
 ```text
-Revisa @src/comic-ai.js y @src/store.js, y explícame cómo viaja la foto de perfil de GitHub en `inlineData` hacia `gemini-nano-banana-2.1` y cómo se guarda la imagen resultante en `public/generated/`.
+Revisa @src/comic-ai.js y @src/store.js, y explícame cómo se envía el avatar de GitHub en `inlineData` hacia `gemini-nano-banana-2.1` y cómo se persiste la imagen en `public/generated/`.
 ```
 
 ---
 
-## Paso 9 — Skills (`.agents/skills/comic-director/SKILL.md`)
-*(Sección 9 del Codelab: Skills — Progressive Disclosure)*
+## Paso 9 — Skills del proyecto (`.agents/skills/comic-director/SKILL.md`)
 
-**Qué mostrar en pantalla:**
-1. Explica **Progressive Disclosure**: en lugar de saturar el contexto del agente con miles de reglas desde el inicio, Antigravity solo lee el nombre y descripción YAML de `.agents/skills/comic-director/SKILL.md` y carga sus instrucciones completas y su script `.agents/skills/comic-director/scripts/hero_ranker.mjs` únicamente cuando pides enriquecer una carta o generar su insignia coleccionable.
-2. Muestra cómo el skill transforma los datos crudos de la carta en un **Dossier Oficial de Cómic** (asignándole su **Rango `OMEGA CLASS`**, su **Archienemigo técnico** y su **Historia de Origen**) y exporta un archivo SVG (`public/badges/ykro.svg`) listo para incrustar en el `README.md` de GitHub.
+Los skills en `.agents/skills/` funcionan con *Progressive Disclosure*, el agente lee primero el nombre y la descripción en el encabezado YAML y solo carga las instrucciones completas y el script `.agents/skills/comic-director/scripts/hero_ranker.mjs` cuando la tarea lo requiere. El skill `comic-director` calcula el rango del personaje, le asigna su enemigo principal según su lenguaje dominante, redacta su historia de origen y exporta una insignia SVG para el perfil de GitHub.
 
-### Opción A (Si aún no existe la carpeta `.agents/skills/comic-director`)
+### Opción A (Crear y ejecutar el skill)
 ```text
-Crea un skill de proyecto en `.agents/skills/comic-director/SKILL.md` (junto con su script en `scripts/hero_ranker.mjs`) que tome cualquier héroe de `data/cards.json`, calcule su rango oficial (`OMEGA CLASS`, `ALPHA CLASS`), le asigne un archienemigo según su lenguaje principal, redacte su historia de origen estilo cómic clásico y exporte una insignia SVG coleccionable en `public/badges/<username>.svg`. Luego aplícalo sobre la carta de @ykro.
+Crea un skill en `.agents/skills/comic-director/SKILL.md` (con su script en `scripts/hero_ranker.mjs`) que tome una carta de `data/cards.json`, calcule su rango (`OMEGA CLASS` o `ALPHA CLASS`), le asigne un enemigo según su lenguaje principal, redacte su historia de origen y exporte una insignia SVG en `public/badges/<username>.svg`. Luego ejecútalo para `ykro`.
 ```
 
-### Opción B (Sobre esta carpeta donde `.agents/skills/comic-director` ya está listo)
+### Opción B (Proyecto ya creado)
 ```text
-Usa el skill comic-director para enriquecer el dossier de la carta de "ykro" en @data/cards.json (calculando su rango oficial, su archienemigo técnico y redactando una historia de origen épica basada en sus repositorios reales) y genera su insignia coleccionable SVG en `public/badges/ykro.svg`.
+Usa el skill `comic-director` para actualizar la carta de `ykro` en @data/cards.json con su rango, su enemigo principal y su historia de origen a partir de sus repositorios, y genera su insignia SVG en `public/badges/ykro.svg`.
 ```
+
+---
+
+## Conclusiones
+
+Con este recorrido cubrimos de punta a punta la experiencia de trabajo en Antigravity 2.0, desde la organización por proyectos y conversaciones hasta el uso de `/browser`, *time-based loops* con `/schedule`, servidores MCP para Cloud Run, *artifacts* con `/plan` y *skills* propios del repositorio. **Nos vemos en el código.**
