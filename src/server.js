@@ -75,7 +75,7 @@ const server = http.createServer(async (req, res) => {
   if (reqUrl.pathname === "/api/battle" && req.method === "GET") {
     const cards = loadCards();
     const heroName = (reqUrl.searchParams.get("hero") || reqUrl.searchParams.get("hero1") || "ykro").toLowerCase();
-    const enemyName = (reqUrl.searchParams.get("enemy") || reqUrl.searchParams.get("hero2") || "").toLowerCase();
+    const enemyName = (reqUrl.searchParams.get("enemy") || reqUrl.searchParams.get("hero2") || "torvalds").toLowerCase();
 
     const hero = cards.find((c) => c.username.toLowerCase() === heroName) || cards[0];
     const enemy =
@@ -90,13 +90,46 @@ const server = http.createServer(async (req, res) => {
 
     const heroScore = computeCardPower(hero);
     const enemyScore = enemy ? computeCardPower(enemy) : 88;
-    const winner = heroScore >= enemyScore ? hero : enemy;
+    const heroRepos = Number(hero.publicRepos || 0);
+    const enemyRepos = Number(enemy?.publicRepos || 0);
+    const heroStars = Number(hero.totalStars || 0);
+    const enemyStars = Number(enemy?.totalStars || 0);
+
+    const pwrWinner = heroScore >= enemyScore ? hero.username : enemy.username;
+    const reposWinner = heroRepos >= enemyRepos ? hero.username : enemy.username;
+    const starsWinner = heroStars >= enemyStars ? hero.username : enemy.username;
+
+    const heroRounds =
+      (pwrWinner === hero.username ? 1 : 0) +
+      (reposWinner === hero.username ? 1 : 0) +
+      (starsWinner === hero.username ? 1 : 0);
+    const enemyRounds = 3 - heroRounds;
+    const winner = heroRounds >= enemyRounds ? hero : enemy;
 
     sendJson(res, 200, {
-      hero: { username: hero.username, heroAlias: hero.heroAlias, score: heroScore },
-      enemy: { username: enemy.username, heroAlias: enemy.heroAlias, score: enemyScore, archNemesis: hero.archNemesis },
+      hero: {
+        username: hero.username,
+        heroAlias: hero.heroAlias,
+        score: heroScore,
+        publicRepos: heroRepos,
+        totalStars: heroStars
+      },
+      enemy: {
+        username: enemy.username,
+        heroAlias: enemy.heroAlias,
+        score: enemyScore,
+        publicRepos: enemyRepos,
+        totalStars: enemyStars,
+        archNemesis: hero.archNemesis
+      },
+      comparison: {
+        pwr: { hero: heroScore, enemy: enemyScore, winner: pwrWinner },
+        repos: { hero: heroRepos, enemy: enemyRepos, winner: reposWinner },
+        stars: { hero: heroStars, enemy: enemyStars, winner: starsWinner }
+      },
+      roundsWon: { hero: heroRounds, enemy: enemyRounds },
       winner: winner.username,
-      narrative: `${hero.heroAlias} (@${hero.username}, ${heroScore} PWR) se enfrenta a ${enemy.heroAlias} (@${enemy.username}, ${enemyScore} PWR) y derrota a ${hero.archNemesis || "DOCTOR BUG"}.`
+      narrative: `${hero.heroAlias} (@${hero.username}) se enfrenta a ${enemy.heroAlias} (@${enemy.username}): PWR ${heroScore} vs ${enemyScore}, Repos ${heroRepos} vs ${enemyRepos} y Estrellas ${heroStars.toLocaleString("en-US")} vs ${enemyStars.toLocaleString("en-US")}. ¡Victoria ${Math.max(heroRounds, enemyRounds)}-${Math.min(heroRounds, enemyRounds)} para @${winner.username}!`
     });
     return;
   }

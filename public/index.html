@@ -355,13 +355,60 @@
     }
     .battle-result {
       margin-top: 0.75rem;
-      padding: 0.7rem 0.9rem;
+      padding: 0.85rem 1rem;
       background: #FFF8D6;
       border: 2.5px solid var(--ink);
       font-family: "JetBrains Mono", monospace;
       font-size: 0.82rem;
       font-weight: 700;
       display: none;
+    }
+    .battle-metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.55rem;
+      margin-top: 0.65rem;
+    }
+    .battle-metric-box {
+      background: #FFFFFF;
+      border: 2px solid var(--ink);
+      padding: 0.45rem 0.6rem;
+      text-align: center;
+    }
+    .battle-metric-title {
+      font-size: 0.68rem;
+      color: #525866;
+      text-transform: uppercase;
+      margin-bottom: 0.2rem;
+    }
+    .battle-metric-values {
+      font-size: 0.82rem;
+      font-weight: 700;
+    }
+    .battle-metric-winner {
+      display: inline-block;
+      margin-top: 0.2rem;
+      padding: 0.1rem 0.35rem;
+      font-size: 0.68rem;
+      background: var(--yellow);
+      border: 1.5px solid var(--ink);
+    }
+    .mini-battle-btn {
+      margin-top: 0.4rem;
+      width: 100%;
+      font-family: "Bangers", cursive;
+      font-size: 0.95rem;
+      letter-spacing: 0.04em;
+      padding: 0.25rem 0.4rem;
+      border: 2px solid var(--ink);
+      background: var(--red);
+      color: #FFFFFF;
+      cursor: pointer;
+      box-shadow: 2px 2px 0 var(--ink);
+    }
+    .mini-battle-btn:hover {
+      background: var(--ink);
+      color: var(--yellow);
     }
     .repos-grid {
       display: grid;
@@ -594,13 +641,20 @@
       const sel = document.getElementById('enemySelect');
       if (!activeCard) return;
       const options = [];
-      options.push(`<option value="__nemesis__">Enemigo: ${escapeHtml(activeCard.archNemesis || 'DOCTOR BUG')}</option>`);
+      let preferredRival = '';
       for (const c of allCards) {
         if (c.username.toLowerCase() !== activeCard.username.toLowerCase()) {
+          if (!preferredRival || c.username.toLowerCase() === 'torvalds') {
+            preferredRival = c.username;
+          }
           options.push(`<option value="${escapeHtml(c.username)}">Rival: ${escapeHtml(c.heroAlias)} (@${escapeHtml(c.username)})</option>`);
         }
       }
+      options.push(`<option value="__nemesis__">Enemigo: ${escapeHtml(activeCard.archNemesis || 'DOCTOR BUG')}</option>`);
       sel.innerHTML = options.join('');
+      if (preferredRival) {
+        sel.value = preferredRival;
+      }
       document.getElementById('battleResultBox').style.display = 'none';
     }
 
@@ -609,9 +663,12 @@
       const sel = document.getElementById('enemySelect').value;
       const arena = document.getElementById('enemyArenaContainer');
       const heroRating = activeCard.overallRating || 95;
+      const heroRepos = activeCard.publicRepos || 0;
+      const heroStars = activeCard.totalStars || 0;
 
       let enemyTitle = activeCard.archNemesis || 'DOCTOR RACE-CONDITION';
       let enemySub = 'Villano de Producción • Threat Lvl 92';
+      let enemyStats = '';
       let enemyImg = buildVillainSvgDataUrl(enemyTitle);
 
       if (sel && sel !== '__nemesis__') {
@@ -619,6 +676,7 @@
         if (rival) {
           enemyTitle = rival.heroAlias;
           enemySub = `@${rival.username} • ${rival.overallRating || 90} PWR`;
+          enemyStats = `${rival.publicRepos || 0} REPOS • ${rival.totalStars || 0} ★`;
           enemyImg = safeImageUrl(rival.comicImageUrl);
         }
       }
@@ -631,6 +689,7 @@
               <div style="font-family:'JetBrains Mono',monospace;font-size:0.7rem;color:var(--yellow);">HÉROE ACTIVO</div>
               <div style="font-family:'Bangers',cursive;font-size:1.35rem;letter-spacing:0.04em;">${escapeHtml(activeCard.heroAlias)}</div>
               <div style="font-family:'JetBrains Mono',monospace;font-size:0.75rem;color:#CBD5E1;">@${escapeHtml(activeCard.username)} • ${escapeHtml(heroRating)} PWR</div>
+              <div style="font-family:'JetBrains Mono',monospace;font-size:0.68rem;color:#94A3B8;margin-top:0.15rem;">${escapeHtml(heroRepos)} REPOS • ${escapeHtml(heroStars)} ★</div>
             </div>
           </div>
           <div class="vs-badge">VS</div>
@@ -640,6 +699,7 @@
               <div style="font-family:'JetBrains Mono',monospace;font-size:0.7rem;color:#FF6B6B;">ENEMIGO / RIVAL</div>
               <div style="font-family:'Bangers',cursive;font-size:1.35rem;letter-spacing:0.04em;color:#FFD60A;">${escapeHtml(enemyTitle)}</div>
               <div style="font-family:'JetBrains Mono',monospace;font-size:0.75rem;color:#FECACA;">${escapeHtml(enemySub)}</div>
+              ${enemyStats ? `<div style="font-family:'JetBrains Mono',monospace;font-size:0.68rem;color:#FCA5A5;margin-top:0.15rem;">${escapeHtml(enemyStats)}</div>` : ''}
             </div>
           </div>
         </div>
@@ -661,10 +721,43 @@
       try {
         const res = await fetch(`/api/battle?hero=${encodeURIComponent(activeCard.username)}&enemy=${encodeURIComponent(sel)}`);
         const data = await res.json();
-        box.textContent = data.narrative || `Ganador del duelo: @${data.winner}`;
+        const cmp = data.comparison || {};
+        const pwr = cmp.pwr || { hero: data.hero?.score, enemy: data.enemy?.score, winner: data.winner };
+        const repos = cmp.repos || { hero: data.hero?.publicRepos ?? 0, enemy: data.enemy?.publicRepos ?? 0, winner: data.winner };
+        const stars = cmp.stars || { hero: data.hero?.totalStars ?? 0, enemy: data.enemy?.totalStars ?? 0, winner: data.winner };
+
+        box.innerHTML = `
+          <div>${escapeHtml(data.narrative || `Ganador del duelo: @${data.winner}`)}</div>
+          <div class="battle-metrics-grid">
+            <div class="battle-metric-box">
+              <div class="battle-metric-title">Puntos PWR</div>
+              <div class="battle-metric-values">${escapeHtml(pwr.hero)} vs ${escapeHtml(pwr.enemy)}</div>
+              <span class="battle-metric-winner">★ @${escapeHtml(pwr.winner)}</span>
+            </div>
+            <div class="battle-metric-box">
+              <div class="battle-metric-title">Repositorios</div>
+              <div class="battle-metric-values">${escapeHtml(repos.hero)} vs ${escapeHtml(repos.enemy)}</div>
+              <span class="battle-metric-winner">★ @${escapeHtml(repos.winner)}</span>
+            </div>
+            <div class="battle-metric-box">
+              <div class="battle-metric-title">Estrellas ★</div>
+              <div class="battle-metric-values">${escapeHtml(Number(stars.hero || 0).toLocaleString('en-US'))} vs ${escapeHtml(Number(stars.enemy || 0).toLocaleString('en-US'))}</div>
+              <span class="battle-metric-winner">★ @${escapeHtml(stars.winner)}</span>
+            </div>
+          </div>
+        `;
       } catch (err) {
         box.textContent = `Error al simular duelo: ${err.message}`;
       }
+    }
+
+    function challengeFromGallery(event, rivalUsername) {
+      if (event) event.stopPropagation();
+      const sel = document.getElementById('enemySelect');
+      if (!sel) return;
+      sel.value = rivalUsername;
+      updateEnemyArena();
+      runBattle();
     }
 
     function renderGallery() {
@@ -676,8 +769,9 @@
             <img src="${safeImageUrl(c.comicImageUrl)}" alt="${escapeHtml(c.heroAlias)}" />
             <div class="mini-card-meta">
               <div>${escapeHtml(c.heroAlias)}</div>
-              <div style="color:#525866">@${escapeHtml(c.username)}</div>
-              <div style="color:#D92D20;font-size:0.68rem;margin-top:0.15rem;">VS ${escapeHtml((c.archNemesis || 'ENEMIGO').slice(0, 18))}</div>
+              <div style="color:#525866">@${escapeHtml(c.username)} • ${escapeHtml(c.overallRating || 90)} PWR</div>
+              <div style="color:#525866;font-size:0.68rem;margin-top:0.1rem;">${escapeHtml(c.publicRepos || 0)} REPOS • ${escapeHtml(c.totalStars || 0)} ★</div>
+              ${!isCurrent ? `<button type="button" class="mini-battle-btn" onclick="challengeFromGallery(event, '${escapeHtml(c.username)}')">⚔️ ENFRENTAR</button>` : `<div style="color:var(--blue);font-size:0.68rem;margin-top:0.35rem;">★ HÉROE ACTIVO</div>`}
             </div>
           </div>
         `;

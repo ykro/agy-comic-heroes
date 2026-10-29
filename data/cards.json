@@ -1,5 +1,117 @@
 [
   {
+    "username": "sindresorhus",
+    "displayName": "Sindre Sorhus",
+    "avatarUrl": "https://avatars.githubusercontent.com/u/170270?v=4",
+    "topLanguages": [
+      "JavaScript",
+      "TypeScript",
+      "Swift"
+    ],
+    "publicRepos": 1147,
+    "followers": 85145,
+    "totalStars": 746927,
+    "topRepos": [
+      {
+        "name": "awesome",
+        "language": "Polyglot",
+        "stars": 526713,
+        "description": "😎 Awesome lists about all kinds of interesting topics [NOTE: Pull requests are temporarily dis"
+      },
+      {
+        "name": "awesome-nodejs",
+        "language": "Polyglot",
+        "stars": 67298,
+        "description": ":zap: Delightful Node.js packages and resources [BECAUSE OF TOO MUCH SPAM AND LOW-QUALITY SUBMI"
+      },
+      {
+        "name": "awesome-electron",
+        "language": "Polyglot",
+        "stars": 27348,
+        "description": "Useful resources for creating apps with Electron [SUBMISSIONS ARE TEMPORARILY PAUSED BECAUSE I'"
+      }
+    ],
+    "heroAlias": "THE OPEN-SOURCERER",
+    "issueNumber": "#1147",
+    "archetype": "Grand Open-Source Sorcerer",
+    "powerTier": "OMEGA CLASS",
+    "overallRating": 99,
+    "archNemesis": "DR. UNCAUGHT TYPEERROR",
+    "originStory": "Across 1147 repositories of JavaScript & TypeScript & Swift, @sindresorhus channels awesome, awesome-nodejs, awesome-electron against DR. UNCAUGHT TYPEERROR.",
+    "superpowers": [
+      {
+        "name": "Awesome Constellation",
+        "power": 99,
+        "description": "Summons millions of curated stars to blind and overwhelm foes."
+      },
+      {
+        "name": "Node Package Multiverse",
+        "power": 96,
+        "description": "Deploys a swarm of 1,000 micro-modules to bind any system."
+      }
+    ],
+    "battleCry": "Behold the curated cosmos—everything under my watch is simply awesome!",
+    "comicImageUrl": "/generated/sindresorhus.png?t=1793296291433",
+    "imageModelUsed": "gemini-nano-banana-2.1",
+    "generatedAt": "2026-10-29T17:51:31.426Z"
+  },
+  {
+    "username": "torvalds",
+    "displayName": "Linus Torvalds",
+    "avatarUrl": "https://avatars.githubusercontent.com/u/1024025?v=4",
+    "topLanguages": [
+      "C",
+      "OpenSCAD",
+      "C++"
+    ],
+    "publicRepos": 12,
+    "followers": 329840,
+    "totalStars": 267353,
+    "topRepos": [
+      {
+        "name": "linux",
+        "language": "C",
+        "stars": 253849,
+        "description": "Linux kernel source tree"
+      },
+      {
+        "name": "AudioNoise",
+        "language": "C",
+        "stars": 4524,
+        "description": "Random digital audio effects"
+      },
+      {
+        "name": "GuitarPedal",
+        "language": "C",
+        "stars": 2470,
+        "description": "Linus learns analog circuits"
+      }
+    ],
+    "heroAlias": "THE KERNEL EMPEROR",
+    "issueNumber": "#1991",
+    "archetype": "Low-Level Kernel Titan",
+    "powerTier": "OMEGA CLASS",
+    "overallRating": 94,
+    "archNemesis": "LORD SEGMENTATION FAULT",
+    "originStory": "Across 12 repositories of C & OpenSCAD & C++, @torvalds channels linux, AudioNoise, GuitarPedal against LORD SEGMENTATION FAULT.",
+    "superpowers": [
+      {
+        "name": "Monolithic Override",
+        "power": 99,
+        "description": "Rewrites bare-metal reality with absolute C-level execution speed."
+      },
+      {
+        "name": "Analog Fuzz Blast",
+        "power": 88,
+        "description": "Disrupts enemy hardware via custom analog circuits and fuzz pedals."
+      }
+    ],
+    "battleCry": "Silence the AudioNoise and kneel before the majesty of linux!",
+    "comicImageUrl": "/generated/torvalds.png?t=1793292658449",
+    "imageModelUsed": "gemini-nano-banana-2.1",
+    "generatedAt": "2026-10-29T16:50:58.444Z"
+  },
+  {
     "username": "ykro",
     "displayName": "Adrián Catalán",
     "avatarUrl": "https://avatars.githubusercontent.com/u/398169?v=4",
