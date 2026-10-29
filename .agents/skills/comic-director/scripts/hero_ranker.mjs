@@ -57,7 +57,8 @@ function renderBadgeSvg(card, tierColor = "#FF3B30") {
 }
 
 function main() {
-  const targetUser = (process.argv[2] || "ykro").replace(/^@/, "").toLowerCase();
+  const isDark = process.argv.includes("--dark");
+  const targetUser = (process.argv.find(a => !a.startsWith("--")) || process.argv[2] || "ykro").replace(/^@/, "").toLowerCase();
   if (!fs.existsSync(CARDS_PATH)) {
     console.error("No cards.json found. Generate a card first with: node src/cli.js " + targetUser);
     process.exit(1);
