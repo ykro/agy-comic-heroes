@@ -3,15 +3,17 @@ import { fetchGitHubProfile } from "./github.js";
 import { buildComicCard } from "./comic-ai.js";
 import { loadCards, saveCard } from "./store.js";
 
+const CHALLENGERS_QUEUE = ["torvalds", "sindresorhus", "gaearon", "addyosmani", "tj"];
+
 async function main() {
   const args = process.argv.slice(2);
-  const isRefresh = args.includes("--refresh-featured");
+  const isNextChallenger = args.includes("--next-challenger") || args.includes("--refresh-featured");
 
   let targetUser = args.find((a) => !a.startsWith("--")) || "ykro";
-  if (isRefresh) {
-    const existing = loadCards();
-    targetUser = existing[0]?.username || "ykro";
-    console.log(`[SCHEDULED TASK] Refreshing Featured Hero card for @${targetUser}...`);
+  if (isNextChallenger) {
+    const existingUsers = new Set(loadCards().map((c) => c.username.toLowerCase()));
+    targetUser = CHALLENGERS_QUEUE.find((u) => !existingUsers.has(u)) || CHALLENGERS_QUEUE[0];
+    console.log(`[SCHEDULED RECRUITER] Forging new Challenger card for @${targetUser} into the Hall of Heroes...`);
   } else {
     console.log(`[COMIC FORGE] Fetching GitHub profile and repositories for @${targetUser}...`);
   }

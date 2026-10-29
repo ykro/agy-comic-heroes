@@ -361,11 +361,22 @@
         </div>
       `).join('');
 
+      const dossierHtml = card.powerTier ? `
+        <div class="power-item" style="background:#FFF8D6;margin-bottom:0.9rem;">
+          <div class="power-header">
+            <span>DOSSIER • ${card.powerTier}</span>
+            <a href="/badges/${card.username.toLowerCase()}.svg" target="_blank" style="font-family:'JetBrains Mono',monospace;font-size:0.75rem;color:#0066FF;">SVG BADGE ↗</a>
+          </div>
+          <div class="power-desc" style="margin-bottom:0.3rem;"><strong>Nemesis:</strong> ${card.archNemesis}</div>
+          <div class="power-desc">${card.originStory}</div>
+        </div>
+      ` : '';
+
       container.innerHTML = `
         <article class="comic-card" id="comicCard">
           <div class="card-top">
             <h2 class="hero-alias">${card.heroAlias}</h2>
-            <span class="issue-tag">${card.issueNumber || '#1'}</span>
+            <span class="issue-tag">${card.powerTier || card.issueNumber || '#1'}</span>
           </div>
           <div class="portrait-frame">
             <img class="comic-art" src="${card.comicImageUrl}" alt="${card.heroAlias}" />
@@ -375,6 +386,7 @@
             <div class="archetype-pill">${card.archetype}</div>
           </div>
           <div class="speech-bubble">${card.battleCry}</div>
+          ${dossierHtml}
           <div class="powers-list">${powersHtml}</div>
           <div class="card-footer">
             <span>@${card.username} • ${(card.topLanguages || []).join(' / ')}</span>

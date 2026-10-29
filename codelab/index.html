@@ -167,7 +167,7 @@
     }
     h2 {
       margin: 1.75rem 0 0.75rem 0;
-      font-size: 1.2rem;
+      font-size: 1.15rem;
     }
     p, li {
       line-height: 1.65;
@@ -179,7 +179,7 @@
       color: #F8FAFC;
       border-radius: 10px;
       padding: 1.15rem 1.25rem;
-      margin: 1rem 0 1.5rem;
+      margin: 0.85rem 0 1.4rem;
       position: relative;
       font-family: "JetBrains Mono", monospace;
       font-size: 0.88rem;
@@ -287,16 +287,22 @@
 
     <main class="content-area">
       <!-- PASO 1 -->
-      <section class="step-card active" data-title="1. Introducción y Arquitectura">
+      <section class="step-card active" data-title="1. Introducción y Modos de Demo">
         <div class="step-kicker">Paso 1 • Resumen del Proyecto</div>
         <h1>Construye "GitHub Comic Heroes" con Google Antigravity 2.0</h1>
-        <p>En esta guía práctica recorreremos los <strong>Pasos 2 al 9</strong> del Codelab oficial <em>Getting Started with Google Antigravity</em> construyendo una aplicación completa: un generador de cartas coleccionables estilo cómic a partir de cualquier usuario de GitHub.</p>
+        <p>En esta guía práctica recorreremos los <strong>Pasos 2 al 9</strong> del Codelab oficial <em>Getting Started with Google Antigravity</em> construyendo un generador de cartas coleccionables estilo cómic a partir de cualquier usuario de GitHub.</p>
+
+        <div class="callout">
+          <strong>¿Cómo usar Opción A vs. Opción B en cada paso?</strong><br/>
+          • <strong>Opción A (Carpeta vacía / Fresh Folder):</strong> Úsala si abres una carpeta en blanco al inicio del taller. Siguiendo el orden del Codelab oficial, la aplicación completa se construye en el <strong>Paso 7 (Artifacts con <code>/plan</code>)</strong>.<br/>
+          • <strong>Opción B (Sobre el proyecto ya creado):</strong> Úsala si ejecutas los pasos directamente sobre este repositorio ya clonado o después de haber generado la app, para interactuar con el servidor local y las cartas desde el primer momento.
+        </div>
 
         <div class="hero-showcase">
           <img src="./ykro-comic.png" alt="Carta estilo cómic generada con gemini-nano-banana-2.1" />
           <div>
-            <div style="font-family:'Bangers',cursive;font-size:1.75rem;letter-spacing:0.04em;">AGENTIC VIGILANTE (#154)</div>
-            <p style="margin:0.4rem 0 0.8rem;"><strong>Cómo funciona:</strong> Ingresas cualquier usuario de GitHub. La aplicación descarga su foto de perfil real y sus repositorios principales, transforma su foto en una ilustración de superhéroe de cómic usando <code>gemini-nano-banana-2.1</code> en Vertex AI y genera sus superpoderes y su frase de batalla.</p>
+            <div style="font-family:'Bangers',cursive;font-size:1.75rem;letter-spacing:0.04em;">AGENTIC VIGILANTE (#154) • OMEGA CLASS</div>
+            <p style="margin:0.4rem 0 0.8rem;"><strong>Cómo funciona:</strong> Ingresas cualquier usuario de GitHub. La aplicación descarga su foto de perfil real y sus repositorios principales, transforma su rostro en una ilustración de superhéroe de cómic usando <code>gemini-nano-banana-2.1</code> en Vertex AI y genera sus superpoderes, su frase de batalla y su insignia SVG.</p>
             <div style="font-family:'JetBrains Mono',monospace;font-size:0.8rem;background:#FFD60A;border:2px solid #0F172A;padding:0.4rem 0.65rem;display:inline-block;font-weight:600;">
               Node.js 22 • @google/genai • gemini-nano-banana-2.1 • Cloud Run
             </div>
@@ -314,13 +320,20 @@
       <section class="step-card" data-title="Paso 2: Instalación y Entorno">
         <div class="step-kicker">Paso 2 • Sección 2 del Codelab</div>
         <h1>Instalación y Verificación del Entorno</h1>
-        <p>Una vez instalados <strong>Antigravity 2.0</strong> y <strong>Antigravity IDE</strong>, verifica que tus credenciales de Google Cloud (Application Default Credentials) o tu llave de API estén activas en tu entorno para no escribir nunca llaves dentro del código:</p>
+        <p>Una vez instalados <strong>Antigravity 2.0</strong> y <strong>Antigravity IDE</strong>, verifica que tus credenciales de Google Cloud (Application Default Credentials) o tu <strong>API key</strong> estén activas en variables de entorno para no exponer ningún API key en el código:</p>
 
-        <div class="prompt-box"><div class="prompt-header"><span>Configuración en Terminal (Vertex AI ADC)</span><button class="copy-btn" onclick="copyText(this)">Copiar</button></div><div class="prompt-text">export GOOGLE_CLOUD_PROJECT="tu-proyecto-de-gcp"
-gcloud auth application-default login</div></div>
+        <div class="prompt-box"><div class="prompt-header"><span>Configuración en Terminal (Vertex AI ADC o API key)</span><button class="copy-btn" onclick="copyText(this)">Copiar</button></div><div class="prompt-text"># Con Vertex AI (ADC):
+export GOOGLE_CLOUD_PROJECT="tu-proyecto-de-gcp"
+gcloud auth application-default login
 
-        <p>Ejecuta este primer prompt en Antigravity para comprobar tu entorno local:</p>
-        <div class="prompt-box"><div class="prompt-header"><span>Prompt — Paso 2</span><button class="copy-btn" onclick="copyText(this)">Copiar Prompt</button></div><div class="prompt-text">Verifica mi entorno local para este taller: revisa las versiones instaladas de Node.js y Python, confirma qué proyecto de Google Cloud está activo en gcloud y lista el contenido actual de esta carpeta.</div></div>
+# Opcional si prefieres usar un API key:
+export GEMINI_API_KEY="tu-api-key"</div></div>
+
+        <h2>Opción A: En una carpeta vacía (Fresh Folder)</h2>
+        <div class="prompt-box"><div class="prompt-header"><span>Prompt 2A — Carpeta vacía</span><button class="copy-btn" onclick="copyText(this)">Copiar Prompt</button></div><div class="prompt-text">Verifica mi entorno local para empezar este taller desde cero: revisa las versiones instaladas de Node.js y Python, confirma qué proyecto de Google Cloud está configurado en gcloud y verifica que esta carpeta está lista para iniciar un proyecto nuevo.</div></div>
+
+        <h2>Opción B: Sobre el proyecto ya creado</h2>
+        <div class="prompt-box"><div class="prompt-header"><span>Prompt 2B — Proyecto ya creado</span><button class="copy-btn" onclick="copyText(this)">Copiar Prompt</button></div><div class="prompt-text">Verifica mi entorno local para este taller: revisa la versión de Node.js, confirma qué proyecto de Google Cloud está activo en gcloud y resume en 3 puntos los módulos que componen este repositorio de GitHub Comic Heroes (`src/`, `public/` y `.agents/skills/`).</div></div>
       </section>
 
       <!-- PASO 3 -->
@@ -329,45 +342,51 @@ gcloud auth application-default login</div></div>
         <h1>Interfaz de Antigravity 2.0: Proyectos y Conversaciones</h1>
         <p>En Antigravity 2.0, un <strong>Proyecto</strong> agrupa una o más carpetas y define de forma aislada los permisos de seguridad, la política de revisión de <em>Artifacts</em> y qué servidores MCP están activos.</p>
         <div class="callout">
-          <strong>Qué mostrar en la interfaz:</strong> Abre el ícono de engranaje (<strong>Project Settings</strong>) junto a tu proyecto para ver cómo agregar carpetas adicionales (<code>Add Folder</code>), configurar el <strong>Security Preset</strong> y elegir los MCP Servers permitidos.
+          <strong>Qué mostrar en la interfaz:</strong> Abre el ícono de engranaje (<strong>Project Settings</strong>) junto a tu proyecto para mostrar cómo agregar carpetas adicionales (<code>Add Folder</code>), configurar el <strong>Security Preset</strong> y elegir los MCP Servers permitidos.
         </div>
 
-        <h2>Conversación 1: Explorar datos reales de GitHub (<code>conv-datos-github</code>)</h2>
-        <div class="prompt-box"><div class="prompt-header"><span>Prompt 3A — Conversación 1</span><button class="copy-btn" onclick="copyText(this)">Copiar Prompt</button></div><div class="prompt-text">Consulta el perfil público de GitHub y los repositorios principales del usuario "ykro" usando la API pública de GitHub. Resume en una tabla su nombre, URL de su foto de perfil (avatar_url), sus 3 lenguajes principales y sus 3 repositorios más destacados.</div></div>
+        <h2>Opción A: En una carpeta vacía (2 conversaciones en paralelo)</h2>
+        <div class="prompt-box"><div class="prompt-header"><span>Prompt 3A (Hilo 1: conv-datos-github)</span><button class="copy-btn" onclick="copyText(this)">Copiar Prompt</button></div><div class="prompt-text">Consulta el perfil público de GitHub y los repositorios principales del usuario "ykro" usando la API pública de GitHub. Resume en una tabla su nombre, URL de su foto de perfil (`avatar_url`), sus 3 lenguajes principales y sus 3 repositorios más destacados.</div></div>
 
-        <h2>Conversación 2: Diseñar la identidad del superhéroe (<code>conv-idea-comic</code>)</h2>
-        <p>Haz clic en el botón <code>+</code> junto a tu proyecto para abrir una segunda conversación en paralelo:</p>
-        <div class="prompt-box"><div class="prompt-header"><span>Prompt 3B — Conversación 2</span><button class="copy-btn" onclick="copyText(this)">Copiar Prompt</button></div><div class="prompt-text">A partir de un desarrollador cuyos lenguajes principales son TypeScript, Python y Kotlin y que construye agentes autónomos de IA, propón un alias de Superhéroe de Cómic, 2 superpoderes con nivel de poder (1 a 99) basados en sus repositorios y un grito de batalla de una línea para un globo de diálogo.</div></div>
+        <div class="prompt-box"><div class="prompt-header"><span>Prompt 3A (Hilo 2: conv-idea-comic)</span><button class="copy-btn" onclick="copyText(this)">Copiar Prompt</button></div><div class="prompt-text">A partir de un desarrollador cuyos lenguajes principales son TypeScript, Python y Kotlin y que construye agentes autónomos de IA, propón un alias de Superhéroe de Cómic, 2 superpoderes con puntaje PWR (1 a 99) y un grito de batalla para un globo de diálogo.</div></div>
+
+        <h2>Opción B: Sobre el proyecto ya creado (2 conversaciones en paralelo)</h2>
+        <div class="prompt-box"><div class="prompt-header"><span>Prompt 3B (Hilo 1: conv-datos-github)</span><button class="copy-btn" onclick="copyText(this)">Copiar Prompt</button></div><div class="prompt-text">Revisa @src/github.js y consulta la API de GitHub para el usuario "ykro". Muéstrame en una tabla qué datos reales extrae (`avatarUrl`, `topLanguages`, `topRepos`) para alimentar el generador de cartas.</div></div>
+
+        <div class="prompt-box"><div class="prompt-header"><span>Prompt 3B (Hilo 2: conv-idea-comic)</span><button class="copy-btn" onclick="copyText(this)">Copiar Prompt</button></div><div class="prompt-text">Lee @data/cards.json y muéstrame qué cartas de superhéroes están actualmente guardadas en el Hall of Heroes, incluyendo su alias, arquetipo, modelo de imagen usado y superpoderes.</div></div>
       </section>
 
       <!-- PASO 4 -->
       <section class="step-card" data-title="Paso 4: Slash Commands (/browser)">
         <div class="step-kicker">Paso 4 • Sección 4 del Codelab</div>
         <h1>Slash Commands: Inspección en Vivo con <code>/browser</code></h1>
-        <p>Al escribir <code>/</code> en el chat verás los comandos disponibles (<code>/plan</code>, <code>/browser</code>, <code>/schedule</code>, <code>/boost</code>, <code>/teamwork</code>, <code>/grill-me</code>, <code>/learn</code>).</p>
-        <p>El comando <code>/browser</code> lanza un subagente conectado a Google Chrome capaz de navegar, interactuar con botones y tomar capturas de pantalla.</p>
+        <p>Al escribir <code>/</code> en el chat verás los comandos disponibles (<code>/plan</code>, <code>/browser</code>, <code>/schedule</code>, <code>/boost</code>, <code>/teamwork</code>, <code>/grill-me</code>, <code>/learn</code>). El comando <code>/browser</code> abre un subagente en Google Chrome que navega y captura evidencia visual.</p>
 
-        <h2>Opción A: Inspeccionar el perfil de GitHub en vivo (ideal en carpeta recién creada)</h2>
-        <div class="prompt-box"><div class="prompt-header"><span>Prompt 4A — /browser en GitHub</span><button class="copy-btn" onclick="copyText(this)">Copiar Prompt</button></div><div class="prompt-text">/browser Abre https://github.com/ykro en Chrome, identifica la foto de perfil, la biografía y los repositorios fijados o recientes visibles en la página, y devuélveme un resumen junto con una captura de pantalla.</div></div>
+        <h2>Opción A: En una carpeta vacía (Inspeccionar el perfil de GitHub en vivo)</h2>
+        <div class="prompt-box"><div class="prompt-header"><span>Prompt 4A — /browser en GitHub</span><button class="copy-btn" onclick="copyText(this)">Copiar Prompt</button></div><div class="prompt-text">/browser Abre https://github.com/ykro en Chrome, identifica la foto de perfil, la biografía y los repositorios principales visibles en la página, y devuélveme un resumen junto con una captura de pantalla.</div></div>
 
-        <h2>Opción B: Probar visualmente nuestra app de Cartas Cómic</h2>
-        <div class="prompt-box"><div class="prompt-header"><span>Prompt 4B — /browser en localhost:8080</span><button class="copy-btn" onclick="copyText(this)">Copiar Prompt</button></div><div class="prompt-text">/browser Asegúrate de que el servidor (`node src/server.js`) esté corriendo en el puerto 8080. Abre http://localhost:8080 en Chrome, verifica que se muestre la carta de GitHub Comic Heroes con su retrato estilo cómic, la insignia del avatar original, el globo de diálogo y los superpoderes, y toma una captura de pantalla.</div></div>
+        <h2>Opción B: Sobre el proyecto ya creado (Probar nuestra app de Cartas Cómic)</h2>
+        <div class="prompt-box"><div class="prompt-header"><span>Prompt 4B — /browser en localhost:8080</span><button class="copy-btn" onclick="copyText(this)">Copiar Prompt</button></div><div class="prompt-text">/browser Asegúrate de que el servidor (`node src/server.js`) esté corriendo en el puerto 8080. Abre http://localhost:8080 en Chrome, verifica que se muestre la carta de GitHub Comic Heroes con su retrato generado por Nano Banana 2.1, la insignia circular de la foto original de GitHub, el globo de diálogo y los superpoderes, y toma una captura de pantalla.</div></div>
       </section>
 
       <!-- PASO 5 -->
       <section class="step-card" data-title="Paso 5: Tareas Programadas">
         <div class="step-kicker">Paso 5 • Sección 5 del Codelab</div>
-        <h1>Scheduling Commands: Automatización con <code>/schedule</code></h1>
-        <p>Puedes programar tareas recurrentes o temporizadores únicos desde la sección <strong>Schedule</strong> del menú izquierdo o directamente con <code>/schedule</code>. Antigravity te notificará automáticamente en cuanto la tarea se dispare.</p>
+        <h1>Scheduling Commands: Reclutador Autónomo con <code>/schedule</code></h1>
+        <p>En lugar de un recordatorio estático, usamos <code>/schedule</code> para programar un <strong>Reclutador Autónomo de Retadores</strong> en segundo plano: a los 60 segundos se dispara solo, recluta al siguiente desarrollador famoso de la fila (<code>@torvalds</code>, <code>@sindresorhus</code>, <code>@gaearon</code>), forja su carta con <code>gemini-nano-banana-2.1</code> y te despierta con una notificación cuando ya aparece en el <em>Hall of Heroes</em>.</p>
 
-        <div class="prompt-box"><div class="prompt-header"><span>Prompt — Paso 5 (/schedule)</span><button class="copy-btn" onclick="copyText(this)">Copiar Prompt</button></div><div class="prompt-text">/schedule Programa un temporizador único dentro de 60 segundos que consulte la API de GitHub para el usuario "ykro" (o ejecute `node src/cli.js --refresh-featured` si ya existe el CLI) y me envíe una notificación confirmando el total de repositorios públicos y estrellas actuales.</div></div>
+        <h2>Opción A: En una carpeta vacía (Radar de Retador en GitHub)</h2>
+        <div class="prompt-box"><div class="prompt-header"><span>Prompt 5A — Carpeta vacía</span><button class="copy-btn" onclick="copyText(this)">Copiar Prompt</button></div><div class="prompt-text">/schedule Programa un temporizador único dentro de 60 segundos que consulte en la API pública de GitHub el perfil de "torvalds" y sus repositorios más recientes, y me notifique con una propuesta de alias de superhéroe y nivel de poder para incluirlo como retador del día.</div></div>
+
+        <h2>Opción B: Sobre el proyecto ya creado (Forjar nuevo retador en la galería)</h2>
+        <div class="prompt-box"><div class="prompt-header"><span>Prompt 5B — Reclutador Autónomo</span><button class="copy-btn" onclick="copyText(this)">Copiar Prompt</button></div><div class="prompt-text">/schedule Programa un temporizador único dentro de 60 segundos que ejecute `node src/cli.js --next-challenger` para forjar automáticamente la carta estilo cómic (con `gemini-nano-banana-2.1`) del siguiente retador en la fila y agregarlo a `data/cards.json`. Cuando termine, notifícame qué usuario fue reclutado, su alias de superhéroe y sus superpoderes.</div></div>
       </section>
 
       <!-- PASO 6 -->
       <section class="step-card" data-title="Paso 6: Servidores MCP y Cloud Run">
         <div class="step-kicker">Paso 6 • Sección 6 del Codelab</div>
         <h1>Model Context Protocol (MCP) y Despliegue a Cloud Run</h1>
-        <p>Ve a <strong>Settings &rarr; Customizations &rarr; Installed MCP Servers</strong> y haz clic en <strong>Open MCP Config</strong> (<code>~/.gemini/config/mcp_config.json</code>) para mostrar cómo se conectan los servidores MCP:</p>
+        <p>Ve a <strong>Settings &rarr; Customizations &rarr; Installed MCP Servers</strong> y haz clic en <strong>Open MCP Config</strong> (<code>~/.gemini/config/mcp_config.json</code>) para ver la configuración exacta del Codelab:</p>
 
         <div class="prompt-box"><div class="prompt-header"><span>~/.gemini/config/mcp_config.json</span><button class="copy-btn" onclick="copyText(this)">Copiar</button></div><div class="prompt-text">{
   "mcpServers": {
@@ -378,48 +397,54 @@ gcloud auth application-default login</div></div>
   }
 }</div></div>
 
-        <p>Pide al agente listar o desplegar el servicio en Google Cloud Run usando el servidor MCP:</p>
-        <div class="prompt-box"><div class="prompt-header"><span>Prompt — Paso 6 (MCP Cloud Run)</span><button class="copy-btn" onclick="copyText(this)">Copiar Prompt</button></div><div class="prompt-text">Usa el servidor MCP de Cloud Run (`list_services` o `deploy_local_folder`) para desplegar este proyecto en Google Cloud Run (región `us-central1`, servicio `github-comic-cards`) y devuélveme la URL pública.</div></div>
+        <h2>Opción A: En una carpeta vacía (Inspeccionar servicios activos en Cloud Run)</h2>
+        <div class="prompt-box"><div class="prompt-header"><span>Prompt 6A — Listar y verificar servicio</span><button class="copy-btn" onclick="copyText(this)">Copiar Prompt</button></div><div class="prompt-text">Usa el servidor MCP de Cloud Run (`list_services` y `get_service`) para listar los servicios desplegados en mi proyecto de Google Cloud en la región `us-central1` y muéstrame la URL pública del servicio `github-comic-cards`.</div></div>
+
+        <h2>Opción B: Sobre el proyecto ya creado (Desplegar carpeta local a Cloud Run)</h2>
+        <div class="prompt-box"><div class="prompt-header"><span>Prompt 6B — Desplegar a Cloud Run</span><button class="copy-btn" onclick="copyText(this)">Copiar Prompt</button></div><div class="prompt-text">Usa la herramienta `deploy_local_folder` (o `get_service`) del servidor MCP de Cloud Run para desplegar o verificar este proyecto en Google Cloud Run (región `us-central1`, servicio `github-comic-cards`) y devuélveme la URL pública activa.</div></div>
       </section>
 
       <!-- PASO 7 -->
       <section class="step-card" data-title="Paso 7: Artifacts con /plan">
         <div class="step-kicker">Paso 7 • Sección 7 del Codelab</div>
         <h1>Artifacts: Plan de Implementación y Walkthrough</h1>
-        <p>Cuando ejecutas <code>/plan</code>, Antigravity genera un <strong>Implementation Plan</strong> en el <strong>Auxiliary Pane</strong> (esquina superior derecha) para que puedas revisarlo y aprobarlo con <strong>Proceed</strong> antes de modificar archivos, y al finalizar genera un <strong>Walkthrough</strong> con el resumen y los diffs.</p>
+        <p>Al ejecutar <code>/plan</code>, Antigravity genera un <strong>Implementation Plan</strong> en el <strong>Auxiliary Pane</strong> (arriba a la derecha) esperando tu confirmación con <strong>Proceed</strong>, y al terminar entrega el <strong>Walkthrough</strong> con el resumen y los diffs.</p>
 
-        <h2>Opción A: Construir toda la aplicación desde cero con <code>/plan</code></h2>
-        <div class="prompt-box"><div class="prompt-header"><span>Prompt 7A — Construir App Completa</span><button class="copy-btn" onclick="copyText(this)">Copiar Prompt</button></div><div class="prompt-text">/plan Diseña y construye la aplicación "GitHub Comic Heroes" en Node.js (usando el skill global `github-comic-heroes` si está disponible):
+        <h2>Opción A: En una carpeta vacía (Construir toda la app desde cero con <code>/plan</code>)</h2>
+        <div class="prompt-box"><div class="prompt-header"><span>Prompt 7A — Construir App Completa</span><button class="copy-btn" onclick="copyText(this)">Copiar Prompt</button></div><div class="prompt-text">/plan Diseña y construye la aplicación "GitHub Comic Heroes" en Node.js siguiendo el skill global `github-comic-heroes`:
 1. `src/github.js`: consulta la API pública de GitHub (`https://api.github.com/users/<username>` y `/repos`), obtiene los lenguajes principales, top 3 repositorios y descarga la foto de perfil (`avatar_url`) en base64.
-2. `src/comic-ai.js`: usa `@google/genai` con Vertex AI (`vertexai: true`, `location: "global"`) para transformar en paralelo la foto de perfil real en una ilustración de superhéroe de cómic americano con el modelo `gemini-nano-banana-2.1` (`responseModalities: ["IMAGE"]`, `aspectRatio: "3:4"`) y generar con `gemini-3.8-flash` el alias de héroe, 2 superpoderes con puntaje PWR basados en sus repositorios y un grito de batalla.
-3. `src/cli.js`, `src/server.js` y `public/index.html`: interfaz web estilo cómic en el puerto 8080 con trama halftone, insignia circular de la foto original junto al retrato ilustrado y galería Hall of Heroes.
-4. Genera también el archivo `demo_bad_code.py` y el skill `.agents/skills/code-review/SKILL.md` para la etapa de auditoría. No uses diagramas Mermaid en el plan.</div></div>
+2. `src/comic-ai.js`: usa `@google/genai` con Vertex AI (`vertexai: true`, `location: "global"`) sin ningún API key en el código para transformar en paralelo la foto de perfil en una ilustración de superhéroe de cómic americano con `gemini-nano-banana-2.1` (`responseModalities: ["IMAGE"]`, `aspectRatio: "3:4"`) y generar con `gemini-3.8-flash` el alias de héroe, 2 superpoderes con puntaje PWR basados en sus repositorios y un grito de batalla.
+3. `src/cli.js` (con soporte para `<username>` y `--next-challenger`), `src/server.js` y `public/index.html`: interfaz web estilo cómic en el puerto 8080 con trama halftone, insignia circular de la foto original junto al retrato ilustrado y galería Hall of Heroes.
+4. Incluye el skill del proyecto `.agents/skills/comic-director/SKILL.md` y su script `.agents/skills/comic-director/scripts/hero_ranker.mjs`. No uses diagramas Mermaid en el plan.</div></div>
 
-        <h2>Opción B: Extender la aplicación en vivo con <code>/plan</code></h2>
-        <div class="prompt-box"><div class="prompt-header"><span>Prompt 7B — Agregar Insignia SVG para GitHub README</span><button class="copy-btn" onclick="copyText(this)">Copiar Prompt</button></div><div class="prompt-text">/plan Agrega un endpoint `/api/card/:username/badge.svg` en `src/server.js` y un botón "Copiar Insignia para README" en `public/index.html` para que cualquier desarrollador pueda incrustar una tarjeta SVG con su alias de superhéroe, arquetipo y nivel de poder en su perfil de GitHub. No uses diagramas Mermaid.</div></div>
+        <h2>Opción B: Sobre el proyecto ya creado (Agregar Modo Duelo VS con <code>/plan</code>)</h2>
+        <div class="prompt-box"><div class="prompt-header"><span>Prompt 7B — Agregar Modo Duelo de Superhéroes</span><button class="copy-btn" onclick="copyText(this)">Copiar Prompt</button></div><div class="prompt-text">/plan Agrega una función de "Modo Duelo (VS Battle)" en `src/server.js` (`GET /api/battle?hero1=ykro&hero2=torvalds`) y un botón en `public/index.html` que compare dos cartas del Hall of Heroes, sume sus puntos de poder (PWR), repositorios y estrellas, y declare un ganador con una narración estilo cómic. No uses diagramas Mermaid en el plan.</div></div>
       </section>
 
       <!-- PASO 8 -->
       <section class="step-card" data-title="Paso 8: Antigravity IDE">
         <div class="step-kicker">Paso 8 • Sección 8 del Codelab</div>
         <h1>Antigravity IDE: Del Centro de Mando al Editor</h1>
-        <p>En el <strong>Auxiliary Panel</strong> (esquina superior derecha), haz clic en <strong>Open IDE</strong> para abrir el proyecto directamente en <strong>Antigravity IDE</strong>.</p>
-        <p>Desde el panel lateral del agente dentro del IDE puedes usar menciones <code>@</code> para consultar o editar funciones específicas:</p>
+        <p>En el <strong>Auxiliary Panel</strong> (esquina superior derecha), haz clic en <strong>Open IDE</strong> para abrir el proyecto en <strong>Antigravity IDE</strong> y usar menciones <code>@</code> desde el Agent Panel lateral.</p>
 
-        <div class="prompt-box"><div class="prompt-header"><span>Prompt — Paso 8 (En Antigravity IDE)</span><button class="copy-btn" onclick="copyText(this)">Copiar Prompt</button></div><div class="prompt-text">Explica cómo la función `generateComicPortrait` en @src/comic-ai.js envía los bytes de la foto de perfil de GitHub como `inlineData` al modelo `gemini-nano-banana-2.1` en Vertex AI y cómo maneja el fallback automático.</div></div>
+        <h2>Opción A: Tras construir el proyecto en el Paso 7</h2>
+        <div class="prompt-box"><div class="prompt-header"><span>Prompt 8A — Concurrencia en @src/comic-ai.js</span><button class="copy-btn" onclick="copyText(this)">Copiar Prompt</button></div><div class="prompt-text">En @src/comic-ai.js, explícame cómo se ejecutan en paralelo `generateComicLore` (`gemini-3.8-flash`) y `generateComicPortrait` (`gemini-nano-banana-2.1`) con `Promise.all` para reducir el tiempo de generación de cada carta.</div></div>
+
+        <h2>Opción B: Sobre el proyecto ya creado</h2>
+        <div class="prompt-box"><div class="prompt-header"><span>Prompt 8B — Flujo de imagen y almacenamiento</span><button class="copy-btn" onclick="copyText(this)">Copiar Prompt</button></div><div class="prompt-text">Revisa @src/comic-ai.js y @src/store.js, y explícame cómo viaja la foto de perfil de GitHub en `inlineData` hacia `gemini-nano-banana-2.1` y cómo se guarda la imagen resultante en `public/generated/`.</div></div>
       </section>
 
       <!-- PASO 9 -->
-      <section class="step-card" data-title="Paso 9: Skills (.agents/skills)">
+      <section class="step-card" data-title="Paso 9: Skills (comic-director)">
         <div class="step-kicker">Paso 9 • Sección 9 del Codelab</div>
-        <h1>Skills: Carga Progresiva con <code>.agents/skills/</code></h1>
-        <p>Los <strong>Skills</strong> empaquetan reglas e instrumentos de verificación en <code>.agents/skills/&lt;nombre&gt;/SKILL.md</code>. Al iniciar, el agente solo lee el nombre y la descripción, y carga las instrucciones completas únicamente cuando tu solicitud coincide con el propósito del skill.</p>
+        <h1>Skills: Dossier de Cómic e Insignia SVG con <code>.agents/skills/</code></h1>
+        <p>En lugar de revisar un archivo genérico ajeno a la demo, creamos un Skill propio del proyecto en <code>.agents/skills/comic-director/SKILL.md</code> (con su script ejecutable <code>scripts/hero_ranker.mjs</code>). Gracias a <em>Progressive Disclosure</em>, Antigravity solo carga estas reglas cuando pides enriquecer el dossier de un héroe o exportar su insignia SVG para el README de GitHub.</p>
 
-        <h2>1. Auditar <code>@demo_bad_code.py</code> con el Skill</h2>
-        <div class="prompt-box"><div class="prompt-header"><span>Prompt 9A — Auditar Archivo</span><button class="copy-btn" onclick="copyText(this)">Copiar Prompt</button></div><div class="prompt-text">Revisa el archivo @demo_bad_code.py</div></div>
+        <h2>Opción A: Si quieres pedirle al agente que cree y ejecute el Skill en vivo</h2>
+        <div class="prompt-box"><div class="prompt-header"><span>Prompt 9A — Crear y aplicar el Skill comic-director</span><button class="copy-btn" onclick="copyText(this)">Copiar Prompt</button></div><div class="prompt-text">Crea un skill de proyecto en `.agents/skills/comic-director/SKILL.md` (junto con su script en `scripts/hero_ranker.mjs`) que tome cualquier héroe de `data/cards.json`, calcule su rango oficial (`OMEGA CLASS`, `ALPHA CLASS`), le asigne un archienemigo según su lenguaje principal, redacte su historia de origen estilo cómic clásico y exporte una insignia SVG coleccionable en `public/badges/<username>.svg`. Luego aplícalo sobre la carta de @ykro.</div></div>
 
-        <h2>2. Reparar y Verificar con el Script del Skill</h2>
-        <div class="prompt-box"><div class="prompt-header"><span>Prompt 9B — Reparar y Verificar</span><button class="copy-btn" onclick="copyText(this)">Copiar Prompt</button></div><div class="prompt-text">Corrige todos los problemas detectados en @demo_bad_code.py (maneja el caso en que `get_user_data` devuelve `None` para el usuario 3, elimina el `time.sleep(0.1)` bloqueante dentro del ciclo y evita sombrear el nombre reservado `id`), y ejecuta el validador `python3 .agents/skills/code-review/scripts/ast_audit.py demo_bad_code.py` para comprobar que pasa con 0 violaciones.</div></div>
+        <h2>Opción B: Sobre el proyecto ya creado (Invocar el Skill directamente)</h2>
+        <div class="prompt-box"><div class="prompt-header"><span>Prompt 9B — Enriquecer carta y generar SVG con comic-director</span><button class="copy-btn" onclick="copyText(this)">Copiar Prompt</button></div><div class="prompt-text">Usa el skill comic-director para enriquecer el dossier de la carta de "ykro" en @data/cards.json (calculando su rango oficial, su archienemigo técnico y redactando una historia de origen épica basada en sus repositorios reales) y genera su insignia coleccionable SVG en `public/badges/ykro.svg`.</div></div>
       </section>
 
       <div class="nav-footer">

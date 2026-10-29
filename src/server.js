@@ -75,6 +75,12 @@ const server = http.createServer(async (req, res) => {
     return;
   }
 
+  if (reqUrl.pathname.startsWith("/badges/")) {
+    const safeName = path.basename(reqUrl.pathname);
+    serveStaticFile(res, path.join(PUBLIC_DIR, "badges", safeName));
+    return;
+  }
+
   if (reqUrl.pathname === "/" || reqUrl.pathname === "/index.html") {
     serveStaticFile(res, path.join(PUBLIC_DIR, "index.html"));
     return;
