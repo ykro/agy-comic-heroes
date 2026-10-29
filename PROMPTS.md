@@ -107,7 +107,7 @@ Usa el servidor MCP de Cloud Run (`list_services` y `get_service`) para revisar 
 
 ### Opción B (Proyecto ya creado)
 ```text
-Usa el servidor MCP de Cloud Run (`deploy_local_folder` o `get_service`) para hacer deploy o verificar este proyecto en el servicio `github-comic-cards` del proyecto `ai-experiments-487722` en `us-central1` y devuélveme la URL pública.
+Usa el servidor MCP de Cloud Run (`get_service` y `get_service_log`) para verificar el estado del servicio `github-comic-cards` del proyecto `ai-experiments-487722` en `us-central1`, revisar sus últimos logs y devolverme la URL pública activa.
 ```
 
 ---
