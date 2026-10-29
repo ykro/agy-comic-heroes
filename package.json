@@ -7,7 +7,8 @@
   "scripts": {
     "start": "node src/server.js",
     "cli": "node src/cli.js",
-    "featured": "node src/cli.js --refresh-featured"
+    "enemy": "node src/cli.js --next-enemy",
+    "demo:reset": "git checkout -- data/cards.json public/badges public/generated"
   },
   "dependencies": {
     "@google/genai": "^1.41.0"

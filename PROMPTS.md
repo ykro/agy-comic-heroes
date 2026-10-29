@@ -8,12 +8,12 @@ Todo el código está disponible en este [repo](https://github.com/ykro/agy-comi
 
 La aplicación toma un usuario de GitHub, descarga su foto de perfil y sus repositorios principales desde el API de GitHub y genera una carta estilo cómic americano usando [Vertex AI](https://cloud.google.com/vertex-ai/docs) con `gemini-nano-banana-2.1` y `gemini-3.8-flash`.
 
-En cada paso hay dos opciones listas para copiar durante la sesión en vivo:
+En cada paso hay dos opciones listas para copiar durante la sesión en vivo.
 
-- **Opción A (Carpeta vacía):** útil si abres una carpeta nueva al iniciar el taller y sigues el orden del codelab oficial, donde la aplicación completa se construye en el **Paso 7** con `/plan`.
-- **Opción B (Proyecto ya creado):** útil si trabajas directamente sobre este repositorio para probar el código, el servidor local y las cartas desde el primer paso.
+- **Opción A (Carpeta vacía)** sirve cuando abres una carpeta nueva al iniciar el taller y sigues el orden del codelab oficial, donde la aplicación completa se construye en el **Paso 7** con `/plan`.
+- **Opción B (Proyecto ya creado)** sirve cuando trabajas directamente sobre este repositorio para probar el código, el servidor local y las cartas desde el primer paso.
 
-Antes de arrancar la demostración conviene verificar cinco puntos en tu máquina:
+Antes de arrancar la demostración conviene verificar cinco puntos en tu máquina.
 1. Tener Google Chrome abierto como navegador predeterminado para que `/browser` conecte de inmediato.
 2. Tener Antigravity 2.0 y Antigravity IDE instalados.
 3. Tener las credenciales de Google Cloud activas con `gcloud auth application-default login` y `export GOOGLE_CLOUD_PROJECT="ai-experiments-487722"`, o bien definir `export GEMINI_API_KEY="tu-api-key"`.

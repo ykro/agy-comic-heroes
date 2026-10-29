@@ -10,15 +10,19 @@ const VILLAINS_BY_LANG = {
   JavaScript: "BARON UNDEFINED & THE CALLBACK ABYSS",
   Python: "THE GIL PHANTASM & BARON INDENTATION",
   Kotlin: "LORD NULL-POINTER & THE ANR TITAN",
+  Swift: "COUNT EXC-BAD-ACCESS & THE MAIN-THREAD FREEZE",
+  Java: "EMPEROR ABSTRACT-FACTORY & THE HEAP OVERFLOW",
   Rust: "THE BORROW-CHECKER INQUISITOR",
-  Go: "GENERAL NIL-PANIC"
+  Go: "GENERAL NIL-PANIC",
+  Dart: "CAPTAIN WIDGET-REBUILD & THE JANK PHANTOM"
 };
 
 function computeTier(card) {
   const avgPower =
     (card.superpowers || []).reduce((acc, p) => acc + Number(p.power || 85), 0) /
     Math.max(1, (card.superpowers || []).length);
-  const score = Math.min(99, Math.round(avgPower + Math.min(10, (card.publicRepos || 10) / 15)));
+  const rawScore = Math.round(avgPower + Math.min(6, (card.publicRepos || 10) / 25));
+  const score = Math.min(99, Math.max(70, rawScore));
   if (score >= 92) return { tier: "OMEGA CLASS", score, color: "#FF3B30" };
   if (score >= 82) return { tier: "ALPHA CLASS", score, color: "#0066FF" };
   return { tier: "VANGUARD CLASS", score, color: "#0F766E" };
@@ -27,26 +31,26 @@ function computeTier(card) {
 function buildOriginStory(card) {
   const repos = (card.topRepos || []).map((r) => r.name).slice(0, 3).join(", ");
   const langs = (card.topLanguages || ["Code"]).join(" & ");
-  return `Forged across ${card.publicRepos} repositories of ${langs}, @${card.username} wields the artifacts of ${repos || "open source"} to defend production from catastrophic outages.`;
+  return `Across ${card.publicRepos} repositories of ${langs}, @${card.username} wields ${repos || "open source"} against ${card.archNemesis || "production chaos"}.`;
 }
 
-function renderBadgeSvg(card) {
+function renderBadgeSvg(card, tierColor = "#FF3B30") {
   const safeAlias = String(card.heroAlias || "COMIC HERO").replace(/[<>&"]/g, "");
   const safeArch = String(card.archetype || "Vigilante").replace(/[<>&"]/g, "");
   const safeUser = String(card.username || "dev").replace(/[<>&"]/g, "");
   const safeTier = String(card.powerTier || "OMEGA CLASS").replace(/[<>&"]/g, "");
   const safeVillain = String(card.archNemesis || "DOCTOR BUG").replace(/[<>&"]/g, "");
-  const langs = (card.topLanguages || []).join(" · ");
+  const langs = (card.topLanguages || []).join(" · ").replace(/[<>&"]/g, "");
 
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 190" width="680" height="190">
   <rect x="4" y="4" width="672" height="182" rx="14" fill="#FFFDF7" stroke="#0E1117" stroke-width="5"/>
   <rect x="4" y="4" width="672" height="46" rx="10" fill="#0E1117"/>
   <text x="22" y="34" font-family="'Bangers', 'Impact', sans-serif" font-size="25" fill="#FFD60A" letter-spacing="1.5">${safeAlias} — @${safeUser}</text>
-  <rect x="520" y="13" width="140" height="28" rx="6" fill="#FF3B30"/>
+  <rect x="520" y="13" width="140" height="28" rx="6" fill="${tierColor}"/>
   <text x="590" y="32" text-anchor="middle" font-family="monospace" font-size="13" font-weight="bold" fill="#FFFFFF">${safeTier}</text>
 
   <text x="24" y="82" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="16" font-weight="800" fill="#0E1117">ARCHETYPE: ${safeArch} (${langs})</text>
-  <text x="24" y="112" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="14" font-weight="600" fill="#334155">NEMESIS: ${safeVillain}</text>
+  <text x="24" y="112" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="14" font-weight="700" fill="#D92D20">ENEMIGO PRINCIPAL: ${safeVillain}</text>
   <rect x="24" y="128" width="632" height="40" rx="8" fill="#FFD60A" stroke="#0E1117" stroke-width="2.5"/>
   <text x="38" y="153" font-family="monospace" font-size="13" font-weight="bold" fill="#0E1117">${String(card.battleCry || "").replace(/[<>&"]/g, "").slice(0, 78)}</text>
 </svg>`;
@@ -66,18 +70,19 @@ function main() {
     process.exit(1);
   }
 
-  const { tier, score } = computeTier(card);
+  const { tier, score, color } = computeTier(card);
   const mainLang = (card.topLanguages && card.topLanguages[0]) || "TypeScript";
   card.powerTier = tier;
   card.overallRating = score;
-  card.archNemesis = VILLAINS_BY_LANG[mainLang] || "LORD DOWNTIME & THE MEMORY LEAKS";
-  card.originStory = card.originStory || buildOriginStory(card);
+  card.archNemesis = card.archNemesis || VILLAINS_BY_LANG[mainLang] || "LORD DOWNTIME & THE MEMORY LEAKS";
+  card.originStory = buildOriginStory(card);
 
   fs.writeFileSync(CARDS_PATH, JSON.stringify(cards, null, 2));
 
   if (!fs.existsSync(BADGES_DIR)) fs.mkdirSync(BADGES_DIR, { recursive: true });
-  const badgePath = path.join(BADGES_DIR, `${card.username.toLowerCase()}.svg`);
-  fs.writeFileSync(badgePath, renderBadgeSvg(card));
+  const safeFile = card.username.toLowerCase().replace(/[^a-z0-9-_]/g, "");
+  const badgePath = path.join(BADGES_DIR, `${safeFile}.svg`);
+  fs.writeFileSync(badgePath, renderBadgeSvg(card, color));
 
   console.log("========================================================================");
   console.log(`COMIC DIRECTOR SKILL | ENRICHED HERO DOSSIER`);
@@ -86,7 +91,7 @@ function main() {
   console.log(`Power Tier   : ${card.powerTier} (Rating: ${card.overallRating}/99)`);
   console.log(`Arch-Nemesis : ${card.archNemesis}`);
   console.log(`Origin Story : ${card.originStory}`);
-  console.log(`SVG Badge    : public/badges/${card.username.toLowerCase()}.svg`);
+  console.log(`SVG Badge    : public/badges/${safeFile}.svg`);
   console.log("========================================================================");
 }
 

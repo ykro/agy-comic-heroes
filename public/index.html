@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>GitHub Comic Heroes — Trading Card Forge</title>
+  <title>GitHub Comic Heroes — Google Antigravity 2.0</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bangers&family=JetBrains+Mono:wght@600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
@@ -27,7 +27,7 @@
       padding: 2rem 1.25rem 4rem;
     }
     .container {
-      max-width: 1120px;
+      max-width: 1160px;
       margin: 0 auto;
     }
     .masthead {
@@ -102,7 +102,7 @@
       gap: 2.25rem;
       align-items: start;
     }
-    @media (max-width: 900px) {
+    @media (max-width: 920px) {
       .main-grid { grid-template-columns: 1fr; }
     }
     /* COMIC TRADING CARD */
@@ -195,6 +195,41 @@
       box-shadow: 4px 4px 0 var(--ink);
       position: relative;
     }
+    /* ENEMY BANNER ON CARD */
+    .nemesis-box {
+      border: 3px solid var(--ink);
+      background: #18181B;
+      color: #FFFFFF;
+      padding: 0.7rem 0.85rem;
+      margin-bottom: 0.9rem;
+      box-shadow: 4px 4px 0 var(--red);
+      display: grid;
+      grid-template-columns: 52px 1fr;
+      gap: 0.75rem;
+      align-items: center;
+    }
+    .nemesis-label {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.7rem;
+      color: var(--yellow);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .nemesis-name {
+      font-family: "Bangers", cursive;
+      font-size: 1.25rem;
+      letter-spacing: 0.04em;
+      color: #FF6B6B;
+      margin: 0.1rem 0 0.2rem;
+    }
+    .nemesis-origin {
+      font-size: 0.78rem;
+      color: #E2E8F0;
+      line-height: 1.35;
+    }
     .powers-list {
       display: grid;
       gap: 0.6rem;
@@ -234,21 +269,99 @@
       font-size: 0.78rem;
       font-weight: 700;
     }
-    /* RIGHT PANEL: DETAILS & GALLERY */
+    /* RIGHT PANEL: DETAILS, ENEMY ARENA & GALLERY */
     .panel-box {
       background: #FFFFFF;
       border: 4px solid var(--ink);
       box-shadow: 8px 8px 0 var(--ink);
-      padding: 1.5rem;
-      margin-bottom: 1.75rem;
+      padding: 1.4rem;
+      margin-bottom: 1.65rem;
     }
     .panel-heading {
       font-family: "Bangers", cursive;
-      font-size: 1.9rem;
+      font-size: 1.85rem;
       letter-spacing: 0.04em;
-      margin: 0 0 1rem 0;
+      margin: 0 0 0.9rem 0;
       border-bottom: 3px solid var(--ink);
-      padding-bottom: 0.4rem;
+      padding-bottom: 0.35rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    /* ENEMY GRAPHICAL ARENA */
+    .enemy-arena {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      gap: 1rem;
+      align-items: center;
+      background: #18181B;
+      color: #FFFFFF;
+      border: 3px solid var(--ink);
+      padding: 1rem;
+      margin-bottom: 0.85rem;
+    }
+    @media (max-width: 640px) {
+      .enemy-arena { grid-template-columns: 1fr; text-align: center; }
+    }
+    .fighter-card {
+      background: #27272A;
+      border: 2.5px solid #FFFFFF;
+      padding: 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .fighter-card.enemy-side {
+      border-color: var(--red);
+      background: #2A1215;
+    }
+    .fighter-thumb {
+      width: 66px;
+      height: 84px;
+      object-fit: cover;
+      border: 2px solid var(--yellow);
+      flex-shrink: 0;
+      background: #0E1117;
+    }
+    .vs-badge {
+      font-family: "Bangers", cursive;
+      font-size: 2.2rem;
+      background: var(--yellow);
+      color: var(--ink);
+      border: 3px solid var(--ink);
+      box-shadow: 4px 4px 0 var(--red);
+      width: 58px;
+      height: 58px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto;
+    }
+    .battle-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+    .battle-select {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.85rem;
+      font-weight: 700;
+      padding: 0.5rem 0.75rem;
+      border: 2.5px solid var(--ink);
+      background: var(--paper);
+    }
+    .battle-result {
+      margin-top: 0.75rem;
+      padding: 0.7rem 0.9rem;
+      background: #FFF8D6;
+      border: 2.5px solid var(--ink);
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.82rem;
+      font-weight: 700;
+      display: none;
     }
     .repos-grid {
       display: grid;
@@ -276,7 +389,7 @@
     }
     .gallery-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(175px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
       gap: 1rem;
     }
     .mini-card {
@@ -285,8 +398,13 @@
       cursor: pointer;
       box-shadow: 4px 4px 0 var(--ink);
       transition: transform 0.1s ease;
+      position: relative;
     }
     .mini-card:hover { transform: translate(-2px, -2px); box-shadow: 6px 6px 0 var(--ink); }
+    .mini-card.active-mini {
+      border-color: var(--blue);
+      box-shadow: 5px 5px 0 var(--blue);
+    }
     .mini-card img {
       width: 100%;
       aspect-ratio: 3 / 4;
@@ -297,7 +415,7 @@
     .mini-card-meta {
       padding: 0.5rem 0.65rem;
       font-family: "JetBrains Mono", monospace;
-      font-size: 0.76rem;
+      font-size: 0.74rem;
       font-weight: 700;
     }
     .status-toast {
@@ -317,12 +435,12 @@
     <header class="masthead">
       <div>
         <h1 class="masthead-title">GITHUB COMIC HEROES</h1>
-        <div class="masthead-sub">Powered by Google Antigravity 2.0 • Gemini Nano Banana 2.1 • Cloud Run</div>
+        <div class="masthead-sub">Google Antigravity 2.0 • Gemini Nano Banana 2.1 • Cloud Run</div>
       </div>
       <div class="search-bar">
         <input id="usernameInput" type="text" value="ykro" placeholder="GitHub username (e.g. ykro)" />
-        <button id="generateBtn" class="btn" onclick="generateCard()">FORGE COMIC CARD</button>
-        <a href="/codelab" class="btn secondary">WORKSHOP CODELAB</a>
+        <button id="generateBtn" class="btn" onclick="generateCard()">CREAR CARTA</button>
+        <a href="/codelab" class="btn secondary">ABRIR CODELAB</a>
       </div>
     </header>
 
@@ -333,13 +451,29 @@
 
       <div>
         <section class="panel-box">
-          <h2 class="panel-heading">SOURCE REPOSITORIES &amp; TELEMETRY</h2>
-          <div id="reposContainer" class="repos-grid"></div>
+          <h2 class="panel-heading">
+            <span>ARENA VS ENEMIGO</span>
+            <span style="font-family:'JetBrains Mono',monospace;font-size:0.75rem;background:var(--red);color:#FFF;padding:0.2rem 0.55rem;border:2px solid var(--ink);">THREAT RADAR</span>
+          </h2>
+          <div id="enemyArenaContainer"></div>
+          <div class="battle-controls">
+            <div>
+              <label for="enemySelect" style="font-family:'JetBrains Mono',monospace;font-size:0.78rem;font-weight:700;">ENFRENTAR CONTRA: </label>
+              <select id="enemySelect" class="battle-select" onchange="updateEnemyArena()"></select>
+            </div>
+            <button class="btn" style="font-size:1.1rem;padding:0.4rem 1rem;" onclick="runBattle()">SIMULAR DUELO VS ENEMIGO</button>
+          </div>
+          <div id="battleResultBox" class="battle-result"></div>
         </section>
 
         <section class="panel-box">
-          <h2 class="panel-heading">HALL OF HEROES (RECENT CARDS)</h2>
+          <h2 class="panel-heading">HALL OF HEROES &amp; RIVALES (GALERÍA)</h2>
           <div id="galleryContainer" class="gallery-grid"></div>
+        </section>
+
+        <section class="panel-box">
+          <h2 class="panel-heading">REPOSITORIOS DE ORIGEN</h2>
+          <div id="reposContainer" class="repos-grid"></div>
         </section>
       </div>
     </div>
@@ -347,50 +481,95 @@
 
   <script>
     let allCards = [];
+    let activeCard = null;
+
+    function escapeHtml(value) {
+      return String(value ?? '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+    function safeImageUrl(url) {
+      const s = String(url || '');
+      if (s.startsWith('/generated/') || s.startsWith('https://') || s.startsWith('http://') || s.startsWith('data:image/')) {
+        return escapeHtml(s);
+      }
+      return '';
+    }
+
+    function buildVillainSvgDataUrl(nemesisName) {
+      const label = String(nemesisName || 'DOCTOR BUG').replace(/[<>&"']/g, '').slice(0, 18);
+      const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 220">
+        <rect width="180" height="220" fill="#18181B"/>
+        <circle cx="90" cy="92" r="64" fill="#FF3B30" stroke="#FFD60A" stroke-width="5"/>
+        <polygon points="52,42 78,68 45,74" fill="#FFD60A"/>
+        <polygon points="128,42 102,68 135,74" fill="#FFD60A"/>
+        <rect x="56" y="76" width="24" height="14" rx="3" fill="#0E1117"/>
+        <rect x="100" y="76" width="24" height="14" rx="3" fill="#0E1117"/>
+        <circle cx="68" cy="83" r="4" fill="#FFD60A"/>
+        <circle cx="112" cy="83" r="4" fill="#FFD60A"/>
+        <path d="M 60 120 L 75 110 L 90 122 L 105 110 L 120 120" stroke="#0E1117" stroke-width="6" fill="none" stroke-linecap="round"/>
+        <rect x="10" y="172" width="160" height="34" fill="#FFD60A" stroke="#0E1117" stroke-width="3"/>
+        <text x="90" y="194" text-anchor="middle" font-family="Impact, sans-serif" font-size="14" fill="#0E1117">${label}</text>
+      </svg>`;
+      return 'data:image/svg+xml;utf8,' + encodeURIComponent(svg);
+    }
 
     function renderActiveCard(card) {
       if (!card) return;
+      activeCard = card;
       const container = document.getElementById('activeCardContainer');
+      const safeUser = escapeHtml(card.username);
+      const safeBadgeSlug = String(card.username || 'ykro').toLowerCase().replace(/[^a-z0-9-_]/g, '');
+
       const powersHtml = (card.superpowers || []).map(p => `
         <div class="power-item">
           <div class="power-header">
-            <span>${p.name}</span>
-            <span class="power-score">${p.power} PWR</span>
+            <span>${escapeHtml(p.name)}</span>
+            <span class="power-score">${escapeHtml(p.power)} PWR</span>
           </div>
-          <div class="power-desc">${p.description}</div>
+          <div class="power-desc">${escapeHtml(p.description)}</div>
         </div>
       `).join('');
 
-      const dossierHtml = card.powerTier ? `
-        <div class="power-item" style="background:#FFF8D6;margin-bottom:0.9rem;">
-          <div class="power-header">
-            <span>DOSSIER • ${card.powerTier}</span>
-            <a href="/badges/${card.username.toLowerCase()}.svg" target="_blank" style="font-family:'JetBrains Mono',monospace;font-size:0.75rem;color:#0066FF;">SVG BADGE ↗</a>
-          </div>
-          <div class="power-desc" style="margin-bottom:0.3rem;"><strong>Nemesis:</strong> ${card.archNemesis}</div>
-          <div class="power-desc">${card.originStory}</div>
-        </div>
-      ` : '';
+      const nemesisName = card.archNemesis || 'DOCTOR RACE-CONDITION & THE ANY-TYPE SWARM';
+      const originText = card.originStory || `Defends @${card.username}'s repositories from ${nemesisName}.`;
+      const villainThumb = buildVillainSvgDataUrl(nemesisName);
 
       container.innerHTML = `
         <article class="comic-card" id="comicCard">
           <div class="card-top">
-            <h2 class="hero-alias">${card.heroAlias}</h2>
-            <span class="issue-tag">${card.powerTier || card.issueNumber || '#1'}</span>
+            <h2 class="hero-alias">${escapeHtml(card.heroAlias)}</h2>
+            <span class="issue-tag">${escapeHtml(card.powerTier || card.issueNumber || '#1')}</span>
           </div>
           <div class="portrait-frame">
-            <img class="comic-art" src="${card.comicImageUrl}" alt="${card.heroAlias}" />
-            <div class="original-avatar-badge" title="Original GitHub Avatar (@${card.username})">
-              <img src="${card.avatarUrl}" alt="@${card.username}" />
+            <img class="comic-art" src="${safeImageUrl(card.comicImageUrl)}" alt="${escapeHtml(card.heroAlias)}" />
+            <div class="original-avatar-badge" title="Foto original de GitHub (@${safeUser})">
+              <img src="${safeImageUrl(card.avatarUrl)}" alt="@${safeUser}" />
             </div>
-            <div class="archetype-pill">${card.archetype}</div>
+            <div class="archetype-pill">${escapeHtml(card.archetype)}</div>
           </div>
-          <div class="speech-bubble">${card.battleCry}</div>
-          ${dossierHtml}
+          <div class="speech-bubble">${escapeHtml(card.battleCry)}</div>
+
+          <div class="nemesis-box">
+            <img src="${villainThumb}" alt="Enemigo" style="width:52px;height:64px;border:2px solid var(--yellow);display:block;" />
+            <div>
+              <div class="nemesis-label">
+                <span>ENEMIGO PRINCIPAL</span>
+                <a href="/badges/${safeBadgeSlug}.svg" target="_blank" rel="noopener" style="color:#FFD60A;text-decoration:none;font-weight:700;">INSIGNIA SVG ↗</a>
+              </div>
+              <div class="nemesis-name">${escapeHtml(nemesisName)}</div>
+              <div class="nemesis-origin">${escapeHtml(originText)}</div>
+            </div>
+          </div>
+
           <div class="powers-list">${powersHtml}</div>
           <div class="card-footer">
-            <span>@${card.username} • ${(card.topLanguages || []).join(' / ')}</span>
-            <span>${card.publicRepos} REPOS • ${card.totalStars} STARS</span>
+            <span>@${safeUser} • ${escapeHtml((card.topLanguages || []).join(' / '))}</span>
+            <span>${escapeHtml(card.publicRepos)} REPOS • ${escapeHtml(card.totalStars)} ★</span>
           </div>
         </article>
       `;
@@ -399,25 +578,110 @@
       reposContainer.innerHTML = (card.topRepos || []).map(r => `
         <div class="repo-row">
           <div>
-            <div class="repo-name">${r.name}</div>
-            <div class="repo-desc">${r.description}</div>
+            <div class="repo-name">${escapeHtml(r.name)}</div>
+            <div class="repo-desc">${escapeHtml(r.description)}</div>
           </div>
-          <span class="repo-meta">${r.language} • ★ ${r.stars}</span>
+          <span class="repo-meta">${escapeHtml(r.language)} • ★ ${escapeHtml(r.stars)}</span>
         </div>
       `).join('');
+
+      populateEnemySelector();
+      updateEnemyArena();
+      renderGallery();
+    }
+
+    function populateEnemySelector() {
+      const sel = document.getElementById('enemySelect');
+      if (!activeCard) return;
+      const options = [];
+      options.push(`<option value="__nemesis__">Enemigo: ${escapeHtml(activeCard.archNemesis || 'DOCTOR BUG')}</option>`);
+      for (const c of allCards) {
+        if (c.username.toLowerCase() !== activeCard.username.toLowerCase()) {
+          options.push(`<option value="${escapeHtml(c.username)}">Rival: ${escapeHtml(c.heroAlias)} (@${escapeHtml(c.username)})</option>`);
+        }
+      }
+      sel.innerHTML = options.join('');
+      document.getElementById('battleResultBox').style.display = 'none';
+    }
+
+    function updateEnemyArena() {
+      if (!activeCard) return;
+      const sel = document.getElementById('enemySelect').value;
+      const arena = document.getElementById('enemyArenaContainer');
+      const heroRating = activeCard.overallRating || 95;
+
+      let enemyTitle = activeCard.archNemesis || 'DOCTOR RACE-CONDITION';
+      let enemySub = 'Villano de Producción • Threat Lvl 92';
+      let enemyImg = buildVillainSvgDataUrl(enemyTitle);
+
+      if (sel && sel !== '__nemesis__') {
+        const rival = allCards.find(c => c.username.toLowerCase() === sel.toLowerCase());
+        if (rival) {
+          enemyTitle = rival.heroAlias;
+          enemySub = `@${rival.username} • ${rival.overallRating || 90} PWR`;
+          enemyImg = safeImageUrl(rival.comicImageUrl);
+        }
+      }
+
+      arena.innerHTML = `
+        <div class="enemy-arena">
+          <div class="fighter-card">
+            <img class="fighter-thumb" src="${safeImageUrl(activeCard.comicImageUrl)}" alt="${escapeHtml(activeCard.heroAlias)}" />
+            <div>
+              <div style="font-family:'JetBrains Mono',monospace;font-size:0.7rem;color:var(--yellow);">HÉROE ACTIVO</div>
+              <div style="font-family:'Bangers',cursive;font-size:1.35rem;letter-spacing:0.04em;">${escapeHtml(activeCard.heroAlias)}</div>
+              <div style="font-family:'JetBrains Mono',monospace;font-size:0.75rem;color:#CBD5E1;">@${escapeHtml(activeCard.username)} • ${escapeHtml(heroRating)} PWR</div>
+            </div>
+          </div>
+          <div class="vs-badge">VS</div>
+          <div class="fighter-card enemy-side">
+            <img class="fighter-thumb" src="${enemyImg}" alt="${escapeHtml(enemyTitle)}" />
+            <div>
+              <div style="font-family:'JetBrains Mono',monospace;font-size:0.7rem;color:#FF6B6B;">ENEMIGO / RIVAL</div>
+              <div style="font-family:'Bangers',cursive;font-size:1.35rem;letter-spacing:0.04em;color:#FFD60A;">${escapeHtml(enemyTitle)}</div>
+              <div style="font-family:'JetBrains Mono',monospace;font-size:0.75rem;color:#FECACA;">${escapeHtml(enemySub)}</div>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    async function runBattle() {
+      if (!activeCard) return;
+      const sel = document.getElementById('enemySelect').value;
+      const box = document.getElementById('battleResultBox');
+      box.style.display = 'block';
+
+      if (!sel || sel === '__nemesis__') {
+        const topPower = (activeCard.superpowers && activeCard.superpowers[0]?.name) || 'Agentic Overdrive';
+        box.textContent = `VICTORIA: ${activeCard.heroAlias} (@${activeCard.username}) activa "${topPower}" y derrota a su enemigo ${activeCard.archNemesis || 'DOCTOR BUG'} en producción.`;
+        return;
+      }
+
+      try {
+        const res = await fetch(`/api/battle?hero=${encodeURIComponent(activeCard.username)}&enemy=${encodeURIComponent(sel)}`);
+        const data = await res.json();
+        box.textContent = data.narrative || `Ganador del duelo: @${data.winner}`;
+      } catch (err) {
+        box.textContent = `Error al simular duelo: ${err.message}`;
+      }
     }
 
     function renderGallery() {
       const gallery = document.getElementById('galleryContainer');
-      gallery.innerHTML = allCards.map((c, idx) => `
-        <div class="mini-card" onclick="selectCard(${idx})">
-          <img src="${c.comicImageUrl}" alt="${c.heroAlias}" />
-          <div class="mini-card-meta">
-            <div>${c.heroAlias}</div>
-            <div style="color:#525866">@${c.username}</div>
+      gallery.innerHTML = allCards.map((c, idx) => {
+        const isCurrent = activeCard && c.username.toLowerCase() === activeCard.username.toLowerCase();
+        return `
+          <div class="mini-card ${isCurrent ? 'active-mini' : ''}" onclick="selectCard(${idx})">
+            <img src="${safeImageUrl(c.comicImageUrl)}" alt="${escapeHtml(c.heroAlias)}" />
+            <div class="mini-card-meta">
+              <div>${escapeHtml(c.heroAlias)}</div>
+              <div style="color:#525866">@${escapeHtml(c.username)}</div>
+              <div style="color:#D92D20;font-size:0.68rem;margin-top:0.15rem;">VS ${escapeHtml((c.archNemesis || 'ENEMIGO').slice(0, 18))}</div>
+            </div>
           </div>
-        </div>
-      `).join('');
+        `;
+      }).join('');
     }
 
     function selectCard(idx) {
@@ -431,8 +695,10 @@
       const res = await fetch('/api/cards');
       allCards = await res.json();
       if (allCards.length > 0) {
-        renderActiveCard(allCards[0]);
-        renderGallery();
+        const currentInput = (document.getElementById('usernameInput').value || 'ykro').trim().toLowerCase();
+        const chosen = allCards.find(c => c.username.toLowerCase() === currentInput) || allCards[0];
+        document.getElementById('usernameInput').value = chosen.username;
+        renderActiveCard(chosen);
       }
     }
 
@@ -444,7 +710,7 @@
 
       btn.disabled = true;
       toast.style.display = 'block';
-      toast.textContent = `Fetching @${username} repos & generating Nano Banana 2.1 comic art...`;
+      toast.textContent = `Consultando repositorios de @${username} e ilustrando retrato con Nano Banana 2.1...`;
 
       try {
         const res = await fetch('/api/generate', {
@@ -453,8 +719,8 @@
           body: JSON.stringify({ username })
         });
         const data = await res.json();
-        if (!res.ok) throw new Error(data.error || 'Failed to generate card');
-        toast.textContent = `Comic card forged for @${data.username} (${data.heroAlias}) using ${data.imageModelUsed}!`;
+        if (!res.ok) throw new Error(data.error || 'No se pudo generar la carta');
+        toast.textContent = `Carta generada para @${data.username} (${data.heroAlias}) usando ${data.imageModelUsed}.`;
         await loadExistingCards();
       } catch (err) {
         toast.textContent = `Error: ${err.message}`;

@@ -14,7 +14,7 @@ Tanto en el [codelab interactivo](https://agy-comic-heroes.web.app) como en `PRO
 
 ## Cómo correrlo en local
 
-Clona el repositorio e instala las dependencias con `npm install`:
+Clona el repositorio e instala las dependencias con `npm install`.
 
 ```bash
 git clone https://github.com/ykro/agy-comic-heroes.git
@@ -22,7 +22,7 @@ cd agy-comic-heroes
 npm install
 ```
 
-Para autenticar el acceso a los modelos de Gemini sin uso de key en el código, puedes usar Application Default Credentials de Google Cloud o definir un API key en tu sesión de terminal:
+Para autenticar el acceso a los modelos de Gemini sin uso de key en el código, puedes usar Application Default Credentials de Google Cloud o definir un API key en tu sesión de terminal.
 
 ```bash
 # Con Vertex AI (ADC)
@@ -33,7 +33,7 @@ gcloud auth application-default login
 export GEMINI_API_KEY="tu-api-key"
 ```
 
-Con las credenciales listas puedes levantar el servidor web o usar el CLI:
+Con las credenciales listas puedes levantar el servidor web o usar el CLI.
 
 ```bash
 # Iniciar la aplicación web en http://localhost:8080
@@ -47,6 +47,9 @@ node src/cli.js --next-enemy
 
 # Actualizar rango, enemigo principal e insignia SVG con el skill del proyecto
 node .agents/skills/comic-director/scripts/hero_ranker.mjs ykro
+
+# Restaurar estado inicial de las cartas de demostración
+npm run demo:reset
 ```
 
 ## Conclusiones

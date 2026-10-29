@@ -51,8 +51,176 @@
     "imageModelUsed": "gemini-nano-banana-2.1",
     "generatedAt": "2026-10-28T20:32:23.186Z",
     "powerTier": "OMEGA CLASS",
-    "overallRating": 103,
+    "overallRating": 99,
     "archNemesis": "DOCTOR RACE-CONDITION & THE ANY-TYPE SWARM",
-    "originStory": "Forged across 154 repositories of TypeScript & Python & Kotlin, @ykro wields the artifacts of ai-native-dev, ilab-aibuilders-prototypes, agentic-sdlc-demo to defend production from catastrophic outages."
+    "originStory": "Across 154 repositories of TypeScript & Python & Kotlin, @ykro wields ai-native-dev, ilab-aibuilders-prototypes, agentic-sdlc-demo against DOCTOR RACE-CONDITION & THE ANY-TYPE SWARM."
+  },
+  {
+    "username": "AlexAmin",
+    "displayName": "Alexander Amin",
+    "avatarUrl": "https://avatars.githubusercontent.com/u/5863498?v=4",
+    "topLanguages": [
+      "Python",
+      "TypeScript",
+      "HTML"
+    ],
+    "publicRepos": 12,
+    "followers": 25,
+    "totalStars": 10,
+    "topRepos": [
+      {
+        "name": "antigravity-sdk-sample-docs-goal",
+        "language": "HTML",
+        "stars": 2,
+        "description": "Goal-driven Google Docs editing agent with a sidebar approval UI, built on the Google Antigravi"
+      },
+      {
+        "name": "generative-ui-demo-client",
+        "language": "Vue",
+        "stars": 2,
+        "description": "Vue.js frontend for an example project on how generate UI elements using LLM output"
+      },
+      {
+        "name": "plumber-agents",
+        "language": "Python",
+        "stars": 2,
+        "description": "Open-source repository on GitHub"
+      }
+    ],
+    "heroAlias": "DOCTOR ANTIGRAVITY",
+    "issueNumber": "#12",
+    "archetype": "Cloud Agentic Archon",
+    "powerTier": "OMEGA CLASS",
+    "overallRating": 92,
+    "archNemesis": "BARON INDENTATION ERROR",
+    "originStory": "Across 12 repositories of Python & TypeScript & HTML, @AlexAmin wields antigravity-sdk-sample-docs-goal, generative-ui-demo-client, plumber-agents against BARON INDENTATION ERROR.",
+    "superpowers": [
+      {
+        "name": "Antigravity Flow",
+        "power": 94,
+        "description": "Rewrites doc dimensions with autonomous goal-seeking agent swarms!"
+      },
+      {
+        "name": "Generative UI Synthesis",
+        "power": 89,
+        "description": "Summons dynamic reactive interfaces straight from raw neural output!"
+      }
+    ],
+    "battleCry": "Deploy the plumber-agents—it's time to route pure cloud intelligence into reality!",
+    "comicImageUrl": "/generated/alexamin.png?t=1793282206074",
+    "imageModelUsed": "gemini-nano-banana-2.1",
+    "generatedAt": "2026-10-29T13:56:46.071Z"
+  },
+  {
+    "username": "dezkareid",
+    "displayName": "Joel Humberto Gómez Paredes",
+    "avatarUrl": "https://avatars.githubusercontent.com/u/1269896?v=4",
+    "topLanguages": [
+      "JavaScript",
+      "TypeScript",
+      "CSS"
+    ],
+    "publicRepos": 172,
+    "followers": 277,
+    "totalStars": 52,
+    "topRepos": [
+      {
+        "name": "ai-team",
+        "language": "TypeScript",
+        "stars": 10,
+        "description": "Repository with Gemini Extensions useful for teams and Claude Code marketplace"
+      },
+      {
+        "name": "dezkareid",
+        "language": "TypeScript",
+        "stars": 6,
+        "description": "Open-source repository on GitHub"
+      },
+      {
+        "name": "osddt",
+        "language": "TypeScript",
+        "stars": 4,
+        "description": "Other spec drivent development tool but for monorepo"
+      }
+    ],
+    "heroAlias": "THE REVERSE ARCHITECT",
+    "issueNumber": "#172",
+    "archetype": "Agentic Monorepo Vanguard",
+    "powerTier": "OMEGA CLASS",
+    "overallRating": 98,
+    "archNemesis": "BARON UNDEFINED IS NOT A FUNCTION",
+    "originStory": "Across 172 repositories of JavaScript & TypeScript & CSS, @dezkareid wields ai-team, dezkareid, osddt against BARON UNDEFINED IS NOT A FUNCTION.",
+    "superpowers": [
+      {
+        "name": "AI-Team Synthesis",
+        "power": 94,
+        "description": "Summons multi-agent Gemini extensions to refactor any codebase!"
+      },
+      {
+        "name": "Spec-Driven Monorepo Strike",
+        "power": 89,
+        "description": "Aligns chaotic monorepos into strict spec-driven equilibrium!"
+      }
+    ],
+    "battleCry": "Assemble the ai-team—we are reversing every bug in the repository!",
+    "comicImageUrl": "/generated/dezkareid.png?t=1793282185669",
+    "imageModelUsed": "gemini-nano-banana-2.1",
+    "generatedAt": "2026-10-29T13:56:25.666Z"
+  },
+  {
+    "username": "aileenvl",
+    "displayName": "Aileen Villanueva Lecuona",
+    "avatarUrl": "https://avatars.githubusercontent.com/u/7274454?v=4",
+    "topLanguages": [
+      "TypeScript",
+      "JavaScript",
+      "Jupyter Notebook"
+    ],
+    "publicRepos": 76,
+    "followers": 101,
+    "totalStars": 26,
+    "topRepos": [
+      {
+        "name": "mexico-tech-community-website",
+        "language": "TypeScript",
+        "stars": 15,
+        "description": "Open-source repository on GitHub"
+      },
+      {
+        "name": "offrecord",
+        "language": "JavaScript",
+        "stars": 3,
+        "description": "Your meeting. Kept yours. A browser-local meeting agent using Whisper and Gemma 4."
+      },
+      {
+        "name": "ecommerce-expo-orama",
+        "language": "TypeScript",
+        "stars": 2,
+        "description": "Open-source repository on GitHub"
+      }
+    ],
+    "heroAlias": "AGENT OFFRECORD",
+    "issueNumber": "#101",
+    "archetype": "Local Intelligence Vanguard",
+    "powerTier": "OMEGA CLASS",
+    "overallRating": 95,
+    "archNemesis": "LORD UNDEFINED OF RUNTIME DRIFT",
+    "originStory": "Across 76 repositories of TypeScript & JavaScript & Jupyter Notebook, @aileenvl wields mexico-tech-community-website, offrecord, ecommerce-expo-orama against LORD UNDEFINED OF RUNTIME DRIFT.",
+    "superpowers": [
+      {
+        "name": "Whisper Cloak Protocol",
+        "power": 94,
+        "description": "Transcribes classified chatter in-browser without leaking a byte!"
+      },
+      {
+        "name": "Comunidad Type Aegis",
+        "power": 89,
+        "description": "Unites regional tech factions behind strongly-typed digital bastions."
+      }
+    ],
+    "battleCry": "Keep your data offrecord—our tech community stands united!",
+    "comicImageUrl": "/generated/aileenvl.png?t=1793282163859",
+    "imageModelUsed": "gemini-nano-banana-2.1",
+    "generatedAt": "2026-10-29T13:56:03.855Z"
   }
 ]

@@ -6,7 +6,7 @@
   <text x="590" y="32" text-anchor="middle" font-family="monospace" font-size="13" font-weight="bold" fill="#FFFFFF">OMEGA CLASS</text>
 
   <text x="24" y="82" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="16" font-weight="800" fill="#0E1117">ARCHETYPE: Agentic Shadow Vigilante (TypeScript · Python · Kotlin)</text>
-  <text x="24" y="112" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="14" font-weight="600" fill="#334155">NEMESIS: DOCTOR RACE-CONDITION  THE ANY-TYPE SWARM</text>
+  <text x="24" y="112" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="14" font-weight="700" fill="#D92D20">ENEMIGO PRINCIPAL: DOCTOR RACE-CONDITION  THE ANY-TYPE SWARM</text>
   <rect x="24" y="128" width="632" height="40" rx="8" fill="#FFD60A" stroke="#0E1117" stroke-width="2.5"/>
   <text x="38" y="153" font-family="monospace" font-size="13" font-weight="bold" fill="#0E1117">Activate the agentic-sdlc-demo—justice compiles in the shadows!</text>
 </svg>
